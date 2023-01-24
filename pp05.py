@@ -50,7 +50,8 @@ def protein(protein_name):
 			mass=row.Mass, function=row.GO_molecular_function, image=row.Image_URL)
 	except:
 		# if protein is not found a key error is thrown and we end up here
-		return "We can't find any information about a protein called %s." % protein_name
+		return render_template('prot_not_found.html', prot_name=protein_name)
+		#return "We can't find any information about a protein called %s." % protein_name
 
 # start the web server
 if __name__ == '__main__':

@@ -1,11 +1,11 @@
 <html>
 <head>
-	<!-- <link rel="stylesheet" href="prot_stylesheet.css"> -->
 	<link rel="stylesheet" href="{{ url_for('static', filename='prot_stylesheet.css') }}">
 	<title>QMUL Protein Portal</title>
 </head>
 <body>
 	<h1>QMUL Protein Portal</h1>
+	<br>
 	<form method="POST">
 		{{ form.csrf_token }}
 		{{ form.protein_name.label }} {{ form.protein_name() }}
