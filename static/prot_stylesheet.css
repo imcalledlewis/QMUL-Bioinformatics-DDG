@@ -1,0 +1,92 @@
+/* 
+light background: #69c
+medium light background: #369
+medium dark background: #366
+dark background: #036
+*/
+:root{
+	--textColour: #000;
+	--light_bg: #77b;
+	--dark_bg: #339;
+}
+
+*{
+	color: var(--textColour);
+	box-sizing: border-box;
+
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color: var(--light_bg);
+}
+
+body {
+  /*font-family: Arial, Helvetica, sans-serif;*/
+  font-family: Garamond, serif;
+  /* padding: 3% 1%; */
+} 
+
+form {
+	padding: 2% 1%;
+}
+
+h1, h2, h3, h4, h5, h6, li a{
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+h1,h2 {
+	padding: 3% 0%;
+	margin: auto;
+	text-align: center;
+	background-color: var(--dark_bg);
+
+}
+
+h1 {
+	font-size: 5vw;
+}
+h2{
+	font-weight: normal;
+}
+
+h3,p{
+	font-size: 1.2em;
+	/* overflow: auto; */
+}
+
+.mainbox, ul.nav{
+	margin: auto;
+	width: 70%;
+	padding: 1% 5%;	
+}
+/* .mainbox {
+	overflow: auto;
+	text-align: top-left;
+	padding-top: 2%;
+	padding-bottom: 2%;
+	background-color: var(--light_bg);
+	line-height: 1.5em;
+} */
+ul.nav {
+	/*margin-top: 2em;*/
+	background-color: var(--light_bg);
+	list-style-type: none;
+	overflow: hidden;
+	list-style-type: none;
+}
+li {
+  float: left;
+}
+li a { /* make this a flex box or a grid or something in order for it to auto scale */
+  display: block;
+/*  color: white;*/
+  text-align: center;
+  padding: 0.9em 6.5em;
+  text-decoration: none;
+}
+li a:hover {
+  background-color: var(--light_bg);
+}
+
