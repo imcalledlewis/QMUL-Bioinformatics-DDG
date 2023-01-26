@@ -1,9 +1,10 @@
+# Big database files
 data/gwas_catalog_v1.0-associations_e108_r2023-01-14.tsv
+gwas_catalog_v1.0-associations_e108_r2023-01-14.tsv
+*.db
 
-
-
-
-
+####################
+# Added automatically
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
