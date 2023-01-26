@@ -14,10 +14,10 @@ colName=colName[:-2]    # removes last ' ,'
 print(colName)
 
 
-# path = os.path.dirname(os.path.abspath(__file__))       # sets path relative to current file
-# db = os.path.join(path, 'snps.db')                  
-# conn = sqlite3.connect(db)                              # Opens (or creates) a db file
-# cur = conn.cursor()                                     # Sets cursor
-# cur.execute("CREATE TABLE SNP(title, year, score)")
-# res = cur.execute("SELECT name FROM sqlite_master")
-# print(res.fetchone())
+path = os.path.dirname(os.path.abspath(__file__))       # sets path relative to current file
+db = os.path.join(path, 'snps.db')                  
+conn = sqlite3.connect(db)                              # Opens (or creates) a db file
+cur = conn.cursor()                                     # Sets cursor
+cur.execute("CREATE TABLE SNP(" + colName + ")")
+res = cur.execute("SELECT name FROM sqlite_master")
+print(res.fetchone())
