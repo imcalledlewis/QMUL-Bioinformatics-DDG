@@ -11,10 +11,8 @@ for col in df.columns:
     colName+=(col)      # Add another name column name
     colName+=(", ")     # Add a comma separator 
 colName=colName[:-2]    # removes last ' ,'
-#print(colName)
+print(colName)
 
-if ' ' in colName:
-    print("\nFUCK\n")
 
 # path = os.path.dirname(os.path.abspath(__file__))       # sets path relative to current file
 # db = os.path.join(path, 'snps.db')                  
