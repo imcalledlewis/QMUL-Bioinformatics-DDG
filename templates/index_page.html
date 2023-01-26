@@ -1,14 +1,16 @@
 <html>
 <head>
 	<link rel="stylesheet" href="{{ url_for('static', filename='prot_stylesheet.css') }}">
-	<title>QMUL Protein Portal</title>
+	<title>QMUL SNP Portal</title>
 </head>
 <body>
-	<h1>QMUL Protein Portal</h1>
+	<h1>QMUL SNP Portal</h1>
 	<br>
 	<form method="POST">
 		{{ form.csrf_token }}
-		{{ form.protein_name.label }} {{ form.protein_name() }}
+		{{ form.SNP_name.label }} {{ form.SNP_name() }}
 		{{ form.submit() }}
 	</form>
+	<br><br>
+	<p>rs1770 is a known working SNP</p>
 </body>
