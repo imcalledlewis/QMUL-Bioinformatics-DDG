@@ -16,7 +16,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'change this unsecure key'   # TODO: read about this and change
 
 # tell code where to find snp information
-snp_table_filename = 'gwas_trimmed.tsv'
+snp_table_filename = 'data/gwas_trimmed.tsv'
 
 # create a class to define the form
 class QueryForm(FlaskForm):
