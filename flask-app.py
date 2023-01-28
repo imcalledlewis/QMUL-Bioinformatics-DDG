@@ -28,13 +28,13 @@ class QueryForm(FlaskForm):
 # define the action for the top level route
 @app.route('/', methods=['GET','POST'])
 def index():
-	form = QueryForm()                  # Create form to pass to template
+	form = QueryForm()		# Create form to pass to template
 	SNP_req = None
 	req_type = None
 	if form.validate_on_submit():
 		SNP_req = form.SNP_req.data
 		req_type = form.req_type.data
-		if debug:
+		if debug:									# Only print following if debug mode:
 			print('\n\nUser input: '+SNP_req)		# Print what the user submitted (without checking for correctness)
 			print("Input type: "+req_type+'\n\n')	# Print the type of data submitted
 		return redirect(url_for('SNP', SNP_req = SNP_req,req_type=req_type))
@@ -44,8 +44,7 @@ def index():
 @app.route('/SNP/<SNP_req>', methods=['GET','POST'])
 def SNP(SNP_req):
 	req_type=request.args.get('req_type',default="empty_req_type")	# Gets type of information inputted (the bit after "?")
-	# load snp data from TSV file into pandas dataframe with snp name as index
-	df = pd.read_csv(snp_table_filename,sep='\t',index_col='SNPS')
+	df = pd.read_csv(snp_table_filename,sep='\t',index_col='SNPS')	# Load snp data from TSV file into pandas dataframe with snp name as index
 
 	SNP_req = SNP_req.lower()		# ensure snp name is in lowercase letters
 	try:                            # try to extract row for specified SNP
