@@ -3,7 +3,7 @@ import os
 import re
 
 fileIn = 'gwas_catalog_v1.0-associations_e108_r2023-01-14.tsv'
-fileOut = 'gwas_trimmed4.tsv'
+fileOut = 'gwas_trimmed.tsv'
 
 # https://www.ebi.ac.uk/gwas/docs/file-downloads
 
@@ -15,10 +15,11 @@ data = data.loc[data['CHR_ID']=='6']                        # Select only rows f
 
 rename_dict={}                          # Empty dictionary to be filled later
 for col in data.columns:
-    newCol = re.sub(r'[\W]', '_', col)  # Replaces special characters and whitespace with underscores
+    newCol = re.sub(r'[\W]+', '_', col)  # Replaces special characters and whitespace with underscores
     rename_dict.update({col:newCol})
 data=data.rename(columns=rename_dict)
 
 filepath = os.path.join(path, fileOut)
+os.remove(filepath)
 data.to_csv(filepath, sep='\t')
 print("\ndone")
