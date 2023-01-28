@@ -9,6 +9,8 @@
 	<form method="POST">
 		{{ form.csrf_token }}
 		{{ form.SNP_name.label }} {{ form.SNP_name() }}
+		<br>
+		{{ form.infoType.label }} {{form.infoType}}
 		{{ form.submit() }}
 	</form>
 	<br><br>

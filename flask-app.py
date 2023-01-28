@@ -7,7 +7,7 @@ import pandas as pd
 
 # Imports for creating and processing forms:
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import InputRequired
 
 # create a flask application object
@@ -20,7 +20,8 @@ snp_table_filename = 'data/gwas_trimmed.tsv'
 
 # create a class to define the form
 class QueryForm(FlaskForm):
-	SNP_name = StringField('Enter a valid SNP name:', validators=[InputRequired()])
+	SNP_name = StringField('Enter SNP information: ', validators=[InputRequired()])
+	infoType = SelectField("Information type: ", choices=["SNP name(s) (rs value)", "genomic coordinates", "gene name"])
 	submit = SubmitField('Submit')
 
 # define the action for the top level route
