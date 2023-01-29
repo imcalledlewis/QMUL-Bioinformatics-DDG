@@ -12,12 +12,11 @@ df = pd.read_csv(filepath, sep='\t')
 
 colName=""
 for col in df.columns[1:]:
-    badChar = re.search(r'\W+', col)                            # Searches for special characters
-    if badChar:                                                 # If any special chars are found,
-        raise Exception("Found special character: "+str(col))   # warns user about special character.
-
+    badChar = re.search(r'\W+', col)                            # Searches for special characters,
+    assert not badChar,"Found special character: "+str(col)     # raise exception if any are found.
     colName+=(col)      # Add another name column name
-    colName+=(", ")     # Add a comma separator 
+    colName+=(", ")     # Add a comma separator
+
 colName=colName[:-2]    # removes last ' ,'
 
 filepath = os.path.join(path, fileOut)
@@ -26,7 +25,8 @@ if os.path.exists(filepath):        # If the file exists:
 conn = sqlite3.connect(filepath)    # Opens (or creates) a db file
 cur = conn.cursor()                 # Sets cursor
 
-df.to_sql("SNP", conn)
+# https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_sql.html
+df.to_sql(name="SNP", con=conn, index=False) # TODO: look into schema param
 
 res = cur.execute("SELECT * FROM SNP")
 print(res.fetchone())   # prints first entry, to confirm database is working

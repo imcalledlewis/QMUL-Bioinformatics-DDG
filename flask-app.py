@@ -9,6 +9,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import InputRequired
 
+# Import custom library:
+import data.db_scripts
+
 debug=True	# Change this to False for deployment
 
 # create a flask application object
