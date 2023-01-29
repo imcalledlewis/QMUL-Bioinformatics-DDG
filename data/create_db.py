@@ -11,7 +11,7 @@ filepath = os.path.join(path, fileIn)               # Sets path relative to curr
 df = pd.read_csv(filepath, sep='\t')
 
 colName=""
-for col in df.columns[1:]:
+for col in df.columns[1:]:  # Ignore first column (index)
     badChar = re.search(r'\W+', col)                            # Searches for special characters,
     assert not badChar,"Found special character: "+str(col)     # raise exception if any are found.
     colName+=(col)      # Add another name column name
