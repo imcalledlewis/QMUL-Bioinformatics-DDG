@@ -2,6 +2,7 @@
 data/gwas_catalog_v1.0-associations_e108_r2023-01-14.tsv
 gwas_catalog_v1.0-associations_e108_r2023-01-14.tsv
 *.db
+snps.db
 
 # vscode files
 /.vscode

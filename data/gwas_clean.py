@@ -7,15 +7,15 @@ fileOut = 'gwas_trimmed.tsv'
 
 # https://www.ebi.ac.uk/gwas/docs/file-downloads
 
-path = os.path.dirname(os.path.abspath(__file__))           # Sets path relative to current file
-filepath = os.path.join(path, fileIn)
+path = os.path.dirname(os.path.abspath(__file__))   # Gets current path of file
+filepath = os.path.join(path, fileIn)               # Sets path relative to current file
 data = pd.read_csv(filepath, sep='\t', low_memory=False)
 data = data.loc[data['DISEASE/TRAIT']=='Type 1 diabetes']   # Select only rows regarding type 1 diabetes
 data = data.loc[data['CHR_ID']=='6']                        # Select only rows for chromosome 6
 
-rename_dict={}                          # Empty dictionary to be filled later
+rename_dict={}                                  # Empty dictionary to be filled later
 for col in data.columns:
-    newCol = re.sub(r'[\W]+', '_', col)  # Replaces special characters and whitespace with underscores
+    newCol = re.sub(r'\W+', '_', col.lower())   # Replaces special characters and whitespace with underscores, and converts to lower case
     rename_dict.update({col:newCol})
 data=data.rename(columns=rename_dict)
 
