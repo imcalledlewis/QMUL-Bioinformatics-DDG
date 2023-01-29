@@ -34,9 +34,9 @@ def index():
 	if form.validate_on_submit():
 		SNP_req = form.SNP_req.data
 		req_type = form.req_type.data
-		if debug:									# Only print following if debug mode:
-			print('\n\nUser input: '+SNP_req)		# Print what the user submitted (without checking for correctness)
-			print("Input type: "+req_type+'\n\n')	# Print the type of data submitted
+		if debug:								# Only print following if debug mode:
+			print('\nUser input: '+SNP_req)		# Print what the user submitted (without checking for correctness)
+			print("Input type: "+req_type+'\n')	# Print the type of data submitted
 		return redirect(url_for('SNP', SNP_req = SNP_req,req_type=req_type))
 	return render_template('index_page.html', form=form, SNP_req=SNP_req, req_type=req_type)
 
@@ -46,12 +46,12 @@ def SNP(SNP_req):
 	req_type=request.args.get('req_type',default="empty_req_type")	# Gets type of information inputted (the bit after "?")
 	df = pd.read_csv(snp_table_filename,sep='\t',index_col='SNPS')	# Load snp data from TSV file into pandas dataframe with snp name as index
 
-	SNP_req = SNP_req.lower()		# ensure snp name is in lowercase letters
-	try:                            # try to extract row for specified SNP
+	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
+	try:                            # Try to extract row for specified SNP
 		row = df.loc[SNP_req]
-									# if snp is found, return some information about it:
+									# If snp is found, return some information about it:
 		return render_template('view.html', name=SNP_req, chr_pos=str(row.CHR_POS), req_type=req_type)
-	except KeyError:                # If SNP not found:
+	except KeyError:                # If SNP is not found:
 		return render_template('not_found.html', name=SNP_req)
 
 # start the web server
