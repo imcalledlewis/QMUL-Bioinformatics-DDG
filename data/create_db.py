@@ -26,7 +26,7 @@ colName=colName[:-2]    # removes last ' ,'
 #     print (colName[badChar.start()-5:badChar.start()+5], '\n')   # Prints 11 character string, centred on special character
 
 
-colName = "column1, column2, column3"
+# colName = "column1, column2, column3"
 
 filepath = os.path.join(path, fileOut)
 if os.path.exists(filepath):        # If the file exists:
@@ -35,14 +35,16 @@ if os.path.exists(filepath):        # If the file exists:
 conn = sqlite3.connect(filepath)    # Opens (or creates) a db file
 cur = conn.cursor()                 # Sets cursor
 
-query= "CREATE TABLE SNP({cols})".format(cols=colName)
-query2= """
-INSERT INTO SNP
-VALUES (?, ?, ?)
-"""
+df.to_sql("SNP", conn)
 
-cur.execute(query)
-# res = cur.execute("SELECT name FROM sqlite_master")
-cur.execute(query2, ("data1","data2","data3"))
+# query= "CREATE TABLE SNP({cols})".format(cols=colName)
+# query2= """
+# INSERT INTO SNP
+# VALUES (?, ?, ?)
+# """
+
+# cur.execute(query)
+# # res = cur.execute("SELECT name FROM sqlite_master")
+# cur.execute(query2, ("data1","data2","data3"))
 res = cur.execute("SELECT * FROM SNP")
 print(res.fetchone())
