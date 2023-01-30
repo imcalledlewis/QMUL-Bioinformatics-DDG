@@ -1,7 +1,7 @@
 import pandas as pd
 
-df = pd.read_table('gwas_trimmed.tsv') # load GWAS catalogue dataset (dataset has been filtered down to T1DM SNPS in Chr6)
-rsID_list = df["SNPS"].tolist() # Convert all column values in 'SNPS' column of dataframe into a single list
+df = pd.read_table('gwas_trimmed.tsv') # Load GWAS catalogue dataset (currently using dataset with Chr6 T1DM SNPs)
+rsID_list = df["SNPS"].tolist() # Extract column values in 'SNPS' column of dataframe into a single list
 
 # Create empty dataframe with column names
 variant_pop_df = pd.DataFrame(columns=['SNP rsID',
@@ -27,17 +27,17 @@ def variant_frequency_API(rsID):
 
 # Extracts alternate allele(s) from population data
 def find_alt_allele(population_data):
-    allele_pair = decoded['mappings'][0]['allele_string'] # extract reference/alternate allele pair from population data
+    allele_pair = decoded['mappings'][0]['allele_string'] # extract reference and alternate allele(s) from population data
     allele_list = allele_pair.split('/') # split alleles into a list
-    allele_list.pop(0)
+    allele_list.pop(0) # remove reference allele
     return allele_list
 
-# Extracts list of dictionaries containing population data from each study population for alternate allele(s)
+# Extracts list of dictionaries containing population data from each chosen study population for alternate allele(s)
 def filter_pop_data(alt_allele,population_data):
     
     pop_dictlist = []
 
-    for dictionary in population_data: # in each dictionary of the list...
+    for dictionary in population_data: 
         if '1000GENOMES:phase_3:TSI' in dictionary['population'] and dictionary['allele'] in alt_allele: # Italy (Toscani) - 1000 Genomes Project
             pop_dictlist.append(dictionary) 
         elif '1000GENOMES:phase_3:FIN' in dictionary['population'] and dictionary['allele'] in alt_allele: # Finland - 1000 Genomes Project
@@ -46,16 +46,16 @@ def filter_pop_data(alt_allele,population_data):
             pop_dictlist.append(dictionary)         
     return pop_dictlist
 
-# Collects variant frequencies for populations of interest and stores them in a list with SNP rsID and alt. allele
+# Collects variant frequencies for populations of interest and stores them in a list with SNP rsID and alternate allele
 def variant_frequencies_by_pop(rsID,alt_allele,pop_dictlist):
-    # assign default values to variables
+    # Assign default values to variables
     FIN_freq = '' 
     FIN_alt  = ''
     TSI_freq = ''
     TSI_alt  = '' 
     MID_freq = ''
     MID_alt  = ''
-    # search for values and store into variables   
+    # Search for values and store into variables   
     for dictionary in pop_dictlist: 
         if 'FIN' in dictionary['population']: # Variant frequency for Finnish population 
             FIN_freq = dictionary['frequency']
@@ -73,14 +73,14 @@ def variant_frequencies_by_pop(rsID,alt_allele,pop_dictlist):
                  MID_freq, MID_alt]
     return freq_list
 
-# Turn row_list into a pandas dataframe with correct columns and combine with main dataframe
+# Turn variant frequencies list into a pandas dataframe with correct columns and combine with main dataframe
 def create_SNP_row(rowlist,variant_pop_df):
     row = pd.DataFrame(row_list).T
-    row.columns = variant_pop_df.columns
-    variant_pop_df = pd.concat([variant_pop_df, row])
+    row.columns = variant_pop_df.columns # assigns columns based on main dataframe
+    variant_pop_df = pd.concat([variant_pop_df, row]) # add row to main dataframe
     return variant_pop_df
 
-# iterate through rsID list and dictionary list to create row dataframes to be appended to the main dataframe
+# Iterate through rsID list and dictionary list to create row dataframes to be appended to the main dataframe
 for rsID in rsID_list:
     decoded = variant_frequency_API(rsID) # request data for SNP by rsID
     population_data = decoded['populations'] # extract variant frequency data
@@ -89,5 +89,5 @@ for rsID in rsID_list:
     row_list = variant_frequencies_by_pop(rsID,alt_allele,pop_dictlist) # create list of variant frequencies for dataframe row
     variant_pop_df = create_SNP_row(row_list,variant_pop_df) # create pandas dataframe from list and combine with main dataframe
 
-# Write out new dataset file as TSV
+# Write out dataframe as TSV file
 variant_pop_df.to_csv('population_variation.tsv', sep="\t", index=False )
