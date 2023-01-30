@@ -1,21 +1,13 @@
 # Simple script for testing database/ proof of concept
 
-import pandas as pd
-import sqlite3
-import os
+from db_scripts import *
 
-fileIn = "snps.db"
 SNPname_req = ('rs1770',)
-# SNPname_req = ('bad_request',)
+#SNPname_req = ('bad_request',)
 
-path = os.path.dirname(os.path.abspath(__file__))   # Gets current path of file
-filepath = os.path.join(path, fileIn)               # Sets path relative to current file
+r=DBreq(SNPname_req, 'SNPname')
 
-assert os.path.exists(filepath),"Database file not found"
-conn = sqlite3.connect(filepath)    # Opens db file
-cur = conn.cursor()                 # Sets cursor
-res = cur.execute("SELECT * FROM SNP WHERE SNPS LIKE ?",SNPname_req)
-if res.fetchall():  # If it found anything
-    print(res.fetchall())
+if r:  # If it found anything
+    print(r)
 else:
     print("nothing found")

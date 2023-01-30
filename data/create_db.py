@@ -1,7 +1,8 @@
-import pandas as pd
-import sqlite3
-import os
-import re
+# import pandas as pd
+# import sqlite3
+# import os
+# import re
+from db_scripts import *
 
 fileIn = "gwas_trimmed.tsv"
 fileOut = 'snps.db'
@@ -26,7 +27,9 @@ conn = sqlite3.connect(filepath)    # Opens (or creates) a db file
 cur = conn.cursor()                 # Sets cursor
 
 # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_sql.html
-df.to_sql(name="SNP", con=conn, index=False) # TODO: look into schema param
+df.to_sql(name="SNP", con=conn, index=False, dtype={'SNPS': 'TEXT PRIMARY KEY'})
 
+cur.execute("ALTER TABLE SNPs DROP COLUMN `Unnamed: 0`") # remove index column - pandas refuses to not include it
+#print(cur.execute("PRAGMA table_info('SNP')").fetchall()) # display info about table
 res = cur.execute("SELECT * FROM SNP")
 print(res.fetchone())   # prints first entry, to confirm database is working

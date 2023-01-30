@@ -10,7 +10,7 @@ from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import InputRequired
 
 # Import custom library:
-import data.db_scripts
+from data.db_scripts import *
 
 debug=True	# Change this to False for deployment
 
