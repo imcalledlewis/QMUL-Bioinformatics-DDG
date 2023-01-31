@@ -43,20 +43,21 @@ def index():
 		return redirect(url_for('SNP', SNP_req = SNP_req,req_type=req_type))
 	return render_template('index_page.html', form=form, SNP_req=SNP_req, req_type=req_type)
 
-# define a route called 'SNP' which accepts a SNP name parameter
+# Define a route called 'SNP' which accepts a SNP name parameter
 @app.route('/SNP/<SNP_req>', methods=['GET','POST'])
 def SNP(SNP_req):
 	req_type=request.args.get('req_type',default="empty_req_type")	# Gets type of information inputted (the bit after "?")
 	df = pd.read_csv(snp_table_filename,sep='\t',index_col='SNPS')	# Load snp data from TSV file into pandas dataframe with snp name as index
 
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
-	try:                            # Try to extract row for specified SNP
-		row = df.loc[SNP_req]
+
+	foo=DBreq(SNP_req, req_type)
+	if foo:
 									# If snp is found, return some information about it:
-		return render_template('view.html', name=SNP_req, chr_pos=str(row.CHR_POS), req_type=req_type)
-	except KeyError:                # If SNP is not found:
+		return render_template('view.html', name=SNP_req, chr_pos=foo[0][2], req_type=req_type)
+	else:                 			# If SNP is not found:
 		return render_template('not_found.html', name=SNP_req)
 
-# start the web server
+# Start the web server
 if __name__ == '__main__':
 	app.run(debug=debug)

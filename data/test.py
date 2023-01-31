@@ -8,7 +8,6 @@ data = pd.read_csv(filepath, sep='\t')
 
 dupeList = data.duplicated(subset='SNPS',keep=False)    # Get list of duplicate values
 dupes=data[dupeList]                                    # Select dataframe using above list
-# dupes=dupes.sort_values("SNPS")                  # Sort dataframe
 
 dupesDict={}
 for index,row in dupes.iterrows():              # Iterate through df of duplicates, one row at a time
