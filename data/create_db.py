@@ -1,7 +1,3 @@
-# import pandas as pd
-# import sqlite3
-# import os
-# import re
 from db_scripts import *
 
 fileIn = "gwas_trimmed.tsv"
@@ -32,4 +28,5 @@ df.to_sql(name="SNP", con=conn, index=False, dtype={'SNPS': 'TEXT PRIMARY KEY'})
 cur.execute("ALTER TABLE SNP DROP COLUMN `Unnamed: 0`") # remove index column - pandas refuses to not include it
 #print(cur.execute("PRAGMA table_info('SNP')").fetchall()) # display info about table
 res = cur.execute("SELECT * FROM SNP")
-print(res.fetchone())   # prints first entry, to confirm database is working
+assert res.fetchone(), "unknown error"
+print("\ndone\n")

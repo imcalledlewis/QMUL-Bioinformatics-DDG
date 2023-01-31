@@ -50,11 +50,14 @@ def SNP(SNP_req):
 	df = pd.read_csv(snp_table_filename,sep='\t',index_col='SNPS')	# Load snp data from TSV file into pandas dataframe with snp name as index
 
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
-
-	foo=DBreq(SNP_req, req_type)
-	if foo:
-									# If snp is found, return some information about it:
-		return render_template('view.html', name=SNP_req, chr_pos=foo[0][2], req_type=req_type)
+	reqRes=DBreq(SNP_req, req_type)
+	if reqRes:
+		try: 
+			x=reqRes[1]	# Test for multiple entries
+			raise Exception("idk what to do with multiple entries yet")
+		except IndexError:	# If there's only one entry:
+			rsName, region, chrPos, pVal = reqRes[0]
+			return render_template('view.html', name=rsName, region=region, chr_pos=chrPos, pVal=pVal, req_type=req_type)
 	else:                 			# If SNP is not found:
 		return render_template('not_found.html', name=SNP_req)
 

@@ -26,7 +26,7 @@ def DBreq(request, request_type):
 
 #res = cur.execute("SELECT * FROM SNP WHERE SNPS LIKE ?",SNPname_req)
 
-def removeDupes(dataframe):
+def removeDupes(dataframe): # Removes duplicates from a dataframe, leaving only greatest p-value
     dupeList = dataframe.duplicated(subset='SNPS',keep=False)   # Get list of duplicate values
     dupes=dataframe[dupeList]                                   # Select dataframe using above list
 

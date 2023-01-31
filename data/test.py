@@ -1,41 +1,36 @@
-# Testing ground for various ideas. Very much subject to change.
-
+import requests
 from db_scripts import *
 
-fileIn = 'gwas_trimmed.tsv'
-filepath = getPath(fileIn)
-data = pd.read_csv(filepath, sep='\t')
+def get_go_terms(rsid):
+    query_url = f"https://www.ebi.ac.uk/QuickGO/services/annotation/search?includeFields=goName&aspect=biological_process&geneProductId={rsid}"
+    response = requests.get(query_url)
+    print(f"Status code: {response.status_code}")
+    print(f"Response text: {response.text}")
+    if response.status_code == 200:
+        results = response.json()["results"]
+        go_terms = [result["goName"] for result in results]
+        return go_terms
+    else:
+        return []
 
-dupeList = data.duplicated(subset='SNPS',keep=False)    # Get list of duplicate values
-dupes=data[dupeList]                                    # Select dataframe using above list
+rsids = ["rs1538171", "rs4320356", "rs1770","rs2647044","rs11755527","rs9388489","rs9268645","rs9272346","rs3757247","rs924043","rs1050979","rs9405661","rs12665429","rs212408","rs72928038","rs2045258","rs9273363","rs1578060","rs138748427","rs9273367","rs17711850"]
+# all_go_terms = []
+# for rsid in rsids:
+#     go_terms = get_go_terms(rsid)
+#     print(go_terms)
+#     break
+    # all_go_terms.append(go_terms)
 
-dupesDict={}
-for index,row in dupes.iterrows():              # Iterate through df of duplicates, one row at a time
-    rsVal=row["SNPS"]                           # SNP name
-    snpTuple=(index,row["P_VALUE"])             # Tuple containing index and p-val 
-    if rsVal in dupesDict:                      # If it's seen the snp before,
-        dictList=dupesDict[rsVal]               # go to the value for the snp,
-        dictList.append(snpTuple)               # and add the index/ p-val tuple.
-    else:                                       # If it hasn't seen the snp before,
-        dupesDict.update({rsVal:[snpTuple]})    # create a listing for it.
-
-naughtyList=[]  # List of index, p-vals we want to drop
-for i in dupesDict:
-    snp = dupesDict[i]  # get list of (index, pVal)
-    sortByP=sorted(snp,key=lambda x: 0-x[1])    # Sort by p-value
-    sortByP=sortByP[1:]                         # Select all but greatest p value
-    naughtyList.append(sortByP)
-    
-# print(naughtyList)
-
-dropList=[]     # List of indices for rows we want to drop
-for i in naughtyList:
-    for j in i:
-        dropList.append(j[0])
-
-# print(dropList)
-# print(dupesDict)
+# print(all_go_terms)
 
 
-print(data.drop(dropList))
-# print (data)
+print(get_go_terms("rs1538171"))
+
+
+
+requestURL = "https://www.ebi.ac.uk/QuickGO/services/annotation/search?limit=1"
+
+r = requests.get(requestURL, headers={ "Accept" : "application/json"})
+
+responseBody = r.text
+print(responseBody)
