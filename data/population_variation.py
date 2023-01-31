@@ -7,7 +7,7 @@ rsID_list = df["SNPS"].tolist() # Extract column values in 'SNPS' column of data
 variant_pop_df = pd.DataFrame(columns=['SNP rsID',
                                        'Finland', 'Alt allele', 
                                        'Italy (Toscani)', 'Alt allele', 
-                                       'Middle East', 'Alt allele',]) 
+                                       'British', 'Alt allele',]) 
 
 # API for requesting population data based on SNP rsID query
 def variant_frequency_API(rsID):
@@ -38,11 +38,11 @@ def filter_pop_data(alt_allele,population_data):
     pop_dictlist = []
 
     for dictionary in population_data: 
-        if '1000GENOMES:phase_3:TSI' in dictionary['population'] and dictionary['allele'] in alt_allele: # Italy (Toscani) - 1000 Genomes Project
+        if '1000GENOMES:phase_3:TSI' in dictionary['population'] and dictionary['allele'] in alt_allele: # Italian (Toscani) - 1000 Genomes Project
             pop_dictlist.append(dictionary) 
-        elif '1000GENOMES:phase_3:FIN' in dictionary['population'] and dictionary['allele'] in alt_allele: # Finland - 1000 Genomes Project
+        elif '1000GENOMES:phase_3:FIN' in dictionary['population'] and dictionary['allele'] in alt_allele: # Finnish - 1000 Genomes Project
             pop_dictlist.append(dictionary) 
-        elif 'gnomADg:mid' in dictionary['population'] and dictionary['allele'] in alt_allele: # Middle East - gnomAD genomes
+        elif '1000GENOMES:phase_3:GBR' in dictionary['population'] and dictionary['allele'] in alt_allele: # British (England and Scotland) - 1000 Genomes Project
             pop_dictlist.append(dictionary)         
     return pop_dictlist
 
@@ -53,8 +53,8 @@ def variant_frequencies_by_pop(rsID,alt_allele,pop_dictlist):
     FIN_alt  = ''
     TSI_freq = ''
     TSI_alt  = '' 
-    MID_freq = ''
-    MID_alt  = ''
+    GBR_freq = ''
+    GBR_alt  = ''
     # Search for values and store into variables   
     for dictionary in pop_dictlist: 
         if 'FIN' in dictionary['population']: # Variant frequency for Finnish population 
@@ -63,14 +63,14 @@ def variant_frequencies_by_pop(rsID,alt_allele,pop_dictlist):
         elif 'TSI' in dictionary['population']: # Variant frequency for Italian (Tuscani) population 
             TSI_freq = dictionary['frequency']
             TSI_alt  = dictionary['allele']
-        elif 'mid' in dictionary['population']:  # Variant frequency for Middle Eastern population
-            MID_freq = dictionary['frequency'] 
-            MID_alt  = dictionary['allele']
+        elif 'GBR' in dictionary['population']:  # Variant frequency for Middle Eastern population
+            GBR_freq = dictionary['frequency'] 
+            GBR_alt  = dictionary['allele']
     # Combine values into a list
     freq_list = [rsID, 
                  FIN_freq, FIN_alt, 
                  TSI_freq, TSI_alt, 
-                 MID_freq, MID_alt]
+                 GBR_freq, GBR_alt]
     return freq_list
 
 # Turn variant frequencies list into a pandas dataframe with correct columns and combine with main dataframe
