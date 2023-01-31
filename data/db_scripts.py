@@ -11,20 +11,20 @@ def getPath(file): # Returns a path to a file relative to current script
     filepath = os.path.join(path, file)                 # Sets path relative to current file 
     return filepath
 
+def DBpath():   # Returns the absolute path to the database
+    return(getPath(database))
+
 def DBreq(request, request_type):
-    DBpath=getPath(database)
-    assert os.path.exists(DBpath),"Database file not found"
-    conn = sqlite3.connect(DBpath)  # Opens db file
+    filepath=DBpath()
+    assert os.path.exists(filepath),"Database file not found"
+    conn = sqlite3.connect(filepath)  # Opens db file
     cur = conn.cursor()             # Sets cursor
     request=(request,)
-    # request=('rs1770',)
     if request_type=='SNPname':
         res = cur.execute("SELECT * FROM SNP WHERE SNPS LIKE ?",request)
     else:
         raise Exception(str(request_type)+" hasn't been added yet")
     return (res.fetchall())
-
-#res = cur.execute("SELECT * FROM SNP WHERE SNPS LIKE ?",SNPname_req)
 
 def removeDupes(dataframe): # Removes duplicates from a dataframe, leaving only greatest p-value
     dupeList = dataframe.duplicated(subset='SNPS',keep=False)   # Get list of duplicate values
@@ -32,7 +32,7 @@ def removeDupes(dataframe): # Removes duplicates from a dataframe, leaving only 
 
     dupesDict={}
     for index,row in dupes.iterrows():              # Iterate through df of duplicates, one row at a time
-        rsVal=row["SNPS"]                           # SNP name
+        rsVal=row["SNPS"]                           # SNP name (rs value)
         snpTuple=(index,row["P_VALUE"])             # Tuple containing index and p-val 
         if rsVal in dupesDict:                      # If it's seen the snp before,
             dictList=dupesDict[rsVal]               # go to the value for the snp,
@@ -50,6 +50,6 @@ def removeDupes(dataframe): # Removes duplicates from a dataframe, leaving only 
     dropList=[]     # List of indices for rows we want to drop
     for i in naughtyList:
         for j in i:
-            dropList.append(j[0])   # Add the index
+            dropList.append(j[0])       # Add the index
 
     return(dataframe.drop(dropList))    # Return dataframe without duplicate values
