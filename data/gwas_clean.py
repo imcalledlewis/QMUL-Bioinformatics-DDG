@@ -7,7 +7,7 @@ filepath = getPath(fileIn)
 data = pd.read_csv(filepath, sep='\t', low_memory=False)    # Reads gwas tsv
 data = data.loc[data['DISEASE/TRAIT']=='Type 1 diabetes']   # Select only rows regarding type 1 diabetes
 data = data.loc[data['CHR_ID']=='6']                        # Select only rows for chromosome 6
-data = data[["SNPS","REGION","CHR_POS","P-VALUE"]] # maybe also include STRONGEST SNP-RISK ALLELE and RISK ALLELE FREQUENCY ?
+data = data[["SNPS","REGION","CHR_POS","P-VALUE","MAPPED_GENE"]] # maybe also include STRONGEST SNP-RISK ALLELE and RISK ALLELE FREQUENCY ?
 
 renameDict={}
 for col in data.columns:
@@ -15,7 +15,7 @@ for col in data.columns:
     renameDict.update({col:newCol})
 data=data.rename(columns=renameDict)
 
-data=removeDupes(data)      # Remove duplicates (leaving the entry with largest p value)
+data=removeDupeSNP(data)      # Remove duplicates (leaving the entry with largest p value)
 
 filepath = getPath(fileOut)
 if os.path.exists(filepath):        # If the file exists,

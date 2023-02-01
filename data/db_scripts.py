@@ -26,8 +26,8 @@ def DBreq(request, request_type):   # Makes SQL request
         raise Exception(str(request_type)+" hasn't been added yet")
     return (res.fetchall())
 
-def removeDupes(dataframe): # Removes duplicates from a pandas dataframe, leaving only greatest p-value
-    data.reset_index(drop=True)                                 # Resets index back to 0
+def removeDupeSNP(dataframe): # Removes duplicates from a pandas dataframe, leaving only greatest p-value
+    dataframe.reset_index(drop=True)                                 # Resets index back to 0
     dupeList = dataframe.duplicated(subset='SNPS',keep=False)   # Get list of duplicate values
     dupes=dataframe[dupeList]                                   # Select dataframe using above list
 
