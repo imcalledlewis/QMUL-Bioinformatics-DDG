@@ -54,3 +54,12 @@ def removeDupeSNP(dataframe): # Removes duplicates from a pandas dataframe, leav
             dropList.append(j[0])       # Add the index from each tuple
 
     return(dataframe.drop(dropList))    # Return dataframe without duplicate values
+
+def removeDupeGeneMap(GeneMap):
+    GeneMap=GeneMap.split(', ')
+    uniques=""
+    for item in GeneMap:
+        if item not in uniques: # If the item hasn't been seen before, 
+            uniques+=(item)     # add it to the list.
+            uniques+=(", ")     # Also add ' ,'
+    return (uniques[:-2])       # Remove last ' ,'

@@ -1,3 +1,5 @@
+# Cleans and trims the GWAS dataset
+
 from db_scripts import *
 
 fileIn = 'gwas_catalog_v1.0-associations_e108_r2023-01-14.tsv' # https://www.ebi.ac.uk/gwas/docs/file-downloads
@@ -16,6 +18,12 @@ for col in data.columns:
 data=data.rename(columns=renameDict)
 
 data=removeDupeSNP(data)      # Remove duplicates (leaving the entry with largest p value)
+
+for row in data["MAPPED_GENE"]:
+    fixedCell=removeDupeGeneMap(row)
+    # print(row[4])
+    print(row)
+    break
 
 filepath = getPath(fileOut)
 if os.path.exists(filepath):        # If the file exists,
