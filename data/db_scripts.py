@@ -64,5 +64,13 @@ def removeDupeGeneMap(GeneMap):
             uniques+=(", ")     # Also add ' ,'
     return (uniques[:-2])       # Remove last ' ,'
 
+
+def removeSpecial(dataframe):     # Replaces special characters and whitespace with underscores
+    renameDict={}
+    for col in dataframe.columns:
+        newCol = re.sub(r'\W+', '_', col)   
+        renameDict.update({col:newCol})
+    return(dataframe.rename(columns=renameDict))
+
 def clear():    # Clears screen, platform independent
     os.system('cls' if os.name=='nt' else 'clear')
