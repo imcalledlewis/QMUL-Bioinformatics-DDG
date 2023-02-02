@@ -21,7 +21,7 @@ def DBreq(request, request_type):   # Makes SQL request
     cur = conn.cursor()                 # Sets cursor
     request=(request,)                  # Request must be in a tuple
     if request_type=='SNPname':
-        res = cur.execute("SELECT * FROM SNP WHERE SNPS LIKE ?",request)
+        res = cur.execute("SELECT * FROM gwas WHERE SNPS LIKE ?",request)
     else:
         raise Exception(str(request_type)+" hasn't been added yet")
     return (res.fetchall())
@@ -71,6 +71,28 @@ def removeSpecial(dataframe):     # Replaces special characters and whitespace w
         newCol = re.sub(r'\W+', '_', col)   
         renameDict.update({col:newCol})
     return(dataframe.rename(columns=renameDict))
+
+def pdDB(tsv_path,table_name,dtype):
+    # tabName=(table_name,)
+    conn = sqlite3.connect(DBpath())     # Opens (or creates) a db file
+    cur = conn.cursor()                 # Sets cursor
+
+    df = pd.read_csv(tsv_path, sep='\t')
+    df.to_sql(name=table_name, con=conn, index=False, dtype=dtype)
+
+    # No idea why the following don't work:
+    # cur.execute("ALTER TABLE ? DROP COLUMN `Unnamed: 0`", tabName) # Remove index column - pandas stubbornly refuses to not include it
+    # cur.execute("ALTER TABLE ? DROP COLUMN `Unnamed: 0`", (table_name,)) # Remove index column - pandas stubbornly refuses to not include it
+    # res = cur.execute("SELECT * FROM SNP")
+    # assert res.fetchone(), "error in database creation"
+
+def castRS(dataframe,rnName):   # Receives a dataframe, returns df with "rs" removed from rs value
+    pass
+    # iterate through df rows with df.iterrows()
+    # string.lstrip("rs")
+    # cast as int
+    # put back into df
+    # return df
 
 def clear():    # Clears screen, platform independent
     os.system('cls' if os.name=='nt' else 'clear')
