@@ -63,3 +63,6 @@ def removeDupeGeneMap(GeneMap):
             uniques+=(item)     # add it to the list.
             uniques+=(", ")     # Also add ' ,'
     return (uniques[:-2])       # Remove last ' ,'
+
+def clear():    # Clears screen, platform independent
+    os.system('cls' if os.name=='nt' else 'clear')
