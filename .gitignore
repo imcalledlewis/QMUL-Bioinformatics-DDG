@@ -1,7 +1,7 @@
 # Big database files
 data/gwas_catalog_v1.0-associations_e108_r2023-01-14.tsv
 gwas_catalog_v1.0-associations_e108_r2023-01-14.tsv
-*.db 
+#*.db re-added for the time being, will un-re-add (!) if db file gets too big
 
 # vscode files
 /.vscode
