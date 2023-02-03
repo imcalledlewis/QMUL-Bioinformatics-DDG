@@ -7,12 +7,14 @@ import requests
 database = "snps.db"
 
 def getPath(file,tsv=None): # Returns the absolute path to a file that is in same folder as script
-    filenames=('.tsv', '.csv','.txt')
+    filenames=('tsv', 'csv', 'txt')
+    ext=file.split('.')                                 # Gets extension of file
+    ext=ext[-1].lower()
     path = os.path.dirname(os.path.abspath(__file__))   # Gets current path of file
-    if (tsv==True) or (tsv==None and any([x in file for x in filenames])):
-            filepath = os.path.join(path,"TSVs",file)                 # Sets path relative to current file
+    if (tsv==True) or (tsv==None and any([x == ext for x in filenames])):   # If it's a table storing file:
+            filepath = os.path.join(path,"TSVs",file)                       # Sets path relative to current file, inside 'TSVs folder'
     else:
-            filepath = os.path.join(path,file)                 # Sets path relative to current file
+            filepath = os.path.join(path,file)                              # Sets path relative to current file
     return filepath
 
 def DBpath():   # Returns the absolute path to the database
@@ -25,6 +27,7 @@ def DBreq(request, request_type):   # Makes SQL request
     cur = conn.cursor()                 # Sets cursor
     request=(request,)                  # Request must be in a tuple
     if request_type=='SNPname':
+        request=request.lstrip("rs")
         res = cur.execute("SELECT * FROM gwas WHERE SNPS LIKE ?",request)
     else:
         raise Exception(str(request_type)+" hasn't been added yet")
@@ -72,7 +75,8 @@ def removeDupeGeneMap(GeneMap):
 def removeSpecial(dataframe):     # Replaces special characters and whitespace with underscores
     renameDict={}
     for col in dataframe.columns:
-        newCol = re.sub(r'\W+', '_', col)   
+        newCol = re.sub(r'\W+', '_', col)
+        newCol = newCol.strip('_')  # Remove leading and trailing underscores
         renameDict.update({col:newCol})
     return(dataframe.rename(columns=renameDict))
 
@@ -90,13 +94,21 @@ def pdDB(tsv_path,table_name,dtype):    # Adds tsv to SQL database
     # res = cur.execute("SELECT * FROM SNP")
     # assert res.fetchone(), "error in database creation"
 
-def castRS(dataframe,rnName):   # Receives a dataframe, returns df with "rs" removed from rs value
-    pass
-    # iterate through df rows with df.iterrows()
-    # string.lstrip("rs")
-    # cast as int
-    # put back into df
-    # return df
+def castRS(dataframe,rsCol):   # Receives a dataframe, returns df with "rs" removed from rs value
+    df=dataframe
+    newRS=[]
+    for index,row in df.iterrows():
+        rsVal=row[rsCol]                           # SNP name (rs value)
+        rsVal=rsVal.lstrip("rs")
+        try:
+            rsVal=int(rsVal)
+        except:
+            print("error casting ", rsVal)
+            return(None)
+        newRS.append(rsVal)
+    df[rsCol]=newRS
+    df.astype({rsCol: 'int64'})
+    return(df)
 
 def clear():    # Clears screen, platform independent
     os.system('cls' if os.name=='nt' else 'clear')
