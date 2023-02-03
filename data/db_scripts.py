@@ -6,9 +6,13 @@ import requests
 
 database = "snps.db"
 
-def getPath(file): # Returns the absolute path to a file that is in same folder as script
+def getPath(file,tsv=None): # Returns the absolute path to a file that is in same folder as script
+    filenames=('.tsv', '.csv','.txt')
     path = os.path.dirname(os.path.abspath(__file__))   # Gets current path of file
-    filepath = os.path.join(path, file)                 # Sets path relative to current file 
+    if (tsv==True) or (tsv==None and any([x in file for x in filenames])):
+            filepath = os.path.join(path,"TSVs",file)                 # Sets path relative to current file
+    else:
+            filepath = os.path.join(path,file)                 # Sets path relative to current file
     return filepath
 
 def DBpath():   # Returns the absolute path to the database
