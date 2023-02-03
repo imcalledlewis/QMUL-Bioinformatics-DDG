@@ -72,7 +72,7 @@ def removeSpecial(dataframe):     # Replaces special characters and whitespace w
         renameDict.update({col:newCol})
     return(dataframe.rename(columns=renameDict))
 
-def pdDB(tsv_path,table_name,dtype):
+def pdDB(tsv_path,table_name,dtype):    # Adds tsv to SQL database
     # tabName=(table_name,)
     conn = sqlite3.connect(DBpath())     # Opens (or creates) a db file
     cur = conn.cursor()                 # Sets cursor
