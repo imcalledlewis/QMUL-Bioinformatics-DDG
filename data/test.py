@@ -1,3 +1,6 @@
+### Sandbox for testing ideas. Feel free to use and edit, but don't rely on the contents staying the same
+
+
 from db_scripts import *
 
 fileIn = getPath('gwas_catalog_v1.0-associations_e108_r2023-01-14.tsv') # https://www.ebi.ac.uk/gwas/docs/file-downloads
