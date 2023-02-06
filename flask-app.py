@@ -58,7 +58,7 @@ def SNP(SNP_req):
 			raise Exception("idk what to do with multiple entries yet")
 		except IndexError:	# If there's only one entry:
 			rsName, region, chrPos, pVal ,mapGene = reqRes[0]
-			return render_template('view.html', name='rs'+str(rsName), region=region, chr_pos=chrPos, pVal=pVal,mapGene=removeDupeGeneMap(mapGene), req_type=req_type)
+			return render_template('view.html', name=rsName, region=region, chr_pos=chrPos, pVal=pVal,mapGene=removeDupeGeneMap(mapGene), req_type=req_type)
 	else:                 			# If SNP is not found:
 		return render_template('not_found.html', name=SNP_req)
 
