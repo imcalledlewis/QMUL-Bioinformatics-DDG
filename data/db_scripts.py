@@ -25,9 +25,9 @@ def DBreq(request, request_type):   # Makes SQL request
     assert os.path.exists(filepath),"Database file not found"
     conn = sqlite3.connect(filepath)    # Opens db file
     cur = conn.cursor()                 # Sets cursor
-    request=(request,)                  # Request must be in a tuple
     if request_type=='SNPname':
         request=request.lstrip("rs")
+        request=(request,)                  # Request must be in a tuple
         res = cur.execute("SELECT * FROM gwas WHERE SNPS LIKE ?",request)
     else:
         raise Exception(str(request_type)+" hasn't been added yet")

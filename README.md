@@ -8,7 +8,7 @@
 
 ### 1. Input:
 
--    (rs value)
+-    SNP name(s) (rs value)
 -    genomic coordinates (chromosome, start and end)
 -    gene name
 
