@@ -26,7 +26,7 @@ def DBreq(request, request_type):   # Makes SQL request
     conn = sqlite3.connect(filepath)    # Opens db file
     cur = conn.cursor()                 # Sets cursor
     if request_type=='SNPname':
-        request=request.lstrip("rs")
+        # request=request.lstrip("rs")
         request=(request,)                  # Request must be in a tuple
         res = cur.execute("SELECT * FROM gwas WHERE SNPS LIKE ?",request)
     else:
