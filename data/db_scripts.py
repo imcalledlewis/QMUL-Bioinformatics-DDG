@@ -27,19 +27,19 @@ def DBreq(request, request_type):   # Makes SQL request
     conn = sqlite3.connect(filepath)    # Opens db file
     cur = conn.cursor()                 # Sets cursor
 
-    if request_type=='SNPname':
+    if request_type=='rsid':
         returnDict={}
         request=(request,)                  # Request must be in a tuple
 
-        res = cur.execute("SELECT * FROM gwas WHERE SNPS LIKE ?",request)
+        res = cur.execute("SELECT * FROM gwas WHERE rsid LIKE ?",request)
         returnDict.update({"gwas":list(res.fetchone())})
         returnDict['gwas'][4]=removeDupeGeneMap(returnDict['gwas'][4])              # remove duplicate gene maps
 
-        res=cur.execute("SELECT * FROM population WHERE SNP_rsID LIKE ?", request)
+        res=cur.execute("SELECT * FROM population WHERE rsid LIKE ?", request)
         returnDict.update({"pop":list(res.fetchone())})
         returnDict['pop']=[round(i,3) for i in returnDict['pop'] if isinstance(i, float)]    # remove allele strings, round to 3 dp
 
-        res=cur.execute("SELECT Consequence FROM functional WHERE Uploaded_variation LIKE ?", request)
+        res=cur.execute("SELECT Consequence FROM functional WHERE rsid LIKE ?", request)
         returnDict.update({"func":list(res.fetchone())})
         returnDict['func']=[i.replace('_',' ') for i in returnDict['func']]         # replace underscore with space
 

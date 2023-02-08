@@ -25,7 +25,7 @@ app.config['SECRET_KEY'] = 'change this unsecure key'   # TODO: read about this 
 # create a class to define the form
 class QueryForm(FlaskForm):
 	SNP_req = StringField('Enter SNP information: ', validators=[InputRequired()])
-	req_type = SelectField("Information type: ", choices=[('SNPname', "SNP name(s) (rs value)"), ("coords","genomic coordinates"), ("geneName","gene name")])
+	req_type = SelectField("Information type: ", choices=[('rsid', "SNP name(s) (rs value)"), ("coords","genomic coordinates"), ("geneName","gene name")])
 	submit = SubmitField('Submit')
 
 # define the action for the top level route
@@ -53,7 +53,7 @@ def SNP(SNP_req):
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
 	reqRes=DBreq(SNP_req, req_type)
 	if reqRes:
-			assert isinstance(reqRes, dict) ,"idk what to do with multiple entries yet"
+			assert isinstance(reqRes, dict),"idk what to do with multiple entries yet"
 			rsName, region, chrPos, pVal ,mapGene = reqRes['gwas']
 			finPop, toscPop, BritPop = reqRes['pop']
 			func = reqRes['func']
