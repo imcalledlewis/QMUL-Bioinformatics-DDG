@@ -53,7 +53,7 @@ def SNP(SNP_req):
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
 	reqRes=DBreq(SNP_req, req_type)
 	if reqRes:
-			assert isinstance(reqRes, dict),"idk what to do with multiple entries yet"
+			assert isinstance(reqRes, dict),"idk what to do with multiple entries yet"	# returns dict if only one entry, otherwise returns list of dicts
 			rsName, region, chrPos, pVal ,mapGene = reqRes['gwas']
 			finPop, toscPop, BritPop = reqRes['pop']
 			func = reqRes['func']

@@ -32,7 +32,10 @@ def DBreq(request, request_type):   # Makes SQL request
         request=(request,)                  # Request must be in a tuple
 
         res = cur.execute("SELECT * FROM gwas WHERE rsid LIKE ?",request)
-        returnDict.update({"gwas":list(res.fetchone())})
+        ret=res.fetchone()
+        if not ret: # check that a valid request was made
+            return None
+        returnDict.update({"gwas":list(ret)})
         returnDict['gwas'][4]=removeDupeGeneMap(returnDict['gwas'][4])              # remove duplicate gene maps
 
         res=cur.execute("SELECT * FROM population WHERE rsid LIKE ?", request)
