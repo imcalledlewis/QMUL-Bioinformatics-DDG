@@ -37,12 +37,13 @@ def DBreq(request, request_type):   # Makes SQL request
 
         res=cur.execute("SELECT * FROM population WHERE SNP_rsID LIKE ?", request)
         returnDict.update({"pop":list(res.fetchone())})
-        returnDict['pop']=[i for i in returnDict['pop'] if isinstance(i, float)]    # remove allele strings
+        returnDict['pop']=[round(i,3) for i in returnDict['pop'] if isinstance(i, float)]    # remove allele strings, round to 3 dp
 
-        # res=cur.execute("SELECT * FROM functional WHERE Uploaded_variation LIKE ?", request)
-        # returnDict.update({"func":list(res.fetchone())})
+        res=cur.execute("SELECT Consequence FROM functional WHERE Uploaded_variation LIKE ?", request)
+        returnDict.update({"func":list(res.fetchone())})
+        returnDict['func']=[i.replace('_',' ') for i in returnDict['func']]         # replace underscore with space
 
-        # if more than one, return list of dicts, then in flask-app test for type
+        # if more than one, return list of dicts (or NamedTuple), then in flask-app test for type
 
         return(returnDict)
         

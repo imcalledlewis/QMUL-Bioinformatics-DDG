@@ -53,12 +53,14 @@ def SNP(SNP_req):
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
 	reqRes=DBreq(SNP_req, req_type)
 	if reqRes:
-		try: 
-			x=reqRes[1]	# Test for multiple entries
-			raise Exception("idk what to do with multiple entries yet")
-		except IndexError:	# If there's only one entry:
-			rsName, region, chrPos, pVal ,mapGene = reqRes[0]
-			return render_template('view.html', name=rsName, region=region, chr_pos=chrPos, pVal=pVal,mapGene=removeDupeGeneMap(mapGene), req_type=req_type)
+			assert isinstance(reqRes, dict) ,"idk what to do with multiple entries yet"
+			rsName, region, chrPos, pVal ,mapGene = reqRes['gwas']
+			finPop, toscPop, BritPop = reqRes['pop']
+			func = reqRes['func']
+
+			return render_template('view.html', name=rsName, region=region, chr_pos=chrPos, pVal=pVal,mapGene=mapGene, req_type=req_type,
+			finPop=finPop, toscPop=toscPop, BritPop=BritPop,
+			func=func)
 	else:                 			# If SNP is not found:
 		return render_template('not_found.html', name=SNP_req)
 

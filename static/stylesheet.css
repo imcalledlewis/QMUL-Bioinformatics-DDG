@@ -15,12 +15,12 @@ html, body {
   background-color: var(--light_bg);
 }
 
-form, body, p {
+form, body, p, table {
 	font-family: Garamond, serif;
 	font-size: 1.2em;
 }
 
-form, p, img{
+form, p, img, table{
 	margin-left: 3%;
 	margin-right: 3%;
 }
