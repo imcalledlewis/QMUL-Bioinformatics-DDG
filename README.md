@@ -8,16 +8,17 @@
 
 ### 1. Input:
 
--    (rs value)
+-    SNP name(s) (rs value)
 -    genomic coordinates (chromosome, start and end)
 -    gene name
 
 ### 2. Output:
 
--   SNP name(s) (rs value)
+-   ~~SNP name(s) (rs value)~~
 -   genomic position(s) (its location)
--   p-value(s) from the association test
--   mapped gene(s), variant (allele) frequency in at least two different human populations of interest
+-   ~~p-value(s) from the association test~~
+-   ~~mapped gene(s)~~
+-   variant (allele) frequency in at least two different human populations of interest
 -   at least one measure of functional impact and/or clinical relevance for each variant
 -   at least one functional or ontology term associated with each mapped gene
 

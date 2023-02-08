@@ -20,12 +20,12 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'change this unsecure key'   # TODO: read about this and change
 
 # tell code where to find snp information
-snp_table_filename = 'data/gwas_trimmed.tsv'
+# snp_table_filename = getPath('gwas_trimmed.tsv')
 
 # create a class to define the form
 class QueryForm(FlaskForm):
 	SNP_req = StringField('Enter SNP information: ', validators=[InputRequired()])
-	req_type = SelectField("Information type: ", choices=[('SNPname', "SNP name(s) (rs value)"), ("coords","genomic coordinates"), ("geneName","gene name")])
+	req_type = SelectField("Information type: ", choices=[('rsid', "SNP name(s) (rs value)"), ("coords","genomic coordinates"), ("geneName","gene name")])
 	submit = SubmitField('Submit')
 
 # define the action for the top level route
@@ -48,17 +48,19 @@ def index():
 @app.route('/SNP/<SNP_req>', methods=['GET','POST'])
 def SNP(SNP_req):
 	req_type=request.args.get('req_type',default="empty_req_type")	# Gets type of information inputted (the bit after "?")
-	df = pd.read_csv(snp_table_filename,sep='\t',index_col='SNPS')	# Load snp data from TSV file into pandas dataframe with snp name as index
+	# df = pd.read_csv(snp_table_filename,sep='\t',index_col='SNPS')	# Load snp data from TSV file into pandas dataframe with snp name as index
 
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
 	reqRes=DBreq(SNP_req, req_type)
 	if reqRes:
-		try: 
-			x=reqRes[1]	# Test for multiple entries
-			raise Exception("idk what to do with multiple entries yet")
-		except IndexError:	# If there's only one entry:
-			rsName, region, chrPos, pVal ,mapGene = reqRes[0]
-			return render_template('view.html', name=rsName, region=region, chr_pos=chrPos, pVal=pVal,mapGene=removeDupeGeneMap(mapGene), req_type=req_type)
+			assert isinstance(reqRes, dict),"idk what to do with multiple entries yet"	# returns dict if only one entry, otherwise returns list of dicts
+			rsName, region, chrPos, pVal ,mapGene = reqRes['gwas']
+			finPop, toscPop, BritPop = reqRes['pop']
+			func = reqRes['func']
+
+			return render_template('view.html', name=rsName, region=region, chr_pos=chrPos, pVal=pVal,mapGene=mapGene, req_type=req_type,
+			finPop=finPop, toscPop=toscPop, BritPop=BritPop,
+			func=func)
 	else:                 			# If SNP is not found:
 		return render_template('not_found.html', name=SNP_req)
 

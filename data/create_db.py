@@ -10,9 +10,9 @@ DB=DBpath()
 if os.path.exists(DB):      # If the file exists,
     os.remove(DB)           # delete it.
 
-pdDB(gwas, "gwas",       {"SNPS":"INTEGER PRIMARY KEY"})
-pdDB(pop,  "population", {"SNP_rsID":"INTEGER REFERENCES gwas(SNPS)"})
-pdDB(func, "functional", {"Uploaded_variation":"INTEGER REFERENCES gwas(SNPS)"})
+pdDB(gwas, "gwas",       {"rsid":"TEXT PRIMARY KEY"})
+pdDB(pop,  "population", {"rsid":"TEXT REFERENCES gwas(rsid)"})
+pdDB(func, "functional", {"rsid":"TEXT REFERENCES gwas(rsid)"})
 # pdDB(ont,  "ontology",   {"foo":"INTEGER REFERENCES gwas(SNPS)"})
 
 conn = sqlite3.connect(DB)  # Opens db file

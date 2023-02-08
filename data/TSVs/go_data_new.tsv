@@ -1,0 +1,526 @@
+rsid	qualifier	term	goID
+rs1538171	enables	pyridoxal phosphate binding	GO:0030170
+rs1538171	enables	catalytic activity	GO:0003824
+rs1538171	enables	5-aminolevulinate synthase activity	GO:0003870
+rs1538171	involved_in	biosynthetic process	GO:0009058
+rs1538171	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs1538171	involved_in	cellular biosynthetic process	GO:0044249
+rs1538171	enables	ATP hydrolysis activity	GO:0016887
+rs1538171	enables	ATP binding	GO:0005524
+rs1538171	involved_in	transmembrane transport	GO:0055085
+rs1538171	located_in	membrane	GO:0016020
+rs1538171	enables	ABC-type transporter activity	GO:0140359
+rs1538171	enables	nucleotide binding	GO:0000166
+rs1538171	located_in	membrane	GO:0016020
+rs1538171	enables	ATP binding	GO:0005524
+rs1538171	located_in	membrane	GO:0016020
+rs1538171	enables	ATP binding	GO:0005524
+rs1538171	involved_in	transmembrane transport	GO:0055085
+rs1538171	located_in	membrane	GO:0016020
+rs1538171	enables	ABC-type transporter activity	GO:0140359
+rs1538171	enables	nucleotide binding	GO:0000166
+rs1538171	located_in	membrane	GO:0016020
+rs1538171	enables	ATP binding	GO:0005524
+rs1538171	located_in	membrane	GO:0016020
+rs1538171	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs1538171	involved_in	asparagine biosynthetic process	GO:0006529
+rs4320356	enables	pyridoxal phosphate binding	GO:0030170
+rs4320356	enables	catalytic activity	GO:0003824
+rs4320356	enables	5-aminolevulinate synthase activity	GO:0003870
+rs4320356	involved_in	biosynthetic process	GO:0009058
+rs4320356	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs4320356	involved_in	cellular biosynthetic process	GO:0044249
+rs4320356	enables	ATP hydrolysis activity	GO:0016887
+rs4320356	enables	ATP binding	GO:0005524
+rs4320356	involved_in	transmembrane transport	GO:0055085
+rs4320356	located_in	membrane	GO:0016020
+rs4320356	enables	ABC-type transporter activity	GO:0140359
+rs4320356	enables	nucleotide binding	GO:0000166
+rs4320356	located_in	membrane	GO:0016020
+rs4320356	enables	ATP binding	GO:0005524
+rs4320356	located_in	membrane	GO:0016020
+rs4320356	enables	ATP binding	GO:0005524
+rs4320356	involved_in	transmembrane transport	GO:0055085
+rs4320356	located_in	membrane	GO:0016020
+rs4320356	enables	ABC-type transporter activity	GO:0140359
+rs4320356	enables	nucleotide binding	GO:0000166
+rs4320356	located_in	membrane	GO:0016020
+rs4320356	enables	ATP binding	GO:0005524
+rs4320356	located_in	membrane	GO:0016020
+rs4320356	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs4320356	involved_in	asparagine biosynthetic process	GO:0006529
+rs1770	enables	pyridoxal phosphate binding	GO:0030170
+rs1770	enables	catalytic activity	GO:0003824
+rs1770	enables	5-aminolevulinate synthase activity	GO:0003870
+rs1770	involved_in	biosynthetic process	GO:0009058
+rs1770	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs1770	involved_in	cellular biosynthetic process	GO:0044249
+rs1770	enables	ATP hydrolysis activity	GO:0016887
+rs1770	enables	ATP binding	GO:0005524
+rs1770	involved_in	transmembrane transport	GO:0055085
+rs1770	located_in	membrane	GO:0016020
+rs1770	enables	ABC-type transporter activity	GO:0140359
+rs1770	enables	nucleotide binding	GO:0000166
+rs1770	located_in	membrane	GO:0016020
+rs1770	enables	ATP binding	GO:0005524
+rs1770	located_in	membrane	GO:0016020
+rs1770	enables	ATP binding	GO:0005524
+rs1770	involved_in	transmembrane transport	GO:0055085
+rs1770	located_in	membrane	GO:0016020
+rs1770	enables	ABC-type transporter activity	GO:0140359
+rs1770	enables	nucleotide binding	GO:0000166
+rs1770	located_in	membrane	GO:0016020
+rs1770	enables	ATP binding	GO:0005524
+rs1770	located_in	membrane	GO:0016020
+rs1770	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs1770	involved_in	asparagine biosynthetic process	GO:0006529
+rs2647044	enables	pyridoxal phosphate binding	GO:0030170
+rs2647044	enables	catalytic activity	GO:0003824
+rs2647044	enables	5-aminolevulinate synthase activity	GO:0003870
+rs2647044	involved_in	biosynthetic process	GO:0009058
+rs2647044	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs2647044	involved_in	cellular biosynthetic process	GO:0044249
+rs2647044	enables	ATP hydrolysis activity	GO:0016887
+rs2647044	enables	ATP binding	GO:0005524
+rs2647044	involved_in	transmembrane transport	GO:0055085
+rs2647044	located_in	membrane	GO:0016020
+rs2647044	enables	ABC-type transporter activity	GO:0140359
+rs2647044	enables	nucleotide binding	GO:0000166
+rs2647044	located_in	membrane	GO:0016020
+rs2647044	enables	ATP binding	GO:0005524
+rs2647044	located_in	membrane	GO:0016020
+rs2647044	enables	ATP binding	GO:0005524
+rs2647044	involved_in	transmembrane transport	GO:0055085
+rs2647044	located_in	membrane	GO:0016020
+rs2647044	enables	ABC-type transporter activity	GO:0140359
+rs2647044	enables	nucleotide binding	GO:0000166
+rs2647044	located_in	membrane	GO:0016020
+rs2647044	enables	ATP binding	GO:0005524
+rs2647044	located_in	membrane	GO:0016020
+rs2647044	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs2647044	involved_in	asparagine biosynthetic process	GO:0006529
+rs11755527	enables	pyridoxal phosphate binding	GO:0030170
+rs11755527	enables	catalytic activity	GO:0003824
+rs11755527	enables	5-aminolevulinate synthase activity	GO:0003870
+rs11755527	involved_in	biosynthetic process	GO:0009058
+rs11755527	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs11755527	involved_in	cellular biosynthetic process	GO:0044249
+rs11755527	enables	ATP hydrolysis activity	GO:0016887
+rs11755527	enables	ATP binding	GO:0005524
+rs11755527	involved_in	transmembrane transport	GO:0055085
+rs11755527	located_in	membrane	GO:0016020
+rs11755527	enables	ABC-type transporter activity	GO:0140359
+rs11755527	enables	nucleotide binding	GO:0000166
+rs11755527	located_in	membrane	GO:0016020
+rs11755527	enables	ATP binding	GO:0005524
+rs11755527	located_in	membrane	GO:0016020
+rs11755527	enables	ATP binding	GO:0005524
+rs11755527	involved_in	transmembrane transport	GO:0055085
+rs11755527	located_in	membrane	GO:0016020
+rs11755527	enables	ABC-type transporter activity	GO:0140359
+rs11755527	enables	nucleotide binding	GO:0000166
+rs11755527	located_in	membrane	GO:0016020
+rs11755527	enables	ATP binding	GO:0005524
+rs11755527	located_in	membrane	GO:0016020
+rs11755527	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs11755527	involved_in	asparagine biosynthetic process	GO:0006529
+rs9388489	enables	pyridoxal phosphate binding	GO:0030170
+rs9388489	enables	catalytic activity	GO:0003824
+rs9388489	enables	5-aminolevulinate synthase activity	GO:0003870
+rs9388489	involved_in	biosynthetic process	GO:0009058
+rs9388489	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs9388489	involved_in	cellular biosynthetic process	GO:0044249
+rs9388489	enables	ATP hydrolysis activity	GO:0016887
+rs9388489	enables	ATP binding	GO:0005524
+rs9388489	involved_in	transmembrane transport	GO:0055085
+rs9388489	located_in	membrane	GO:0016020
+rs9388489	enables	ABC-type transporter activity	GO:0140359
+rs9388489	enables	nucleotide binding	GO:0000166
+rs9388489	located_in	membrane	GO:0016020
+rs9388489	enables	ATP binding	GO:0005524
+rs9388489	located_in	membrane	GO:0016020
+rs9388489	enables	ATP binding	GO:0005524
+rs9388489	involved_in	transmembrane transport	GO:0055085
+rs9388489	located_in	membrane	GO:0016020
+rs9388489	enables	ABC-type transporter activity	GO:0140359
+rs9388489	enables	nucleotide binding	GO:0000166
+rs9388489	located_in	membrane	GO:0016020
+rs9388489	enables	ATP binding	GO:0005524
+rs9388489	located_in	membrane	GO:0016020
+rs9388489	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs9388489	involved_in	asparagine biosynthetic process	GO:0006529
+rs9268645	enables	pyridoxal phosphate binding	GO:0030170
+rs9268645	enables	catalytic activity	GO:0003824
+rs9268645	enables	5-aminolevulinate synthase activity	GO:0003870
+rs9268645	involved_in	biosynthetic process	GO:0009058
+rs9268645	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs9268645	involved_in	cellular biosynthetic process	GO:0044249
+rs9268645	enables	ATP hydrolysis activity	GO:0016887
+rs9268645	enables	ATP binding	GO:0005524
+rs9268645	involved_in	transmembrane transport	GO:0055085
+rs9268645	located_in	membrane	GO:0016020
+rs9268645	enables	ABC-type transporter activity	GO:0140359
+rs9268645	enables	nucleotide binding	GO:0000166
+rs9268645	located_in	membrane	GO:0016020
+rs9268645	enables	ATP binding	GO:0005524
+rs9268645	located_in	membrane	GO:0016020
+rs9268645	enables	ATP binding	GO:0005524
+rs9268645	involved_in	transmembrane transport	GO:0055085
+rs9268645	located_in	membrane	GO:0016020
+rs9268645	enables	ABC-type transporter activity	GO:0140359
+rs9268645	enables	nucleotide binding	GO:0000166
+rs9268645	located_in	membrane	GO:0016020
+rs9268645	enables	ATP binding	GO:0005524
+rs9268645	located_in	membrane	GO:0016020
+rs9268645	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs9268645	involved_in	asparagine biosynthetic process	GO:0006529
+rs9272346	enables	pyridoxal phosphate binding	GO:0030170
+rs9272346	enables	catalytic activity	GO:0003824
+rs9272346	enables	5-aminolevulinate synthase activity	GO:0003870
+rs9272346	involved_in	biosynthetic process	GO:0009058
+rs9272346	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs9272346	involved_in	cellular biosynthetic process	GO:0044249
+rs9272346	enables	ATP hydrolysis activity	GO:0016887
+rs9272346	enables	ATP binding	GO:0005524
+rs9272346	involved_in	transmembrane transport	GO:0055085
+rs9272346	located_in	membrane	GO:0016020
+rs9272346	enables	ABC-type transporter activity	GO:0140359
+rs9272346	enables	nucleotide binding	GO:0000166
+rs9272346	located_in	membrane	GO:0016020
+rs9272346	enables	ATP binding	GO:0005524
+rs9272346	located_in	membrane	GO:0016020
+rs9272346	enables	ATP binding	GO:0005524
+rs9272346	involved_in	transmembrane transport	GO:0055085
+rs9272346	located_in	membrane	GO:0016020
+rs9272346	enables	ABC-type transporter activity	GO:0140359
+rs9272346	enables	nucleotide binding	GO:0000166
+rs9272346	located_in	membrane	GO:0016020
+rs9272346	enables	ATP binding	GO:0005524
+rs9272346	located_in	membrane	GO:0016020
+rs9272346	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs9272346	involved_in	asparagine biosynthetic process	GO:0006529
+rs3757247	enables	pyridoxal phosphate binding	GO:0030170
+rs3757247	enables	catalytic activity	GO:0003824
+rs3757247	enables	5-aminolevulinate synthase activity	GO:0003870
+rs3757247	involved_in	biosynthetic process	GO:0009058
+rs3757247	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs3757247	involved_in	cellular biosynthetic process	GO:0044249
+rs3757247	enables	ATP hydrolysis activity	GO:0016887
+rs3757247	enables	ATP binding	GO:0005524
+rs3757247	involved_in	transmembrane transport	GO:0055085
+rs3757247	located_in	membrane	GO:0016020
+rs3757247	enables	ABC-type transporter activity	GO:0140359
+rs3757247	enables	nucleotide binding	GO:0000166
+rs3757247	located_in	membrane	GO:0016020
+rs3757247	enables	ATP binding	GO:0005524
+rs3757247	located_in	membrane	GO:0016020
+rs3757247	enables	ATP binding	GO:0005524
+rs3757247	involved_in	transmembrane transport	GO:0055085
+rs3757247	located_in	membrane	GO:0016020
+rs3757247	enables	ABC-type transporter activity	GO:0140359
+rs3757247	enables	nucleotide binding	GO:0000166
+rs3757247	located_in	membrane	GO:0016020
+rs3757247	enables	ATP binding	GO:0005524
+rs3757247	located_in	membrane	GO:0016020
+rs3757247	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs3757247	involved_in	asparagine biosynthetic process	GO:0006529
+rs924043	enables	pyridoxal phosphate binding	GO:0030170
+rs924043	enables	catalytic activity	GO:0003824
+rs924043	enables	5-aminolevulinate synthase activity	GO:0003870
+rs924043	involved_in	biosynthetic process	GO:0009058
+rs924043	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs924043	involved_in	cellular biosynthetic process	GO:0044249
+rs924043	enables	ATP hydrolysis activity	GO:0016887
+rs924043	enables	ATP binding	GO:0005524
+rs924043	involved_in	transmembrane transport	GO:0055085
+rs924043	located_in	membrane	GO:0016020
+rs924043	enables	ABC-type transporter activity	GO:0140359
+rs924043	enables	nucleotide binding	GO:0000166
+rs924043	located_in	membrane	GO:0016020
+rs924043	enables	ATP binding	GO:0005524
+rs924043	located_in	membrane	GO:0016020
+rs924043	enables	ATP binding	GO:0005524
+rs924043	involved_in	transmembrane transport	GO:0055085
+rs924043	located_in	membrane	GO:0016020
+rs924043	enables	ABC-type transporter activity	GO:0140359
+rs924043	enables	nucleotide binding	GO:0000166
+rs924043	located_in	membrane	GO:0016020
+rs924043	enables	ATP binding	GO:0005524
+rs924043	located_in	membrane	GO:0016020
+rs924043	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs924043	involved_in	asparagine biosynthetic process	GO:0006529
+rs1050979	enables	pyridoxal phosphate binding	GO:0030170
+rs1050979	enables	catalytic activity	GO:0003824
+rs1050979	enables	5-aminolevulinate synthase activity	GO:0003870
+rs1050979	involved_in	biosynthetic process	GO:0009058
+rs1050979	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs1050979	involved_in	cellular biosynthetic process	GO:0044249
+rs1050979	enables	ATP hydrolysis activity	GO:0016887
+rs1050979	enables	ATP binding	GO:0005524
+rs1050979	involved_in	transmembrane transport	GO:0055085
+rs1050979	located_in	membrane	GO:0016020
+rs1050979	enables	ABC-type transporter activity	GO:0140359
+rs1050979	enables	nucleotide binding	GO:0000166
+rs1050979	located_in	membrane	GO:0016020
+rs1050979	enables	ATP binding	GO:0005524
+rs1050979	located_in	membrane	GO:0016020
+rs1050979	enables	ATP binding	GO:0005524
+rs1050979	involved_in	transmembrane transport	GO:0055085
+rs1050979	located_in	membrane	GO:0016020
+rs1050979	enables	ABC-type transporter activity	GO:0140359
+rs1050979	enables	nucleotide binding	GO:0000166
+rs1050979	located_in	membrane	GO:0016020
+rs1050979	enables	ATP binding	GO:0005524
+rs1050979	located_in	membrane	GO:0016020
+rs1050979	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs1050979	involved_in	asparagine biosynthetic process	GO:0006529
+rs9405661	enables	pyridoxal phosphate binding	GO:0030170
+rs9405661	enables	catalytic activity	GO:0003824
+rs9405661	enables	5-aminolevulinate synthase activity	GO:0003870
+rs9405661	involved_in	biosynthetic process	GO:0009058
+rs9405661	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs9405661	involved_in	cellular biosynthetic process	GO:0044249
+rs9405661	enables	ATP hydrolysis activity	GO:0016887
+rs9405661	enables	ATP binding	GO:0005524
+rs9405661	involved_in	transmembrane transport	GO:0055085
+rs9405661	located_in	membrane	GO:0016020
+rs9405661	enables	ABC-type transporter activity	GO:0140359
+rs9405661	enables	nucleotide binding	GO:0000166
+rs9405661	located_in	membrane	GO:0016020
+rs9405661	enables	ATP binding	GO:0005524
+rs9405661	located_in	membrane	GO:0016020
+rs9405661	enables	ATP binding	GO:0005524
+rs9405661	involved_in	transmembrane transport	GO:0055085
+rs9405661	located_in	membrane	GO:0016020
+rs9405661	enables	ABC-type transporter activity	GO:0140359
+rs9405661	enables	nucleotide binding	GO:0000166
+rs9405661	located_in	membrane	GO:0016020
+rs9405661	enables	ATP binding	GO:0005524
+rs9405661	located_in	membrane	GO:0016020
+rs9405661	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs9405661	involved_in	asparagine biosynthetic process	GO:0006529
+rs12665429	enables	pyridoxal phosphate binding	GO:0030170
+rs12665429	enables	catalytic activity	GO:0003824
+rs12665429	enables	5-aminolevulinate synthase activity	GO:0003870
+rs12665429	involved_in	biosynthetic process	GO:0009058
+rs12665429	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs12665429	involved_in	cellular biosynthetic process	GO:0044249
+rs12665429	enables	ATP hydrolysis activity	GO:0016887
+rs12665429	enables	ATP binding	GO:0005524
+rs12665429	involved_in	transmembrane transport	GO:0055085
+rs12665429	located_in	membrane	GO:0016020
+rs12665429	enables	ABC-type transporter activity	GO:0140359
+rs12665429	enables	nucleotide binding	GO:0000166
+rs12665429	located_in	membrane	GO:0016020
+rs12665429	enables	ATP binding	GO:0005524
+rs12665429	located_in	membrane	GO:0016020
+rs12665429	enables	ATP binding	GO:0005524
+rs12665429	involved_in	transmembrane transport	GO:0055085
+rs12665429	located_in	membrane	GO:0016020
+rs12665429	enables	ABC-type transporter activity	GO:0140359
+rs12665429	enables	nucleotide binding	GO:0000166
+rs12665429	located_in	membrane	GO:0016020
+rs12665429	enables	ATP binding	GO:0005524
+rs12665429	located_in	membrane	GO:0016020
+rs12665429	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs12665429	involved_in	asparagine biosynthetic process	GO:0006529
+rs212408	enables	pyridoxal phosphate binding	GO:0030170
+rs212408	enables	catalytic activity	GO:0003824
+rs212408	enables	5-aminolevulinate synthase activity	GO:0003870
+rs212408	involved_in	biosynthetic process	GO:0009058
+rs212408	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs212408	involved_in	cellular biosynthetic process	GO:0044249
+rs212408	enables	ATP hydrolysis activity	GO:0016887
+rs212408	enables	ATP binding	GO:0005524
+rs212408	involved_in	transmembrane transport	GO:0055085
+rs212408	located_in	membrane	GO:0016020
+rs212408	enables	ABC-type transporter activity	GO:0140359
+rs212408	enables	nucleotide binding	GO:0000166
+rs212408	located_in	membrane	GO:0016020
+rs212408	enables	ATP binding	GO:0005524
+rs212408	located_in	membrane	GO:0016020
+rs212408	enables	ATP binding	GO:0005524
+rs212408	involved_in	transmembrane transport	GO:0055085
+rs212408	located_in	membrane	GO:0016020
+rs212408	enables	ABC-type transporter activity	GO:0140359
+rs212408	enables	nucleotide binding	GO:0000166
+rs212408	located_in	membrane	GO:0016020
+rs212408	enables	ATP binding	GO:0005524
+rs212408	located_in	membrane	GO:0016020
+rs212408	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs212408	involved_in	asparagine biosynthetic process	GO:0006529
+rs72928038	enables	pyridoxal phosphate binding	GO:0030170
+rs72928038	enables	catalytic activity	GO:0003824
+rs72928038	enables	5-aminolevulinate synthase activity	GO:0003870
+rs72928038	involved_in	biosynthetic process	GO:0009058
+rs72928038	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs72928038	involved_in	cellular biosynthetic process	GO:0044249
+rs72928038	enables	ATP hydrolysis activity	GO:0016887
+rs72928038	enables	ATP binding	GO:0005524
+rs72928038	involved_in	transmembrane transport	GO:0055085
+rs72928038	located_in	membrane	GO:0016020
+rs72928038	enables	ABC-type transporter activity	GO:0140359
+rs72928038	enables	nucleotide binding	GO:0000166
+rs72928038	located_in	membrane	GO:0016020
+rs72928038	enables	ATP binding	GO:0005524
+rs72928038	located_in	membrane	GO:0016020
+rs72928038	enables	ATP binding	GO:0005524
+rs72928038	involved_in	transmembrane transport	GO:0055085
+rs72928038	located_in	membrane	GO:0016020
+rs72928038	enables	ABC-type transporter activity	GO:0140359
+rs72928038	enables	nucleotide binding	GO:0000166
+rs72928038	located_in	membrane	GO:0016020
+rs72928038	enables	ATP binding	GO:0005524
+rs72928038	located_in	membrane	GO:0016020
+rs72928038	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs72928038	involved_in	asparagine biosynthetic process	GO:0006529
+rs2045258	enables	pyridoxal phosphate binding	GO:0030170
+rs2045258	enables	catalytic activity	GO:0003824
+rs2045258	enables	5-aminolevulinate synthase activity	GO:0003870
+rs2045258	involved_in	biosynthetic process	GO:0009058
+rs2045258	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs2045258	involved_in	cellular biosynthetic process	GO:0044249
+rs2045258	enables	ATP hydrolysis activity	GO:0016887
+rs2045258	enables	ATP binding	GO:0005524
+rs2045258	involved_in	transmembrane transport	GO:0055085
+rs2045258	located_in	membrane	GO:0016020
+rs2045258	enables	ABC-type transporter activity	GO:0140359
+rs2045258	enables	nucleotide binding	GO:0000166
+rs2045258	located_in	membrane	GO:0016020
+rs2045258	enables	ATP binding	GO:0005524
+rs2045258	located_in	membrane	GO:0016020
+rs2045258	enables	ATP binding	GO:0005524
+rs2045258	involved_in	transmembrane transport	GO:0055085
+rs2045258	located_in	membrane	GO:0016020
+rs2045258	enables	ABC-type transporter activity	GO:0140359
+rs2045258	enables	nucleotide binding	GO:0000166
+rs2045258	located_in	membrane	GO:0016020
+rs2045258	enables	ATP binding	GO:0005524
+rs2045258	located_in	membrane	GO:0016020
+rs2045258	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs2045258	involved_in	asparagine biosynthetic process	GO:0006529
+rs9273363	enables	pyridoxal phosphate binding	GO:0030170
+rs9273363	enables	catalytic activity	GO:0003824
+rs9273363	enables	5-aminolevulinate synthase activity	GO:0003870
+rs9273363	involved_in	biosynthetic process	GO:0009058
+rs9273363	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs9273363	involved_in	cellular biosynthetic process	GO:0044249
+rs9273363	enables	ATP hydrolysis activity	GO:0016887
+rs9273363	enables	ATP binding	GO:0005524
+rs9273363	involved_in	transmembrane transport	GO:0055085
+rs9273363	located_in	membrane	GO:0016020
+rs9273363	enables	ABC-type transporter activity	GO:0140359
+rs9273363	enables	nucleotide binding	GO:0000166
+rs9273363	located_in	membrane	GO:0016020
+rs9273363	enables	ATP binding	GO:0005524
+rs9273363	located_in	membrane	GO:0016020
+rs9273363	enables	ATP binding	GO:0005524
+rs9273363	involved_in	transmembrane transport	GO:0055085
+rs9273363	located_in	membrane	GO:0016020
+rs9273363	enables	ABC-type transporter activity	GO:0140359
+rs9273363	enables	nucleotide binding	GO:0000166
+rs9273363	located_in	membrane	GO:0016020
+rs9273363	enables	ATP binding	GO:0005524
+rs9273363	located_in	membrane	GO:0016020
+rs9273363	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs9273363	involved_in	asparagine biosynthetic process	GO:0006529
+rs1578060	enables	pyridoxal phosphate binding	GO:0030170
+rs1578060	enables	catalytic activity	GO:0003824
+rs1578060	enables	5-aminolevulinate synthase activity	GO:0003870
+rs1578060	involved_in	biosynthetic process	GO:0009058
+rs1578060	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs1578060	involved_in	cellular biosynthetic process	GO:0044249
+rs1578060	enables	ATP hydrolysis activity	GO:0016887
+rs1578060	enables	ATP binding	GO:0005524
+rs1578060	involved_in	transmembrane transport	GO:0055085
+rs1578060	located_in	membrane	GO:0016020
+rs1578060	enables	ABC-type transporter activity	GO:0140359
+rs1578060	enables	nucleotide binding	GO:0000166
+rs1578060	located_in	membrane	GO:0016020
+rs1578060	enables	ATP binding	GO:0005524
+rs1578060	located_in	membrane	GO:0016020
+rs1578060	enables	ATP binding	GO:0005524
+rs1578060	involved_in	transmembrane transport	GO:0055085
+rs1578060	located_in	membrane	GO:0016020
+rs1578060	enables	ABC-type transporter activity	GO:0140359
+rs1578060	enables	nucleotide binding	GO:0000166
+rs1578060	located_in	membrane	GO:0016020
+rs1578060	enables	ATP binding	GO:0005524
+rs1578060	located_in	membrane	GO:0016020
+rs1578060	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs1578060	involved_in	asparagine biosynthetic process	GO:0006529
+rs138748427	enables	pyridoxal phosphate binding	GO:0030170
+rs138748427	enables	catalytic activity	GO:0003824
+rs138748427	enables	5-aminolevulinate synthase activity	GO:0003870
+rs138748427	involved_in	biosynthetic process	GO:0009058
+rs138748427	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs138748427	involved_in	cellular biosynthetic process	GO:0044249
+rs138748427	enables	ATP hydrolysis activity	GO:0016887
+rs138748427	enables	ATP binding	GO:0005524
+rs138748427	involved_in	transmembrane transport	GO:0055085
+rs138748427	located_in	membrane	GO:0016020
+rs138748427	enables	ABC-type transporter activity	GO:0140359
+rs138748427	enables	nucleotide binding	GO:0000166
+rs138748427	located_in	membrane	GO:0016020
+rs138748427	enables	ATP binding	GO:0005524
+rs138748427	located_in	membrane	GO:0016020
+rs138748427	enables	ATP binding	GO:0005524
+rs138748427	involved_in	transmembrane transport	GO:0055085
+rs138748427	located_in	membrane	GO:0016020
+rs138748427	enables	ABC-type transporter activity	GO:0140359
+rs138748427	enables	nucleotide binding	GO:0000166
+rs138748427	located_in	membrane	GO:0016020
+rs138748427	enables	ATP binding	GO:0005524
+rs138748427	located_in	membrane	GO:0016020
+rs138748427	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs138748427	involved_in	asparagine biosynthetic process	GO:0006529
+rs9273367	enables	pyridoxal phosphate binding	GO:0030170
+rs9273367	enables	catalytic activity	GO:0003824
+rs9273367	enables	5-aminolevulinate synthase activity	GO:0003870
+rs9273367	involved_in	biosynthetic process	GO:0009058
+rs9273367	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs9273367	involved_in	cellular biosynthetic process	GO:0044249
+rs9273367	enables	ATP hydrolysis activity	GO:0016887
+rs9273367	enables	ATP binding	GO:0005524
+rs9273367	involved_in	transmembrane transport	GO:0055085
+rs9273367	located_in	membrane	GO:0016020
+rs9273367	enables	ABC-type transporter activity	GO:0140359
+rs9273367	enables	nucleotide binding	GO:0000166
+rs9273367	located_in	membrane	GO:0016020
+rs9273367	enables	ATP binding	GO:0005524
+rs9273367	located_in	membrane	GO:0016020
+rs9273367	enables	ATP binding	GO:0005524
+rs9273367	involved_in	transmembrane transport	GO:0055085
+rs9273367	located_in	membrane	GO:0016020
+rs9273367	enables	ABC-type transporter activity	GO:0140359
+rs9273367	enables	nucleotide binding	GO:0000166
+rs9273367	located_in	membrane	GO:0016020
+rs9273367	enables	ATP binding	GO:0005524
+rs9273367	located_in	membrane	GO:0016020
+rs9273367	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs9273367	involved_in	asparagine biosynthetic process	GO:0006529
+rs17711850	enables	pyridoxal phosphate binding	GO:0030170
+rs17711850	enables	catalytic activity	GO:0003824
+rs17711850	enables	5-aminolevulinate synthase activity	GO:0003870
+rs17711850	involved_in	biosynthetic process	GO:0009058
+rs17711850	involved_in	tetrapyrrole biosynthetic process	GO:0033014
+rs17711850	involved_in	cellular biosynthetic process	GO:0044249
+rs17711850	enables	ATP hydrolysis activity	GO:0016887
+rs17711850	enables	ATP binding	GO:0005524
+rs17711850	involved_in	transmembrane transport	GO:0055085
+rs17711850	located_in	membrane	GO:0016020
+rs17711850	enables	ABC-type transporter activity	GO:0140359
+rs17711850	enables	nucleotide binding	GO:0000166
+rs17711850	located_in	membrane	GO:0016020
+rs17711850	enables	ATP binding	GO:0005524
+rs17711850	located_in	membrane	GO:0016020
+rs17711850	enables	ATP binding	GO:0005524
+rs17711850	involved_in	transmembrane transport	GO:0055085
+rs17711850	located_in	membrane	GO:0016020
+rs17711850	enables	ABC-type transporter activity	GO:0140359
+rs17711850	enables	nucleotide binding	GO:0000166
+rs17711850	located_in	membrane	GO:0016020
+rs17711850	enables	ATP binding	GO:0005524
+rs17711850	located_in	membrane	GO:0016020
+rs17711850	enables	asparagine synthase (glutamine-hydrolyzing) activity	GO:0004066
+rs17711850	involved_in	asparagine biosynthetic process	GO:0006529

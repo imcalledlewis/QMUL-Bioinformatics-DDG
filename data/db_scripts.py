@@ -3,6 +3,7 @@ import os
 import re
 import sqlite3
 import requests
+import collections
 
 database = "snps.db"
 
@@ -25,13 +26,33 @@ def DBreq(request, request_type):   # Makes SQL request
     assert os.path.exists(filepath),"Database file not found"
     conn = sqlite3.connect(filepath)    # Opens db file
     cur = conn.cursor()                 # Sets cursor
-    request=(request,)                  # Request must be in a tuple
-    if request_type=='SNPname':
-        request=request.lstrip("rs")
-        res = cur.execute("SELECT * FROM gwas WHERE SNPS LIKE ?",request)
+
+    if request_type=='rsid':
+        returnDict={}
+        request=(request,)                  # Request must be in a tuple
+
+        res = cur.execute("SELECT * FROM gwas WHERE rsid LIKE ?",request)
+        ret=res.fetchone()
+        if not ret: # check that a valid request was made
+            return None
+        returnDict.update({"gwas":list(ret)})
+        returnDict['gwas'][4]=removeDupeGeneMap(returnDict['gwas'][4])              # remove duplicate gene maps
+
+        res=cur.execute("SELECT * FROM population WHERE rsid LIKE ?", request)
+        returnDict.update({"pop":list(res.fetchone())})
+        returnDict['pop']=[round(i,3) for i in returnDict['pop'] if isinstance(i, float)]    # remove allele strings, round to 3 dp
+
+        res=cur.execute("SELECT Consequence FROM functional WHERE rsid LIKE ?", request)
+        returnDict.update({"func":list(res.fetchone())})
+        returnDict['func']=[i.replace('_',' ') for i in returnDict['func']]         # replace underscore with space
+
+        # if more than one, return list of dicts (or NamedTuple), then in flask-app test for type
+
+        return(returnDict)
+        
+    
     else:
         raise Exception(str(request_type)+" hasn't been added yet")
-    return (res.fetchall())
 
 def removeDupeSNP(dataframe): # Removes duplicates from a pandas dataframe, leaving only greatest p-value
     dataframe.reset_index(drop=True)                                 # Resets index back to 0
