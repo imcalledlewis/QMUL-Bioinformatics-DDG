@@ -13,7 +13,7 @@ if os.path.exists(DB):      # If the file exists,
 pdDB(gwas, "gwas",       {"rsid":"TEXT PRIMARY KEY"})
 pdDB(pop,  "population", {"rsid":"TEXT REFERENCES gwas(rsid)"})
 pdDB(func, "functional", {"rsid":"TEXT REFERENCES gwas(rsid)"})
-# pdDB(ont,  "ontology",   {"foo":"INTEGER REFERENCES gwas(SNPS)"})
+# pdDB(ont,  "ontology",   {"rsid":"INTEGER REFERENCES gwas(rsid)"})
 
 conn = sqlite3.connect(DB)  # Opens db file
 cur = conn.cursor()         # Sets cursor

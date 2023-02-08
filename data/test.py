@@ -1,7 +1,22 @@
 from db_scripts import *
+import collections
 
+fileIn = getPath('filtered_go_data.tsv')
 
+df=pd.read_csv(fileIn,sep='\t')
+dupesDict={}
+for i, row in df.iterrows():
+    snp=row['rsid']
+    go=row['go_id']
+    if snp in dupesDict:                        # If it's seen the snp before,
+            dupesDict[snp].append(go)           # add the go term
+    else:                                       # If it hasn't seen the snp before,
+        dupesDict.update({snp:[go]})            # create a listing for it.
 
-print(DBreq("rs1770", 'SNPname'))
-# ret=(DBreq("rs1770", 'SNPname'))
-# print(ret['gwas'][4])
+    
+dupeDF=pd.DataFrame(dupesDict).T
+# print(dupeDf)
+dupes=dupeDF.duplicated(keep=False)
+dupeNum= dupes.tolist().count(True)
+print(len(dupes), "columns, of which", dupeNum, "are duplicates")
+print (":(" if len(dupes) == dupeNum else ":)")

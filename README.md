@@ -18,7 +18,7 @@
 -   genomic position(s) (its location)
 -   ~~p-value(s) from the association test~~
 -   ~~mapped gene(s)~~
--   variant (allele) frequency in at least two different human populations of interest
+-   ~~variant (allele) frequency in at least two different human populations of interest~~
 -   at least one measure of functional impact and/or clinical relevance for each variant
 -   at least one functional or ontology term associated with each mapped gene
 
