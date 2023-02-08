@@ -3,6 +3,7 @@ import os
 import re
 import sqlite3
 import requests
+import collections
 
 database = "snps.db"
 
@@ -25,13 +26,29 @@ def DBreq(request, request_type):   # Makes SQL request
     assert os.path.exists(filepath),"Database file not found"
     conn = sqlite3.connect(filepath)    # Opens db file
     cur = conn.cursor()                 # Sets cursor
+
     if request_type=='SNPname':
-        # request=request.lstrip("rs")
+        returnDict={}
         request=(request,)                  # Request must be in a tuple
+
         res = cur.execute("SELECT * FROM gwas WHERE SNPS LIKE ?",request)
+        returnDict.update({"gwas":list(res.fetchone())})
+        returnDict['gwas'][4]=removeDupeGeneMap(returnDict['gwas'][4])              # remove duplicate gene maps
+
+        res=cur.execute("SELECT * FROM population WHERE SNP_rsID LIKE ?", request)
+        returnDict.update({"pop":list(res.fetchone())})
+        returnDict['pop']=[i for i in returnDict['pop'] if isinstance(i, float)]    # remove allele strings
+
+        # res=cur.execute("SELECT * FROM functional WHERE Uploaded_variation LIKE ?", request)
+        # returnDict.update({"func":list(res.fetchone())})
+
+        # if more than one, return list of dicts, then in flask-app test for type
+
+        return(returnDict)
+        
+    
     else:
         raise Exception(str(request_type)+" hasn't been added yet")
-    return (res.fetchall())
 
 def removeDupeSNP(dataframe): # Removes duplicates from a pandas dataframe, leaving only greatest p-value
     dataframe.reset_index(drop=True)                                 # Resets index back to 0

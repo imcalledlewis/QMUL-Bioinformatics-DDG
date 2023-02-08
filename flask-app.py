@@ -20,7 +20,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'change this unsecure key'   # TODO: read about this and change
 
 # tell code where to find snp information
-snp_table_filename = getPath('gwas_trimmed.tsv')
+# snp_table_filename = getPath('gwas_trimmed.tsv')
 
 # create a class to define the form
 class QueryForm(FlaskForm):
@@ -48,7 +48,7 @@ def index():
 @app.route('/SNP/<SNP_req>', methods=['GET','POST'])
 def SNP(SNP_req):
 	req_type=request.args.get('req_type',default="empty_req_type")	# Gets type of information inputted (the bit after "?")
-	df = pd.read_csv(snp_table_filename,sep='\t',index_col='SNPS')	# Load snp data from TSV file into pandas dataframe with snp name as index
+	# df = pd.read_csv(snp_table_filename,sep='\t',index_col='SNPS')	# Load snp data from TSV file into pandas dataframe with snp name as index
 
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
 	reqRes=DBreq(SNP_req, req_type)
