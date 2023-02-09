@@ -1,11 +1,18 @@
 import requests
 from db_scripts import *
-clear()
+# clear()
 
-rsids = ['rs1538171', 'rs4320356', 'rs1770','rs2647044','rs11755527','rs9388489','rs9268645','rs9272346','rs3757247','rs924043','rs1050979','rs9405661','rs12665429','rs212408','rs72928038','rs2045258','rs9273363','rs1578060','rs138748427','rs9273367','rs17711850']
+# rsids = ['rs1538171', 'rs4320356', 'rs1770','rs2647044','rs11755527','rs9388489','rs9268645','rs9272346','rs3757247','rs924043','rs1050979','rs9405661','rs12665429','rs212408','rs72928038','rs2045258','rs9273363','rs1578060','rs138748427','rs9273367','rs17711850']
 
 fileIn = getPath('gwas_trimmed.tsv')
-fileOut = getPath('go_data_new.tsv')
+fileOut = getPath('go_data_new_gene.tsv')
+
+df = pd.read_csv(fileIn, sep="\t")
+
+# Extract the list of rsids from the dataframe
+# rsids = df["rsid"].tolist()
+rsids = df["MAPPED_GENE"].tolist()
+
 
 def get_gene_ontology(rsid):
     url = "https://www.ebi.ac.uk/QuickGO/services/annotation/search"
@@ -32,8 +39,9 @@ def get_go_term(GOid):
 
 with open(fileOut, 'w') as tsv:
     tsv.write("rsid\tqualifier\tterm\tgoID\n")
-    for rsid in rsids:
-    # rsid="rs1770"
+    l=len(rsids)
+    print (l, "rsids")
+    for i, rsid in enumerate(rsids):
         snpRes=get_gene_ontology(rsid)
         for row in snpRes:
             qualifier=row['qualifier']
@@ -41,4 +49,8 @@ with open(fileOut, 'w') as tsv:
             GOres=get_go_term(goID)  # Uses the results of the previous search to look at the go terms
             term=GOres['name']
             tsv.write(f"{rsid}\t{qualifier}\t{term}\t{goID}\n")
+            # print(goID)
+        prog=round((i/l)*100,1)
+        if prog%10==0:
+            print(round(prog),'%,',l-i,"left")
 print("\ndone\n")

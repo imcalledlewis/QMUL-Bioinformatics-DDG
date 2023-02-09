@@ -48,15 +48,15 @@
 
 
 from db_scripts import *
-clear()
+# clear()
 
-fileIn = getPath('filtered_go_data.tsv')
+fileIn = getPath('go_data_new.tsv')
 
 df=pd.read_csv(fileIn,sep='\t')
 dupesDict={}
 for i, row in df.iterrows():
     snp=row['rsid']
-    go=row['go_id']
+    go=row['goID']
     if snp in dupesDict:                        # If it's seen the snp before,
             dupesDict[snp].append(go)           # add the go term
     else:                                       # If it hasn't seen the snp before,
@@ -64,7 +64,8 @@ for i, row in df.iterrows():
 
     
 dupeDF=pd.DataFrame(dupesDict).T
+print(dupeDF,'\n')
 dupes=dupeDF.duplicated(keep=False)
 dupeNum= dupes.tolist().count(True)
-print(len(dupes), "columns, of which", dupeNum, "are duplicates")
+print(len(dupes), "SNPs, of which", dupeNum, "are duplicates")
 print (":(" if len(dupes) == dupeNum else ":)")

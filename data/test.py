@@ -15,8 +15,8 @@ for i, row in df.iterrows():
 
     
 dupeDF=pd.DataFrame(dupesDict).T
-# print(dupeDf)
 dupes=dupeDF.duplicated(keep=False)
 dupeNum= dupes.tolist().count(True)
-print(len(dupes), "columns, of which", dupeNum, "are duplicates")
-print (":(" if len(dupes) == dupeNum else ":)")
+colNum=len(dupes)
+print(colNum, "SNPs, of which", dupeNum, "are duplicates")
+print (":(" if colNum == dupeNum else ":)")
