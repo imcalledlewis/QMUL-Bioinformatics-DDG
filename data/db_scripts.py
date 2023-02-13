@@ -29,15 +29,16 @@ def DBreq(request, request_type):   # Makes SQL request
 
     if request_type=='rsid':
         returnDict={}
-        request=(request,)                  # Request must be in a tuple
+        request=(request_type,request)                  # Request must be in a tuple
 
-        res = cur.execute("SELECT * FROM gwas WHERE rsid LIKE ?",request)
+        res = cur.execute("SELECT * FROM gwas WHERE ? LIKE ?",request)
         ret=res.fetchone()
         if not ret: # check that a valid request was made
             return None
         returnDict.update({"gwas":list(ret)})
         returnDict['gwas'][4]=removeDupeGeneMap(returnDict['gwas'][4])              # remove duplicate gene maps
 
+        request=(request,)                  # Request must be in a tuple
         res=cur.execute("SELECT * FROM population WHERE rsid LIKE ?", request)
         returnDict.update({"pop":list(res.fetchone())})
         returnDict['pop']=[round(i,3) for i in returnDict['pop'] if isinstance(i, float)]    # remove allele strings, round to 3 dp

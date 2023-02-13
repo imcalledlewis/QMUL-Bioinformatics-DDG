@@ -17,9 +17,9 @@ rsids = df["MAPPED_GENE"].tolist()
 def get_gene_ontology(rsid):
     url = "https://www.ebi.ac.uk/QuickGO/services/annotation/search"
     params = {
-        "db": "rs",
+        "db": "rs",         # rsid
         "dbReference": rsid,
-        "taxonomy": "9606",
+        "taxonomy": "9606", # homo sapiens
         # "limit":"1"
     }
     response = requests.get(url, params=params)
@@ -39,18 +39,19 @@ def get_go_term(GOid):
 
 with open(fileOut, 'w') as tsv:
     tsv.write("rsid\tqualifier\tterm\tgoID\n")
-    l=len(rsids)
+    l=len(rsids)    # gets total number of rsids
     print (l, "rsids")
     for i, rsid in enumerate(rsids):
         snpRes=get_gene_ontology(rsid)
-        for row in snpRes:
+        for row in snpRes:  # iterate through result
             qualifier=row['qualifier']
             goID=row['goId']
             GOres=get_go_term(goID)  # Uses the results of the previous search to look at the go terms
             term=GOres['name']
             tsv.write(f"{rsid}\t{qualifier}\t{term}\t{goID}\n")
-            # print(goID)
+            print(goID)
+            # break
         prog=round((i/l)*100,1)
-        if prog%10==0:
+        if prog%10==0:  # every 10%, print the progress
             print(round(prog),'%,',l-i,"left")
 print("\ndone\n")
