@@ -1,0 +1,8 @@
+import pandas as pd
+Association_table_filename = 'Functional_and_Ontology_data.tsv'
+df = pd.read_csv(Association_table_filename, sep='\t')
+columns_to_keep = ['Uploaded_variation','Allele','CADD_PHRED', 'CADD_RAW', 'PolyPhen', 'SIFT']
+df = df[columns_to_keep]
+print(df)
+
+df.to_csv("Func_trimmed.csv", index=False)
