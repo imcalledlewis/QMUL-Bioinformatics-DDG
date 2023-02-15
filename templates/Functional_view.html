@@ -1,0 +1,15 @@
+<html>
+<head>
+	<link rel="stylesheet" href="{{ url_for('static', filename='prot_stylesheet.css') }}">
+	<title>QMUL SNP Portal - {{Uploaded_variation}}</title>
+</head>
+<body>
+	<h1>{{Uploaded_variation}}</h1>
+	<br>
+	<p>CADD PHRED score: {{region}}</p>
+	<p>CADD RAW score: {{chr_pos}}</p>
+
+	<!-- <br><p>Request type: {{req_type}}</p> -->
+</body>
+
+<!-- name=rsName, region=region, chr_pos=chrPos, pVal=pVal, req_type=req_type -->
