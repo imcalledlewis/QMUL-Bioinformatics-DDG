@@ -2,9 +2,8 @@ from db_scripts import *
 
 gwas = getPath("gwas_trimmed.tsv")
 pop  = getPath("population_variation_noSpecial.tsv")
-func = getPath('Func_data_clean.tsv')
+func = getPath('Func_trimmed.tsv')
 # ont  = getPath('ontology.tsv')
-
 DB=DBpath()
 
 if os.path.exists(DB):      # If the file exists,

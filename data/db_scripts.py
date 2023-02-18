@@ -29,23 +29,25 @@ def DBreq(request, request_type):   # Makes SQL request
 
     if request_type=='rsid':
         returnDict={}
-        request=(request_type,request)                  # Request must be in a tuple
+        req=(request,)                  # Request must be in a tuple
 
-        res = cur.execute("SELECT * FROM gwas WHERE ? LIKE ?",request)
+        res = cur.execute("SELECT * FROM gwas WHERE rsid LIKE ?",req)
         ret=res.fetchone()
-        if not ret: # check that a valid request was made
-            return None
+        assert ret, "error fetching rsid"
+        # print(ret)
+        # if not ret: # check that a valid request was made
+        #     return None
         returnDict.update({"gwas":list(ret)})
         returnDict['gwas'][4]=removeDupeGeneMap(returnDict['gwas'][4])              # remove duplicate gene maps
 
-        request=(request,)                  # Request must be in a tuple
-        res=cur.execute("SELECT * FROM population WHERE rsid LIKE ?", request)
+        res=cur.execute("SELECT * FROM population WHERE rsid LIKE ?", req)
         returnDict.update({"pop":list(res.fetchone())})
         returnDict['pop']=[round(i,3) for i in returnDict['pop'] if isinstance(i, float)]    # remove allele strings, round to 3 dp
 
-        res=cur.execute("SELECT Consequence FROM functional WHERE rsid LIKE ?", request)
+        res=cur.execute("SELECT * FROM functional WHERE rsid LIKE ?", req)
         returnDict.update({"func":list(res.fetchone())})
-        returnDict['func']=[i.replace('_',' ') for i in returnDict['func']]         # replace underscore with space
+        # print('\n',returnDict['func'],'\n')
+        # returnDict['func']=[i.replace('_',' ') for i in returnDict['func']]         # replace underscore with space
 
         # if more than one, return list of dicts (or NamedTuple), then in flask-app test for type
 
@@ -55,8 +57,8 @@ def DBreq(request, request_type):   # Makes SQL request
     else:
         raise Exception(str(request_type)+" hasn't been added yet")
 
-def removeDupeSNP(dataframe): # Removes duplicates from a pandas dataframe, leaving only greatest p-value
-    dataframe.reset_index(drop=True)                                 # Resets index back to 0
+def removeDupeSNP(dataframe):                                   # Removes duplicates from a pandas dataframe, leaving only greatest p-value
+    dataframe.reset_index(drop=True)                            # Resets index back to 0
     dupeList = dataframe.duplicated(subset='SNPS',keep=False)   # Get list of duplicate values
     dupes=dataframe[dupeList]                                   # Select dataframe using above list
 
@@ -98,13 +100,13 @@ def removeSpecial(dataframe):     # Replaces special characters and whitespace w
     renameDict={}
     for col in dataframe.columns:
         newCol = re.sub(r'\W+', '_', col)
-        newCol = newCol.strip('_')  # Remove leading and trailing underscores
-        renameDict.update({col:newCol})
+        newCol = newCol.strip('_')      # Remove leading and trailing underscores
+        renameDict.update({col:newCol}) # Renames columns
     return(dataframe.rename(columns=renameDict))
 
 def pdDB(tsv_path,table_name,dtype):    # Adds tsv to SQL database
     # tabName=(table_name,)
-    conn = sqlite3.connect(DBpath())     # Opens (or creates) a db file
+    conn = sqlite3.connect(DBpath())    # Opens (or creates) a db file
     cur = conn.cursor()                 # Sets cursor
 
     df = pd.read_csv(tsv_path, sep='\t')
@@ -117,6 +119,8 @@ def pdDB(tsv_path,table_name,dtype):    # Adds tsv to SQL database
     # assert res.fetchone(), "error in database creation"
 
 def castRS(dataframe,rsCol):   # Receives a dataframe, returns df with "rs" removed from rs value
+    raise Exception("castRS is deprecated")   # this function isn't being used any more
+
     df=dataframe
     newRS=[]
     for index,row in df.iterrows():

@@ -28,6 +28,9 @@ class QueryForm(FlaskForm):
 	req_type = SelectField("Information type: ", choices=[('rsid', "SNP name(s) (rs value)"), ("coords","genomic coordinates"), ("geneName","gene name")])
 	submit = SubmitField('Submit')
 
+
+
+
 # define the action for the top level route
 @app.route('/', methods=['GET','POST'])
 def index():
@@ -44,6 +47,9 @@ def index():
 		return redirect(url_for('SNP', SNP_req = SNP_req,req_type=req_type))
 	return render_template('index_page.html', form=form, SNP_req=SNP_req, req_type=req_type)
 
+
+
+
 # Define a route called 'SNP' which accepts a SNP name parameter
 @app.route('/SNP/<SNP_req>', methods=['GET','POST'])
 def SNP(SNP_req):
@@ -56,13 +62,16 @@ def SNP(SNP_req):
 			assert isinstance(reqRes, dict),"idk what to do with multiple entries yet"	# returns dict if only one entry, otherwise returns list of dicts
 			rsName, region, chrPos, pVal ,mapGene = reqRes['gwas']
 			finPop, toscPop, BritPop = reqRes['pop']
-			func = reqRes['func']
+			allele,CADD_PHRED, CADD_RAW, var_allele = reqRes['func']
 
 			return render_template('view.html', name=rsName, region=region, chr_pos=chrPos, pVal=pVal,mapGene=mapGene, req_type=req_type,
 			finPop=finPop, toscPop=toscPop, BritPop=BritPop,
-			func=func)
+			CADD_PHRED=CADD_PHRED, CADD_RAW=CADD_RAW, var_allele=var_allele)
 	else:                 			# If SNP is not found:
 		return render_template('not_found.html', name=SNP_req)
+
+
+
 
 # Start the web server
 if __name__ == '__main__':

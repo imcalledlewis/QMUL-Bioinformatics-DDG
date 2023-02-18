@@ -10,17 +10,26 @@
 	<p>Chromosome position: {{chr_pos}}</p>
 	<p>Mapped gene: {{mapGene}}</p>
 	<p>P value: {{pVal}}</p>
+
 	<br>
+
 	<h2>Allele Frequencies:</h2>
 	<table>
 		<tr>
-			<th>Finland</th><th>Toscani</th>><th>British</th>
+			<th>Variation</th> <th>Finland</th> <th>Toscani</th> <th>British</th>
 		</tr>
 		<tr>
-			<td>{{finPop}}</td><td>{{toscPop}}</td><td>{{BritPop}}</td>
+			<td>{{name}}</td> <td>{{finPop}}</td> <td>{{toscPop}}</td> <td>{{BritPop}}</td>
 		</tr>
 	</table>
 
+	<br>
+
+	<h2>Functional:</h1>
+	<!-- <br> -->
+	<p>CADD PHRED score: {{CADD_PHRED}}</p>
+	<p>CADD RAW score: {{CADD_RAW}}</p>
+	<p>Variant Allele used for consequence calculation: {{var_allele}}</p>
 
 	<!-- <br><p>Request type: {{req_type}}</p> -->
 </body>
