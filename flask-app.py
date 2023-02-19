@@ -60,7 +60,7 @@ def SNP(SNP_req):
 	assert req_type != "empty_req_type", "request type is empty"
 
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
-	SNP_req=SNP_req.split(',')		# Split request by comma separator
+
 	reqRes=DBreq(SNP_req, req_type)	# Make SQL request
 	if reqRes:						# If the response isn't None
 			assert isinstance(reqRes, dict),"invalid db request return value"

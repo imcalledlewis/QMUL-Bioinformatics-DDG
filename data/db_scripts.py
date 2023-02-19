@@ -5,7 +5,8 @@ import sqlite3
 import requests
 import collections
 
-database = "snps.db"
+_database = "snps.db"
+# _supported={"rsid", }        # Set of supported types
 
 def getPath(file,tsv=None): # Returns the absolute path to a file that is in same folder as script
     filenames=('tsv', 'csv', 'txt')
@@ -19,16 +20,38 @@ def getPath(file,tsv=None): # Returns the absolute path to a file that is in sam
     return filepath
 
 def DBpath():   # Returns the absolute path to the database
-    return(getPath(database))
+    return(getPath(_database))
 
 def DBreq(request, request_type):       # Makes SQL request
-    assert request_type=='rsid', str(request_type)+" hasn't been added yet"
-    returnDict={}
 
     filepath=DBpath()                   # Sets database path
     assert os.path.exists(filepath),"Database file not found"
     conn = sqlite3.connect(filepath)    # Opens db file
     cur = conn.cursor()                 # Sets cursor
+
+    if request_type=="rsid":
+        request=request.split(',')		    # Split request by comma separator
+
+    elif request_type=="coords":            # co-ordinate (6:1234-6:5678) search
+        if '-' not in request:              # If there's only one coord,
+            request=(request+"-"+request)   # pretend it's a range and the start/ stop are the same
+        coords_req=request.split('-')		# Split request by hyphen separator
+        assert len(coords_req)==2, "Too many coordinate inputs"
+        coords_chr=[i.split(':') for i in coords_req]   # Gets the chromosome from each coord
+        assert len(coords_chr)==2, "Can't understand co-ord input"
+        assert coords_chr[0]==coords_chr[1], "Unequal chromosome input"
+
+        res = cur.execute("SELECT rsid FROM gwas WHERE CHR_ID LIKE CHR_POS BETWEEN ? AND ?",req)
+
+        
+    else:
+        raise Exception("Unsupported type "+str(request_type))
+
+    returnDict={}
+
+
+
+
     
     for req_item in request:
         innerDict={}
@@ -59,13 +82,13 @@ def DBreq(request, request_type):       # Makes SQL request
 
 def removeDupeSNP(dataframe):                                   # Removes duplicates from a pandas dataframe, leaving only greatest p-value
     dataframe.reset_index(drop=True)                            # Resets index back to 0
-    dupeList = dataframe.duplicated(subset='SNPS',keep=False)   # Get list of duplicate values
+    dupeList = dataframe.duplicated(subset='snps',keep=False)   # Get list of duplicate values
     dupes=dataframe[dupeList]                                   # Select dataframe using above list
 
     dupesDict={}
     for index,row in dupes.iterrows():              # Iterate through df of duplicates, one row at a time
-        rsVal=row["SNPS"]                           # SNP name (rs value)
-        snpTuple=(index,row["P_VALUE"])             # Tuple containing index and p-val 
+        rsVal=row["snps"]                           # SNP name (rs value)
+        snpTuple=(index,row["p_value"])             # Tuple containing index and p-val 
         if rsVal in dupesDict:                      # If it's seen the snp before,
             dictList=dupesDict[rsVal]               # go to the value for the snp,
             dictList.append(snpTuple)               # and add the index/ p-val tuple.
@@ -101,6 +124,7 @@ def removeSpecial(dataframe):     # Replaces special characters and whitespace w
     for col in dataframe.columns:
         newCol = re.sub(r'\W+', '_', col)
         newCol = newCol.strip('_')      # Remove leading and trailing underscores
+        newCol = newCol.lower()         # Makes lowercase
         renameDict.update({col:newCol}) # Renames columns
     return(dataframe.rename(columns=renameDict))
 
@@ -121,20 +145,20 @@ def pdDB(tsv_path,table_name,dtype):    # Adds tsv to SQL database
 def castRS(dataframe,rsCol):   # Receives a dataframe, returns df with "rs" removed from rs value
     raise Exception("castRS is deprecated")   # this function isn't being used any more
 
-    df=dataframe
-    newRS=[]
-    for index,row in df.iterrows():
-        rsVal=row[rsCol]                           # SNP name (rs value)
-        rsVal=rsVal.lstrip("rs")
-        try:
-            rsVal=int(rsVal)
-        except:
-            print("error casting ", rsVal)
-            return(None)
-        newRS.append(rsVal)
-    df[rsCol]=newRS
-    df.astype({rsCol: 'int64'})
-    return(df)
+    # df=dataframe
+    # newRS=[]
+    # for index,row in df.iterrows():
+    #     rsVal=row[rsCol]                           # SNP name (rs value)
+    #     rsVal=rsVal.lstrip("rs")
+    #     try:
+    #         rsVal=int(rsVal)
+    #     except:   
+    #         print("error casting ", rsVal)
+    #         return(None)
+    #     newRS.append(rsVal)
+    # df[rsCol]=newRS
+    # df.astype({rsCol: 'int64'})
+    # return(df)
 
 def clear():    # Clears screen, platform independent
     os.system('cls' if os.name=='nt' else 'clear')
