@@ -25,5 +25,7 @@ import numpy as np
 # print (df[mask])
 
 
-fileIn=getPath('Func_trimmed.csv')
-df=pd.read_csv(fileIn)
+# fileIn=getPath('Func_trimmed.csv')
+# df=pd.read_csv(fileIn)
+
+print(DBreq("6:0000-6:19999000", "coords"))

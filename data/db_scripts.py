@@ -35,20 +35,22 @@ def DBreq(request, request_type):       # Makes SQL request
     elif request_type=="coords":            # co-ordinate (6:1234-6:5678) search
         if '-' not in request:              # If there's only one coord,
             request=(request+"-"+request)   # pretend it's a range and the start/ stop are the same
-        coords_req=request.split('-')		# Split request by hyphen separator
-        assert len(coords_req)==2, "Too many coordinate inputs"
-        coords_chr=[i.split(':') for i in coords_req]   # Gets the chromosome from each coord
+        request=request.split('-')		# Split request by hyphen separator
+        assert len(request)==2, "Too many coordinate inputs"
+        coords_chr=[i.split(':')[0] for i in request]   # Gets the chromosome from each coord
+        coords_loc=[i.split(':')[1] for i in request]   # Gets the location from each coord
         assert len(coords_chr)==2, "Can't understand co-ord input"
         assert coords_chr[0]==coords_chr[1], "Unequal chromosome input"
 
-        res = cur.execute("SELECT rsid FROM gwas WHERE CHR_ID LIKE CHR_POS BETWEEN ? AND ?",req)
-
+        req=(coords_chr[0],coords_loc[0],coords_loc[1])
+        res = cur.execute("SELECT rsid FROM gwas WHERE chr_id LIKE ? AND chr_pos BETWEEN ? AND ?",req)
+        ret=res.fetchall()
+        request=[i[0] for i in ret] # SQL request returns list of singleton tuples, this line converts them to flat list
         
     else:
         raise Exception("Unsupported type "+str(request_type))
 
     returnDict={}
-
 
 
 
@@ -61,7 +63,7 @@ def DBreq(request, request_type):       # Makes SQL request
         ret=res.fetchone()
         assert ret, "error fetching rsid for "+(req_item)
         innerDict.update({"gwas":list(ret)})
-        innerDict['gwas'][4]=removeDupeGeneMap(innerDict['gwas'][4])              # remove duplicate gene maps
+        innerDict['gwas'][4]=removeDupeGeneMap(innerDict['gwas'][-1])                   # remove duplicate gene maps (gene map must be last in list)
         rsid = ret[0]
 
         res=cur.execute("SELECT * FROM population WHERE rsid LIKE ?", req)
@@ -72,7 +74,9 @@ def DBreq(request, request_type):       # Makes SQL request
 
         res=cur.execute("SELECT * FROM functional WHERE rsid LIKE ?", req)
         ret=res.fetchone()
-        assert ret, "error fetching functional data for "+(req_item)
+        # assert ret, "error fetching functional data for "+(req_item)
+        if not ret:
+            ret=["Data unavailable" for i in range(4)]
         innerDict.update({"func":list(ret)})
 
         # innerDict['func']=[i.replace('_',' ') for i in innerDict['func']]         # replace underscore with space
@@ -110,13 +114,16 @@ def removeDupeSNP(dataframe):                                   # Removes duplic
     return(dataframe.drop(dropList))    # Return dataframe without duplicate values
 
 def removeDupeGeneMap(GeneMap):
-    GeneMap=GeneMap.split(', ')
-    uniques=""
-    for item in GeneMap:
-        if item not in uniques: # If the item hasn't been seen before, 
-            uniques+=(item)     # add it to the list.
-            uniques+=(", ")     # Also add ' ,'
-    return (uniques[:-2])       # Remove last ' ,'
+    if GeneMap:
+        GeneMap=GeneMap.split(', ')
+        uniques=""
+        for item in GeneMap:
+            if item not in uniques: # If the item hasn't been seen before, 
+                uniques+=(item)     # add it to the list.
+                uniques+=(", ")     # Also add ' ,'
+        return (uniques[:-2])       # Remove last ' ,'
+
+    return ("Data unavailable")     # Return this if geneMap is empty
 
 
 def removeSpecial(dataframe):     # Replaces special characters and whitespace with underscores
