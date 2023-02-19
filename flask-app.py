@@ -19,6 +19,9 @@ app = Flask(__name__)
 # we need to set a secret key attribute for secure forms
 app.config['SECRET_KEY'] = 'change this unsecure key'   # TODO: read about this and change
 
+pop_header = ["Variation", "Finland", "Toscani", "British"]		# Header for population frequencies table
+
+
 # tell code where to find snp information
 # snp_table_filename = getPath('gwas_trimmed.tsv')
 
@@ -57,16 +60,13 @@ def SNP(SNP_req):
 	# df = pd.read_csv(snp_table_filename,sep='\t',index_col='SNPS')	# Load snp data from TSV file into pandas dataframe with snp name as index
 
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
+	SNP_req=SNP_req.split(',')
 	reqRes=DBreq(SNP_req, req_type)
 	if reqRes:
-			assert isinstance(reqRes, dict),"idk what to do with multiple entries yet"	# returns dict if only one entry, otherwise returns list of dicts
-			rsName, region, chrPos, pVal ,mapGene = reqRes['gwas']
-			finPop, toscPop, BritPop = reqRes['pop']
-			allele,CADD_PHRED, CADD_RAW, var_allele = reqRes['func']
-
-			return render_template('view.html', name=rsName, region=region, chr_pos=chrPos, pVal=pVal,mapGene=mapGene, req_type=req_type,
-			finPop=finPop, toscPop=toscPop, BritPop=BritPop,
-			CADD_PHRED=CADD_PHRED, CADD_RAW=CADD_RAW, var_allele=var_allele)
+			assert isinstance(reqRes, dict),"invalid db request return value"
+			if debug:
+				print ("request response:",reqRes)
+			return render_template('view.html', reqRes=reqRes, pop_header=pop_header)
 	else:                 			# If SNP is not found:
 		return render_template('not_found.html', name=SNP_req)
 

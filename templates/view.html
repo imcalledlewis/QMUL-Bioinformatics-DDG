@@ -4,7 +4,7 @@
 	<title>QMUL SNP Portal - {{name}}</title>
 </head>
 <body>
-	<h1>{{name}}</h1>
+	<h1>{{reqRes[0]}}</h1>
 	<br>
 	<p>Region: {{region}}</p>
 	<p>Chromosome position: {{chr_pos}}</p>
@@ -14,14 +14,33 @@
 	<br>
 
 	<h2>Allele Frequencies:</h2>
-	<table>
+	<!-- <table>
 		<tr>
 			<th>Variation</th> <th>Finland</th> <th>Toscani</th> <th>British</th>
 		</tr>
 		<tr>
 			<td>{{name}}</td> <td>{{finPop}}</td> <td>{{toscPop}}</td> <td>{{BritPop}}</td>
 		</tr>
-	</table>
+	</table> -->
+
+    <table>
+        <tr>
+            {% for header in pop_header %}
+            <th>{{header}}</th>
+            {% endfor %}
+        </tr>
+        {% for snp_rs in reqRes %}
+        <tr>
+            <td>{{snp_rs}}</td>
+            {% for td in reqRes[snp_rs]['pop'] %}
+             <td>{{td}}</td>
+             {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+
+
+
 
 	<br>
 

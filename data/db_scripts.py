@@ -21,41 +21,42 @@ def getPath(file,tsv=None): # Returns the absolute path to a file that is in sam
 def DBpath():   # Returns the absolute path to the database
     return(getPath(database))
 
-def DBreq(request, request_type):   # Makes SQL request
-    filepath=DBpath()
+def DBreq(request, request_type):       # Makes SQL request
+    assert request_type=='rsid', str(request_type)+" hasn't been added yet"
+    returnDict={}
+
+    filepath=DBpath()                   # Sets database path
     assert os.path.exists(filepath),"Database file not found"
     conn = sqlite3.connect(filepath)    # Opens db file
     cur = conn.cursor()                 # Sets cursor
 
-    if request_type=='rsid':
-        returnDict={}
-        req=(request,)                  # Request must be in a tuple
+    if not (isinstance(request, list) or isinstance(request, tuple)):   # If there's only one request,
+        request=(request,)                                              # make a singleton tuple so it can be iterated through.
+    
+    for req_item in request:
+        innerDict={}
+
+        req=(req_item,)                  # Request must be in a tuple
 
         res = cur.execute("SELECT * FROM gwas WHERE rsid LIKE ?",req)
         ret=res.fetchone()
         assert ret, "error fetching rsid"
-        # print(ret)
-        # if not ret: # check that a valid request was made
-        #     return None
-        returnDict.update({"gwas":list(ret)})
-        returnDict['gwas'][4]=removeDupeGeneMap(returnDict['gwas'][4])              # remove duplicate gene maps
+        rsid = ret[0]
+
+        innerDict.update({"gwas":list(ret)})
+        innerDict['gwas'][4]=removeDupeGeneMap(innerDict['gwas'][4])              # remove duplicate gene maps
 
         res=cur.execute("SELECT * FROM population WHERE rsid LIKE ?", req)
-        returnDict.update({"pop":list(res.fetchone())})
-        returnDict['pop']=[round(i,3) for i in returnDict['pop'] if isinstance(i, float)]    # remove allele strings, round to 3 dp
+        innerDict.update({"pop":list(res.fetchone())})
+        innerDict['pop']=[round(i,3) for i in innerDict['pop'] if isinstance(i, float)]    # remove allele strings, round to 3 dp
 
         res=cur.execute("SELECT * FROM functional WHERE rsid LIKE ?", req)
-        returnDict.update({"func":list(res.fetchone())})
-        # print('\n',returnDict['func'],'\n')
-        # returnDict['func']=[i.replace('_',' ') for i in returnDict['func']]         # replace underscore with space
+        innerDict.update({"func":list(res.fetchone())})
+        # print('\n',innerDict['func'],'\n')
+        # innerDict['func']=[i.replace('_',' ') for i in innerDict['func']]         # replace underscore with space
+        returnDict.update({rsid:innerDict})
 
-        # if more than one, return list of dicts (or NamedTuple), then in flask-app test for type
-
-        return(returnDict)
-        
-    
-    else:
-        raise Exception(str(request_type)+" hasn't been added yet")
+    return(returnDict)
 
 def removeDupeSNP(dataframe):                                   # Removes duplicates from a pandas dataframe, leaving only greatest p-value
     dataframe.reset_index(drop=True)                            # Resets index back to 0
