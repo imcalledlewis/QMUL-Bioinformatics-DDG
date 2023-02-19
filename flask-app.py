@@ -57,12 +57,12 @@ def index():
 @app.route('/SNP/<SNP_req>', methods=['GET','POST'])
 def SNP(SNP_req):
 	req_type=request.args.get('req_type',default="empty_req_type")	# Gets type of information inputted (the bit after "?")
-	# df = pd.read_csv(snp_table_filename,sep='\t',index_col='SNPS')	# Load snp data from TSV file into pandas dataframe with snp name as index
+	assert req_type != "empty_req_type", "request type is empty"
 
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
-	SNP_req=SNP_req.split(',')
-	reqRes=DBreq(SNP_req, req_type)
-	if reqRes:
+	SNP_req=SNP_req.split(',')		# Split request by comma separator
+	reqRes=DBreq(SNP_req, req_type)	# Make SQL request
+	if reqRes:						# If the response isn't None
 			assert isinstance(reqRes, dict),"invalid db request return value"
 			if debug:
 				print ("request response:",reqRes)

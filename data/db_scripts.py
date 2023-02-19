@@ -29,30 +29,29 @@ def DBreq(request, request_type):       # Makes SQL request
     assert os.path.exists(filepath),"Database file not found"
     conn = sqlite3.connect(filepath)    # Opens db file
     cur = conn.cursor()                 # Sets cursor
-
-    if not (isinstance(request, list) or isinstance(request, tuple)):   # If there's only one request,
-        request=(request,)                                              # make a singleton tuple so it can be iterated through.
     
     for req_item in request:
         innerDict={}
-
         req=(req_item,)                  # Request must be in a tuple
 
         res = cur.execute("SELECT * FROM gwas WHERE rsid LIKE ?",req)
         ret=res.fetchone()
-        assert ret, "error fetching rsid"
-        rsid = ret[0]
-
+        assert ret, "error fetching rsid for "+(req_item)
         innerDict.update({"gwas":list(ret)})
         innerDict['gwas'][4]=removeDupeGeneMap(innerDict['gwas'][4])              # remove duplicate gene maps
+        rsid = ret[0]
 
         res=cur.execute("SELECT * FROM population WHERE rsid LIKE ?", req)
-        innerDict.update({"pop":list(res.fetchone())})
+        ret=res.fetchone()
+        assert ret, "error fetching population data for "+(req_item)
+        innerDict.update({"pop":list(ret)})
         innerDict['pop']=[round(i,3) for i in innerDict['pop'] if isinstance(i, float)]    # remove allele strings, round to 3 dp
 
         res=cur.execute("SELECT * FROM functional WHERE rsid LIKE ?", req)
-        innerDict.update({"func":list(res.fetchone())})
-        # print('\n',innerDict['func'],'\n')
+        ret=res.fetchone()
+        assert ret, "error fetching functional data for "+(req_item)
+        innerDict.update({"func":list(ret)})
+
         # innerDict['func']=[i.replace('_',' ') for i in innerDict['func']]         # replace underscore with space
         returnDict.update({rsid:innerDict})
 

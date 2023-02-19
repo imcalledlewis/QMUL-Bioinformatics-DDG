@@ -1,6 +1,7 @@
 :root{		/*		Edit the following values to change the colours of the page		*/
 	--textColour: #fff;
 	--light_bg: #77b;
+	--med_light_bg: #66a;
 	--dark_bg: #339;
 }
 
@@ -25,7 +26,6 @@ form, p, img, table,h2{
 	margin-right: 3%;
 }
 
-
 h1, h2, h3, h4, h5, h6, li a{
 	font-family: Helvetica, Arial, sans-serif;
 }
@@ -42,11 +42,23 @@ h1 {
 }
 
 
-/*
-h2{
-	font-weight: normal;
+
+
+/* Table stuff */
+
+table{
+	border-spacing: 0;
 }
 
-h3,p{
-	font-size: 1.2em;
-} */
+th{
+	border-bottom-style: solid;
+}
+
+tr:nth-child(even){
+	background-color: var(--med_light_bg);
+}
+
+td,th{
+	padding:8px;
+	text-align: center;
+}
