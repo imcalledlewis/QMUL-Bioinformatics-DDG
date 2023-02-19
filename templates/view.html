@@ -5,23 +5,30 @@
 </head>
 <body>
 	<h1>{{reqRes[0]}}</h1>
-	<br>
-	<p>Region: {{region}}</p>
-	<p>Chromosome position: {{chr_pos}}</p>
-	<p>Mapped gene: {{mapGene}}</p>
-	<p>P value: {{pVal}}</p>
+	<h2>Positional:</h2>
+    <table>
+        <tr>
+			<th>SNP</th> <th>Region</th> <th>Chromosome position</th> <th>Chromosome number</th> <th>Mapped gene</th> <th>P value</th>
+        </tr>
+        {% for snp_rs in reqRes %}
+        <tr>
+            {% for td in reqRes[snp_rs]['gwas'] %}
+             <td>{{td}}</td>
+             {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
 
 	<br>
 
 	<h2>Allele Frequencies:</h2>
 	
-
     <table>
         <tr>
-			<!--<th>Variation</th> <th>Finland</th> <th>Toscani</th> <th>British</th>-->
-            {% for header in pop_header %}
+			<th>SNP</th> <th>Finland</th> <th>Toscani</th> <th>British</th>
+            <!-- {% for header in pop_header %}
             <th>{{header}}</th>
-            {% endfor %}
+            {% endfor %} -->
         </tr>
         {% for snp_rs in reqRes %}
         <tr>
@@ -40,9 +47,18 @@
 
 	<h2>Functional:</h1>
 	<!-- <br> -->
-	<p>CADD PHRED score: {{CADD_PHRED}}</p>
-	<p>CADD RAW score: {{CADD_RAW}}</p>
-	<p>Variant Allele used for consequence calculation: {{var_allele}}</p>
+	<table>
+        <tr>
+			<th>SNP</th><th>CADD PHRED</th> <th>CADD RAW</th> <th>Variant Allele</th>
+        </tr>
+        {% for snp_rs in reqRes %}
+        <tr>
+            {% for td in reqRes[snp_rs]['func'] %}
+             <td>{{td}}</td>
+             {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
 
 	<!-- <br><p>Request type: {{req_type}}</p> -->
 </body>

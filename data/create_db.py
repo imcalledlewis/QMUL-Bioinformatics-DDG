@@ -1,7 +1,7 @@
 from db_scripts import *
 
-# gwas = getPath("gwas_trimmed.tsv")
-gwas = getPath("SNPS_filled_clean.tsv")
+gwas = getPath("gwas_trimmed.tsv")
+# gwas = getPath("SNPS_filled_clean.tsv")
 pop  = getPath("population_variation_noSpecial.tsv")
 func = getPath('Func_trimmed.tsv')
 # ont  = getPath('ontology.tsv')

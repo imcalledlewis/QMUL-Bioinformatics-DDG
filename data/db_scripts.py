@@ -68,7 +68,9 @@ def DBreq(request, request_type):       # Makes SQL request
 
         res=cur.execute("SELECT * FROM population WHERE rsid LIKE ?", req)
         ret=res.fetchone()
-        assert ret, "error fetching population data for "+(req_item)
+        if not ret:
+            ret=["Data unavailable" for i in range(3)]
+        # assert ret, "error fetching population data for "+(req_item)
         innerDict.update({"pop":list(ret)})
         innerDict['pop']=[round(i,3) for i in innerDict['pop'] if isinstance(i, float)]    # remove allele strings, round to 3 dp
 
