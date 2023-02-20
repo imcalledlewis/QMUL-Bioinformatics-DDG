@@ -62,7 +62,7 @@ def DBreq(request, request_type):       # Makes SQL request
         res = cur.execute("SELECT * FROM gwas WHERE rsid LIKE ?",req)
         ret=res.fetchone()
         assert ret, "error fetching rsid for "+(req_item)
-        innerDict.update({"gwas":list(ret)})
+        innerDict.update({"gwas":ret})
         # innerDict['gwas'][4]=removeDupeGeneMap(innerDict['gwas'][-1])                   # remove duplicate gene maps (gene map must be last in list)
         rsid = ret[0]
 
@@ -116,7 +116,7 @@ def removeDupeSNP(dataframe):                                   # Removes duplic
     return(dataframe.drop(dropList))    # Return dataframe without duplicate values
 
 def removeDupeGeneMap(GeneMap):
-    if GeneMap:
+    try:
         GeneMap=GeneMap.split(', ')
         uniques=""
         for item in GeneMap:
@@ -124,8 +124,8 @@ def removeDupeGeneMap(GeneMap):
                 uniques+=(item)     # add it to the list.
                 uniques+=(", ")     # Also add ' ,'
         return (uniques[:-2])       # Remove last ' ,'
-
-    return ("Data unavailable")     # Return this if geneMap is empty
+    except:
+        return ("Data unavailable")     # Return this if geneMap is empty
 
 
 def removeSpecial(dataframe):     # Replaces special characters and whitespace with underscores
