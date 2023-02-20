@@ -8,10 +8,10 @@ from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import InputRequired
 
 # Import custom library:
-from db_scripts import *
+from data.db_scripts import *
 
 # Imports for LD data and heatmap
-from LD_scripts import *
+from data.LD_scripts import *
 
 debug=True	# Change this to False for deployment
 
@@ -20,9 +20,6 @@ app = Flask(__name__)
 # we need to set a secret key attribute for secure forms
 app.config['SECRET_KEY'] = 'change this unsecure key'   # TODO: read about this and change
 
-
-# tell code where to find snp information
-# snp_table_filename = getPath('gwas_trimmed.tsv')
 
 # create a class to define the form
 class QueryForm(FlaskForm):
@@ -70,7 +67,7 @@ def SNP(SNP_req):
 				name=str(list(reqRes.keys())[0])
 			else:
 				name=f'{l} SNPS	'
-			return render_template('view.html', reqRes=reqRes, name=name, req_type=req_type, len = len(SNP_list))
+			return render_template('view.html', reqRes=reqRes, name=name, req_type=req_type, len = len(SNP_list), SNP_req = SNP_req)
 	else:                 			# If SNP is not found:
 		return render_template('not_found.html', name=name)
 
@@ -106,12 +103,15 @@ def LD_plot(SNP_req):
 			if debug:
 				print ("request response:",reqRes)
 			SNP_list = remove_invalid_SNPs(SNP_list)
-			LD_heatmap_df = LD_heatmap_matrix(SNP_list,pop="TSI") # create LD heatmap dataframe using SNP list returned from query
-			fig = ld_plot(LD_heatmap_df,SNP_list) # create LD plot figure
-			buf = BytesIO() # create temporary buffer
-			fig.savefig(buf, format="png") # save figure in temporary buffer
-			LD_plot = base64.b64encode(buf.getbuffer()).decode("ascii") # prepare for embedding 
-			return render_template('LD_plot.html', data=LD_plot, name = SNP_req, req_type=req_type, SNP_list = SNP_list)
+			FIN_D_data, FIN_r2_data, TSI_D_data, TSI_r2_data, GBR_D_data, GBR_r2_data = embed_LD_plots(SNP_list) # create LD heatmap dataframe using SNP list returned from query
+			#buf = BytesIO() # create temporary buffer
+			#fig.savefig(buf, format="png") # save figure in temporary buffer
+			#LD_plot = base64.b64encode(buf.getbuffer()).decode("ascii") # prepare for embedding 
+			return render_template('LD_plot.html', 
+			  						FIN_D_data=FIN_D_data, FIN_r2_data=FIN_r2_data, 
+									TSI_D_data=TSI_D_data, TSI_r2_data=TSI_r2_data,
+									GBR_D_data=GBR_D_data, GBR_r2_data=GBR_r2_data,
+									name = SNP_req, req_type=req_type, SNP_list = SNP_list)
 	else:                 			# If SNP is not found:
 		return render_template('not_found.html', name=SNP_req)
 

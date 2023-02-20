@@ -17,6 +17,8 @@ def display_table_RSid(RSid):
     data = pd.read_csv('GO_trimmed.csv')
     #Filter the data to only include rows where the 'Uploaded_variation' column matches the input RSid
     filtered_data = data.loc[data['Uploaded_variation'] == RSid]
+    #Split the values in the last column by the "," delimiter
+    filtered_data.iloc[:, -1] = filtered_data.iloc[:, -1].str.split(",")
     #Pass the filtered data to the 'table.html' template
     return render_template('table.html', data=filtered_data)
 
@@ -27,6 +29,8 @@ def display_table_SYM(gene):
     data = pd.read_csv('GO_trimmed.csv')
     #Filter the data to only include rows where the 'SYMBOL' column matches the input gene
     filtered_data = data.loc[data['SYMBOL'] == gene]
+    #Split the values in the last column by the "," delimiter
+    filtered_data.iloc[:, -1] = filtered_data.iloc[:, -1].str.split(",")
     #Pass the filtered data to the 'table.html' template
     return render_template('table.html', data=filtered_data)
 
@@ -37,6 +41,8 @@ def display_table_NAME(gene):
     data = pd.read_csv('GO_trimmed.csv')
     #Filter the data to only include rows where the 'Gene' column matches the input gene
     filtered_data = data.loc[data['Gene'] == gene]
+    #Split the values in the last column by the "," delimiter
+    filtered_data.iloc[:, -1] = filtered_data.iloc[:, -1].str.split(",")
     #Pass the filtered data to the 'table.html' template
     return render_template('table.html', data=filtered_data)
 
@@ -47,6 +53,8 @@ def display_table_LOC(Loc):
     data = pd.read_csv('GO_trimmed.csv')
     #Filter the data to only include rows where the 'Location' column matches the input Loc
     filtered_data = data.loc[data['Location'] == Loc]
+    #Split the values in the last column by the "," delimiter
+    filtered_data.iloc[:, -1] = filtered_data.iloc[:, -1].str.split(",")
     #Pass the filtered data to the 'table.html' template
     return render_template('table.html', data=filtered_data)
 

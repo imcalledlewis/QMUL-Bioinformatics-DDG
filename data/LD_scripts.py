@@ -73,7 +73,7 @@ def LD_heatmap_matrix(SNP_list, LD_dataset_file = "data/TSVs/LD_T1DM_Chr6.tsv" ,
         LD_matrix_df = pd.concat([LD_matrix_df, row])
     return LD_matrix_df
 
-def ld_plot(ld, labels: list[str]):
+def ld_plot(ld, labels: list[str], title):
     """
     ld_plot(ld, labels: list[str])
     Plot of a Linkage Disequilibrium (LD) matrix
@@ -105,5 +105,61 @@ def ld_plot(ld, labels: list[str]):
                    coordinate_matrix[:, 0].reshape(n + 1, n + 1), np.flipud(ld_masked), edgecolors = "white", linewidth = 1.5, cmap = 'OrRd')
     plt.xticks(ticks=np.arange(len(labels)) + 0.5, labels=labels, rotation='vertical', fontsize=8)
     plt.colorbar()
+
+    # add title
+    plt.title(f"{title}", loc = "center")
     
     return figure
+
+def multiple_LD_matrix(SNP_list):
+# call LD_heatmap_matrix for all 6 plots
+    FIN_D  = LD_heatmap_matrix(SNP_list, LD_dataset_file = "data/TSVs/LD_T1DM_Chr6.tsv" ,pop = 'FIN' ,plot_type = 'D\'')
+    FIN_r2 = LD_heatmap_matrix(SNP_list, LD_dataset_file = "data/TSVs/LD_T1DM_Chr6.tsv" ,pop = 'FIN' ,plot_type = 'r2')
+    TSI_D  = LD_heatmap_matrix(SNP_list, LD_dataset_file = "data/TSVs/LD_T1DM_Chr6.tsv" ,pop = 'TSI' ,plot_type = 'D\'')
+    TSI_r2 = LD_heatmap_matrix(SNP_list, LD_dataset_file = "data/TSVs/LD_T1DM_Chr6.tsv" ,pop = 'TSI' ,plot_type = 'r2')
+    GBR_D  = LD_heatmap_matrix(SNP_list, LD_dataset_file = "data/TSVs/LD_T1DM_Chr6.tsv" ,pop = 'GBR' ,plot_type = 'D\'')
+    GBR_r2 = LD_heatmap_matrix(SNP_list, LD_dataset_file = "data/TSVs/LD_T1DM_Chr6.tsv" ,pop = 'GBR' ,plot_type = 'r2')
+
+    return FIN_D, FIN_r2, TSI_D, TSI_r2, GBR_D, GBR_r2
+
+def multiple_LD_plot(SNP_list):
+# call LD_heatmap_matrix for all 6 plots and then create and return 6 LD plots
+    FIN_D, FIN_r2, TSI_D, TSI_r2, GBR_D, GBR_r2 =  multiple_LD_matrix(SNP_list)
+    FIN_D_plot  = ld_plot(FIN_D,SNP_list,"Finnish $D\'$")
+    FIN_r2_plot = ld_plot(FIN_r2,SNP_list,"Finnish $r^2$")
+    TSI_D_plot  = ld_plot(TSI_D,SNP_list,"Toscani (Italian) $D\'$")
+    TSI_r2_plot = ld_plot(TSI_r2,SNP_list,"Toscani (Italian) $r^2$")
+    GBR_D_plot  = ld_plot(GBR_D,SNP_list,"British $D\'$")
+    GBR_r2_plot = ld_plot(GBR_r2,SNP_list,"British $r^2$")
+    
+    return FIN_D_plot, FIN_r2_plot, TSI_D_plot, TSI_r2_plot, GBR_D_plot, GBR_r2_plot
+
+def embed_LD_plots(SNP_list):
+# prepares all 6 LD plots for embedding into html 
+    FIN_D_plot,FIN_r2_plot,TSI_D_plot,TSI_r2_plot,GBR_D_plot,GBR_r2_plot = multiple_LD_plot(SNP_list)
+    # Finnish D prime plot
+    buf = BytesIO() # create temporary buffer
+    FIN_D_plot.savefig(buf, format="png") # save figure in temporary buffer
+    FIN_D_png = base64.b64encode(buf.getbuffer()).decode("ascii") # prepare for embedding
+    # Finnish r2 plot
+    buf = BytesIO() # create temporary buffer
+    FIN_r2_plot.savefig(buf, format="png") # save figure in temporary buffer
+    FIN_r2_png = base64.b64encode(buf.getbuffer()).decode("ascii") # prepare for embedding
+    # Toscani D prime plot
+    buf = BytesIO() # create temporary buffer
+    TSI_D_plot.savefig(buf, format="png") # save figure in temporary buffer
+    TSI_D_png = base64.b64encode(buf.getbuffer()).decode("ascii") # prepare for embedding
+    # Toscani r2 plot
+    buf = BytesIO() # create temporary buffer
+    TSI_r2_plot.savefig(buf, format="png") # save figure in temporary buffer
+    TSI_r2_png = base64.b64encode(buf.getbuffer()).decode("ascii") # prepare for embedding
+    # British D prime plot
+    buf = BytesIO() # create temporary buffer
+    GBR_D_plot.savefig(buf, format="png") # save figure in temporary buffer
+    GBR_D_png = base64.b64encode(buf.getbuffer()).decode("ascii") # prepare for embedding
+    # British r2 plot
+    buf = BytesIO() # create temporary buffer
+    GBR_r2_plot.savefig(buf, format="png") # save figure in temporary buffer
+    GBR_r2_png = base64.b64encode(buf.getbuffer()).decode("ascii") # prepare for embedding
+
+    return FIN_D_png, FIN_r2_png, TSI_D_png, TSI_r2_png, GBR_D_png, GBR_r2_png
