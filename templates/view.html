@@ -54,9 +54,6 @@
         {% endfor %}
     </table>
 
-
-
-
 	<br>
 
 	<h2>Functional:</h1>
@@ -74,7 +71,21 @@
         {% endfor %}
     </table>
 
-	<!-- <br><p>Request type: {{req_type}}</p> -->
+
+    <h2>Ontology:</h1>
+        <!-- <br> -->
+        <table>
+            <tr>
+                <th>SNP</th><th>location</th> <th>symbol</th> <th>gene</th> <th>go</th>
+            </tr>
+            {% for snp_rs in reqRes %}
+            <tr>
+                {% for td in reqRes[snp_rs]['ont'] %}
+                 <td>{{td}}</td>
+                 {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
 </body>
 
 <!-- name=rsName, region=region, chr_pos=chrPos, pVal=pVal, req_type=req_type -->

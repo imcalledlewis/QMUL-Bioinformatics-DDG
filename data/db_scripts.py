@@ -81,6 +81,13 @@ def DBreq(request, request_type):       # Makes SQL request
             ret=["Data unavailable" for i in range(4)]
         innerDict.update({"func":list(ret)})
 
+        res=cur.execute("SELECT * FROM ontology WHERE rsid LIKE ?", req)
+        ret=res.fetchone()
+        # assert ret, "error fetching functional data for "+(req_item)
+        if not ret:
+            ret=["Data unavailable" for i in range(5)]
+        innerDict.update({"ont":list(ret)})
+
         # innerDict['func']=[i.replace('_',' ') for i in innerDict['func']]         # replace underscore with space
         returnDict.update({rsid:innerDict})
 
