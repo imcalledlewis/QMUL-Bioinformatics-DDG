@@ -4,16 +4,20 @@
 	<title>QMUL SNP Portal - {{name}}</title>
 </head>
 <body>
-	<h1>{{name}}</h1>
+	<h1>{{SNP_req}}</h1>
     
-    {% if len > 1 %}
+
     <div class="linkBox">
-    <div class="topLinks">
-    <a href="/LD_results/{{SNP_req}}?req_type={{req_type}}">Linkage Disequilibrium calculations</a>
-	<a href="/LD_heatmap/{{SNP_req}}?req_type={{req_type}}">Linkage Disequilibrium plot</a> 
+        <div class="topLinks">
+            {% if len > 1 %}
+            <a href="/LD_results/{{SNP_req}}?req_type={{req_type}}">Linkage Disequilibrium calculations</a>
+            <a href="/LD_heatmap/{{SNP_req}}?req_type={{req_type}}">Linkage Disequilibrium plot</a>
+            {% else %}
+            <a href="/">Home</a>
+            {% endif %}
+        </div>
     </div>
-    </div>
-    {% endif %}
+
 
 	<h2>Positional:</h2>
     <table>
