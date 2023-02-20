@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Linkage Disequilibrium Results</title>
-  <style>
+	<link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }}">
+  <!-- <title>Linkage Disequilibrium Results</title> -->
+  <title>QMUL SNP Portal - {{name}} - Linkage Disequilibrium Results</title>
+
+  <!-- <style>
     table {
       border-collapse: collapse;
       width: 100%;
@@ -15,9 +18,11 @@
     th {
       background-color: #f2f2f2;
     }
-  </style>
+  </style> -->
 </head>
+
 <body>
+  <h1>{{name}}</h1>
   <table>
     <thead>
       <tr>
