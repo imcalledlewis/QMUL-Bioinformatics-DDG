@@ -28,4 +28,5 @@ import numpy as np
 # fileIn=getPath('Func_trimmed.csv')
 # df=pd.read_csv(fileIn)
 
-print(DBreq("6:0000-6:19999000", "coords"))
+# print(DBreq("6:0000-6:19999000", "coords"))
+print(DBreq('rs1050979', 'rsid'))

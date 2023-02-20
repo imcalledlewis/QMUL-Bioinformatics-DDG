@@ -63,7 +63,7 @@ def DBreq(request, request_type):       # Makes SQL request
         ret=res.fetchone()
         assert ret, "error fetching rsid for "+(req_item)
         innerDict.update({"gwas":list(ret)})
-        innerDict['gwas'][4]=removeDupeGeneMap(innerDict['gwas'][-1])                   # remove duplicate gene maps (gene map must be last in list)
+        # innerDict['gwas'][4]=removeDupeGeneMap(innerDict['gwas'][-1])                   # remove duplicate gene maps (gene map must be last in list)
         rsid = ret[0]
 
         res=cur.execute("SELECT * FROM population WHERE rsid LIKE ?", req)
