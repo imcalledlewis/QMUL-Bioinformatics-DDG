@@ -1,5 +1,3 @@
-#based on pp05 by conrad https://github.com/conradbessant/webintro
-
 # General imports:
 from flask import Flask, render_template, url_for, redirect, request
 import pandas as pd
