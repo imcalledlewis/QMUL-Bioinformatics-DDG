@@ -5,8 +5,8 @@
 </head>
 <body>
     {% if len > 1 %}
-    <a href="/LD_results/{{name}}?req_type={{req_type}}">Linkage Disequilibrium calculations</a>
-	<a href="/LD_heatmap/{{name}}?req_type={{req_type}}">Linkage Disequilibrium plot</a> 
+    <a href="/LD_results/{{SNP_req}}?req_type={{req_type}}">Linkage Disequilibrium calculations</a>
+	<a href="/LD_heatmap/{{SNP_req}}?req_type={{req_type}}">Linkage Disequilibrium plot</a> 
     {% endif %}
 	<h1>{{reqRes[0]}}</h1>
 	<h2>Positional:</h2>
