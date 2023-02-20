@@ -8,7 +8,10 @@ from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import InputRequired
 
 # Import custom library:
-from data.db_scripts import *
+from db_scripts import *
+
+# Imports for LD data and heatmap
+from LD_scripts import *
 
 debug=True	# Change this to False for deployment
 
@@ -56,18 +59,61 @@ def SNP(SNP_req):
 	assert req_type != "empty_req_type", "request type is empty"
 
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
-
-	reqRes=DBreq(SNP_req, req_type)	# Make SQL request
+	name=SNP_req
+	reqRes,SNP_list=DBreq(SNP_req, req_type)	# Make SQL request
 	if reqRes:						# If the response isn't None
 			assert isinstance(reqRes, dict),"invalid db request return value"
 			if debug:
 				print ("\nrequest response:",reqRes,"\n")
-			return render_template('view.html', reqRes=reqRes)
+			l=len(reqRes)
+			if l==1:
+				name=str(list(reqRes.keys())[0])
+			else:
+				name=f'{l} SNPS	'
+			return render_template('view.html', reqRes=reqRes, name=name, req_type=req_type, len = len(SNP_list))
+	else:                 			# If SNP is not found:
+		return render_template('not_found.html', name=name)
+
+# Linkage Disequilibrium results 
+@app.route('/LD_results/<SNP_req>', methods=['GET','POST'])
+def LD_results(SNP_req):
+	req_type=request.args.get('req_type',default="empty_req_type")	# Gets type of information inputted (the bit after "?")
+	assert req_type != "empty_req_type", "request type is empty"
+
+	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
+
+	reqRes,SNP_list=DBreq(SNP_req, req_type)	# Make SQL request
+	if reqRes:						# If the response isn't None
+			assert isinstance(reqRes, dict),"invalid db request return value"
+			if debug:
+				print ("request response:",reqRes)
+			LD_data = export_LD(SNP_list) # create LD results dataframe using SNP list returned from query
+			return render_template('LD_results.html', data=LD_data, name=SNP_req, req_type=req_type)
 	else:                 			# If SNP is not found:
 		return render_template('not_found.html', name=SNP_req)
 
+# Linkage Disequilibrium results 
+@app.route('/LD_heatmap/<SNP_req>', methods=['GET','POST'])
+def LD_plot(SNP_req):
+	req_type=request.args.get('req_type',default="empty_req_type")	# Gets type of information inputted (the bit after "?")
+	assert req_type != "empty_req_type", "request type is empty"
 
+	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
 
+	reqRes,SNP_list=DBreq(SNP_req, req_type)	# Make SQL request
+	if reqRes:						# If the response isn't None
+			assert isinstance(reqRes, dict),"invalid db request return value"
+			if debug:
+				print ("request response:",reqRes)
+			SNP_list = remove_invalid_SNPs(SNP_list)
+			LD_heatmap_df = LD_heatmap_matrix(SNP_list,pop="TSI") # create LD heatmap dataframe using SNP list returned from query
+			fig = ld_plot(LD_heatmap_df,SNP_list) # create LD plot figure
+			buf = BytesIO() # create temporary buffer
+			fig.savefig(buf, format="png") # save figure in temporary buffer
+			LD_plot = base64.b64encode(buf.getbuffer()).decode("ascii") # prepare for embedding 
+			return render_template('LD_plot.html', data=LD_plot, name = SNP_req, req_type=req_type, SNP_list = SNP_list)
+	else:                 			# If SNP is not found:
+		return render_template('not_found.html', name=SNP_req)
 
 # Start the web server
 if __name__ == '__main__':

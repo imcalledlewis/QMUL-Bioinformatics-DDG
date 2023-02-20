@@ -1,0 +1,14 @@
+<html>
+<head>
+	<link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }}">
+	<title>QMUL SNP Portal - {{name}} - Linkage Disequilibrium Plot</title>
+</head>
+<body>
+	<h1>{{name}}</h1>
+	<br>
+	<p>LD heatmap for SNPs: {{SNP_list}}<p>
+    <img src='data:image/png;base64,{{data}}'/>
+	<!-- <br><p>Request type: {{req_type}}</p> -->
+</body>
+
+<!-- name=rsName, region=region, chr_pos=chrPos, pVal=pVal, req_type=req_type -->

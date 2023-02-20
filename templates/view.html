@@ -4,11 +4,15 @@
 	<title>QMUL SNP Portal - {{name}}</title>
 </head>
 <body>
+    {% if len > 1 %}
+    <a href="/LD_results/{{name}}?req_type={{req_type}}">Linkage Disequilibrium calculations</a>
+	<a href="/LD_heatmap/{{name}}?req_type={{req_type}}">Linkage Disequilibrium plot</a> 
+    {% endif %}
 	<h1>{{reqRes[0]}}</h1>
 	<h2>Positional:</h2>
     <table>
         <tr>
-			<th>SNP</th> <th>Region</th> <th>Chromosome position</th> <th>Chromosome number</th> <th>Mapped gene</th> <th>P value</th>
+			<th>SNP</th> <th>Region</th> <th>Chromosome position</th> <th>Chromosome number</th> <th>P value</th> <th>Mapped gene</th>
         </tr>
         {% for snp_rs in reqRes %}
         <tr>
