@@ -56,15 +56,21 @@ def SNP(SNP_req):
 	assert req_type != "empty_req_type", "request type is empty"
 
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
+	name=SNP_req
 
 	reqRes=DBreq(SNP_req, req_type)	# Make SQL request
 	if reqRes:						# If the response isn't None
 			assert isinstance(reqRes, dict),"invalid db request return value"
 			if debug:
 				print ("\nrequest response:",reqRes,"\n")
-			return render_template('view.html', reqRes=reqRes)
+			l=len(reqRes)
+			if l==1:
+				name=str(list(reqRes.keys())[0])
+			else:
+				name=f'{l} SNPS	'
+			return render_template('view.html', reqRes=reqRes,name=name)
 	else:                 			# If SNP is not found:
-		return render_template('not_found.html', name=SNP_req)
+		return render_template('not_found.html', name=name)
 
 
 
