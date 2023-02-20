@@ -70,7 +70,7 @@ def SNP(SNP_req):
 				name=str(list(reqRes.keys())[0])
 			else:
 				name=f'{l} SNPS	'
-			return render_template('view.html', reqRes=reqRes, pop_header=pop_header, name=name, req_type=req_type, len = len(SNP_list))
+			return render_template('view.html', reqRes=reqRes, name=name, req_type=req_type, len = len(SNP_list))
 	else:                 			# If SNP is not found:
 		return render_template('not_found.html', name=name)
 
