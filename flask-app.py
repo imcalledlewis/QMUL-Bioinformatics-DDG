@@ -17,8 +17,6 @@ app = Flask(__name__)
 # we need to set a secret key attribute for secure forms
 app.config['SECRET_KEY'] = 'change this unsecure key'   # TODO: read about this and change
 
-pop_header = ["Variation", "Finland", "Toscani", "British"]		# Header for population frequencies table
-
 
 # tell code where to find snp information
 # snp_table_filename = getPath('gwas_trimmed.tsv')
@@ -63,8 +61,8 @@ def SNP(SNP_req):
 	if reqRes:						# If the response isn't None
 			assert isinstance(reqRes, dict),"invalid db request return value"
 			if debug:
-				print ("request response:",reqRes)
-			return render_template('view.html', reqRes=reqRes, pop_header=pop_header)
+				print ("\nrequest response:",reqRes,"\n")
+			return render_template('view.html', reqRes=reqRes)
 	else:                 			# If SNP is not found:
 		return render_template('not_found.html', name=SNP_req)
 
