@@ -8,10 +8,10 @@ from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import InputRequired
 
 # Import custom library:
-from db_scripts import *
+from data.db_scripts import *
 
 # Imports for LD data and heatmap
-from LD_scripts import *
+from data.LD_scripts import *
 
 debug=True	# Change this to False for deployment
 
@@ -20,9 +20,6 @@ app = Flask(__name__)
 # we need to set a secret key attribute for secure forms
 app.config['SECRET_KEY'] = 'change this unsecure key'   # TODO: read about this and change
 
-
-# tell code where to find snp information
-# snp_table_filename = getPath('gwas_trimmed.tsv')
 
 # create a class to define the form
 class QueryForm(FlaskForm):

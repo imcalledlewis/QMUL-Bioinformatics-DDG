@@ -31,7 +31,7 @@ h1, h2, h3, h4, h5, h6, li a{
 }
 
 h1 {
-	padding: 2% 0%;
+	padding: 1% 0%;
 	margin: auto;
 	text-align: center;
 	background-color: var(--dark_bg);
@@ -41,6 +41,31 @@ h1 {
 	font-size: 3em;
 }
 
+.linkBox{
+
+	padding: 1% 0%;
+	background-color: var(--med_light_bg);
+	/* font-size: 1.5em; */
+
+	/* padding: 0.9em 6.5em; */
+	text-decoration: none;
+
+}
+
+
+.topLinks{
+	display: flex;
+	justify-content: space-between;
+	max-width: 50%;
+
+	/* padding: 1% 5%; */
+	margin: auto;
+	text-align: center;
+	font-size: 1.5em;
+
+	/* padding: 0.9em 6.5em; */
+	text-decoration: none;
+}
 
 
 
