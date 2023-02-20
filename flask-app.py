@@ -1,5 +1,5 @@
 # General imports:
-from flask import Flask, render_template, url_for, redirect, request
+from flask import Flask, render_template, url_for, redirect, request, Response
 import pandas as pd
 
 # Imports for creating and processing forms:
@@ -104,16 +104,27 @@ def LD_plot(SNP_req):
 				print ("request response:",reqRes)
 			SNP_list = remove_invalid_SNPs(SNP_list)
 			FIN_D_data, FIN_r2_data, TSI_D_data, TSI_r2_data, GBR_D_data, GBR_r2_data = embed_LD_plots(SNP_list) # create LD heatmap dataframe using SNP list returned from query
-			#buf = BytesIO() # create temporary buffer
-			#fig.savefig(buf, format="png") # save figure in temporary buffer
-			#LD_plot = base64.b64encode(buf.getbuffer()).decode("ascii") # prepare for embedding 
 			return render_template('LD_plot.html', 
-			  						FIN_D_data=FIN_D_data, FIN_r2_data=FIN_r2_data, 
+									FIN_D_data=FIN_D_data, FIN_r2_data=FIN_r2_data, 
 									TSI_D_data=TSI_D_data, TSI_r2_data=TSI_r2_data,
 									GBR_D_data=GBR_D_data, GBR_r2_data=GBR_r2_data,
 									name = SNP_req, req_type=req_type, SNP_list = SNP_list)
 	else:                 			# If SNP is not found:
 		return render_template('not_found.html', name=SNP_req)
+
+@app.route('/download/<SNP_req>')
+def download(SNP_req):
+	req_type=request.args.get('req_type',default="empty_req_type")	# Gets type of information inputted (the bit after "?")
+	assert req_type != "empty_req_type", "request type is empty"
+	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
+	reqRes,SNP_list=DBreq(SNP_req, req_type)	# Make SQL request
+	if reqRes:						# If the response isn't None
+		assert isinstance(reqRes, dict),"invalid db request return value"
+		if debug:
+			print ("request response:",reqRes)
+		LD_data = export_LD(SNP_list) # create LD results dataframe using SNP list returned from query
+		return Response(LD_data.to_csv(),mimetype="text/csv", headers={"Content-disposition": "attachment; filename=LD_results.csv"})
+	
 
 # Start the web server
 if __name__ == '__main__':
