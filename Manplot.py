@@ -19,7 +19,7 @@ def plot():
     df = pd.read_csv('.\data\TSVs\T1D_GWAS_add.tsv', sep='\t') # View data using pandas
     # Seperate by chromosome ID, and colour them
     df.CHR_ID.unique()
-    index_cmap = linear_cmap('CHR_ID', palette = ['grey','black'],low=1,high=22)
+    index_cmap = linear_cmap('CHR_ID', palette = ['grey','black']*11,low=1,high=22)
     # Format figure
     p=figure(plot_width=900, # graph size
          plot_height=500, # graph size
