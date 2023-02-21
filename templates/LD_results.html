@@ -5,20 +5,6 @@
   <!-- <title>Linkage Disequilibrium Results</title> -->
   <title>QMUL SNP Portal - {{name}} - Linkage Disequilibrium Results</title>
 
-  <!-- <style>
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-    th, td {
-      text-align: left;
-      padding: 8px;
-      border: 1px solid #ddd;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
-  </style> -->
 </head>
 
 <body>
@@ -26,8 +12,8 @@
 
   <div class="linkBox">
     <div class="topLinks">
-
-      <a id="myLink" href="#" onclick="history.back();return false;">Return to SNP results</a>
+      <a class="btn btn-success" href="/download/{{name}}?req_type={{req_type}}">Download Linkage Disequilibrium results</a>
+      <a href="#" onclick="history.back();return false;">Return to SNP results</a>
       <a href="/">Home</a>
     </div>
   </div>
@@ -50,10 +36,5 @@
       {% endfor %}
     </tbody>
   </table>
-</br>
-    <div class="topLinks">
-      <a class="btn btn-success" href="/download/{{name}}?req_type={{req_type}}">Download Linkage Disequilibrium results</a>
-    </div>
-
 </body>
 </html>

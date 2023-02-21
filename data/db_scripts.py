@@ -14,7 +14,7 @@ def getPath(file,tsv=None): # Returns the absolute path to a file that is in sam
     ext=ext[-1].lower()
     path = os.path.dirname(os.path.abspath(__file__))   # Gets current path of file
     if (tsv==True) or (tsv==None and any([x == ext for x in filenames])):   # If it's a table storing file:
-            filepath = os.path.join(path,"TSVs",file)                       # Sets path relative to current file, inside 'TSVs folder'
+            filepath = os.path.join(path,"TSVs",file)                       # Sets path relative to current file, inside 'TSVs' folder
     else:
             filepath = os.path.join(path,file)                              # Sets path relative to current file
     return filepath
@@ -50,11 +50,8 @@ def DBreq(request, request_type):       # Makes SQL request
     else:
         raise Exception("Unsupported type "+str(request_type))
 
+
     returnDict={}
-
-
-
-    
     for req_item in request:
         innerDict={}
         req=(req_item,)                  # Request must be in a tuple
@@ -63,7 +60,6 @@ def DBreq(request, request_type):       # Makes SQL request
         ret=res.fetchone()
         assert ret, "error fetching rsid for "+(req_item)
         innerDict.update({"gwas":ret})
-        # innerDict['gwas'][4]=removeDupeGeneMap(innerDict['gwas'][-1])                   # remove duplicate gene maps (gene map must be last in list)
         rsid = ret[0]
 
         res=cur.execute("SELECT * FROM population WHERE rsid LIKE ?", req)
@@ -145,16 +141,12 @@ def removeSpecial(dataframe):     # Replaces special characters and whitespace w
     return(dataframe.rename(columns=renameDict))
 
 def pdDB(tsv_path,table_name,dtype):    # Adds tsv to SQL database
-    # tabName=(table_name,)
     conn = sqlite3.connect(DBpath())    # Opens (or creates) a db file
     cur = conn.cursor()                 # Sets cursor
 
     df = pd.read_csv(tsv_path, sep='\t')
     df.to_sql(name=table_name, con=conn, index=False, dtype=dtype)
 
-    # No idea why the following don't work:
-    # cur.execute("ALTER TABLE ? DROP COLUMN `Unnamed: 0`", tabName) # Remove index column - pandas stubbornly refuses to not include it
-    # cur.execute("ALTER TABLE ? DROP COLUMN `Unnamed: 0`", (table_name,)) # Remove index column - pandas stubbornly refuses to not include it
     # res = cur.execute("SELECT * FROM SNP")
     # assert res.fetchone(), "error in database creation"
 

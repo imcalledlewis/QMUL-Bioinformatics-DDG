@@ -71,6 +71,9 @@ def SNP(SNP_req):
 	else:                 			# If SNP is not found:
 		return render_template('not_found.html', name=name)
 
+
+
+
 # Linkage Disequilibrium results 
 @app.route('/LD_results/<SNP_req>', methods=['GET','POST'])
 def LD_results(SNP_req):
@@ -88,6 +91,9 @@ def LD_results(SNP_req):
 			return render_template('LD_results.html', data=LD_data, name=SNP_req, req_type=req_type)
 	else:                 			# If SNP is not found:
 		return render_template('not_found.html', name=SNP_req)
+
+
+
 
 # Linkage Disequilibrium results 
 @app.route('/LD_heatmap/<SNP_req>', methods=['GET','POST'])
@@ -111,6 +117,9 @@ def LD_plot(SNP_req):
 									name = SNP_req, req_type=req_type, SNP_list = SNP_list)
 	else:                 			# If SNP is not found:
 		return render_template('not_found.html', name=SNP_req)
+
+
+
 
 @app.route('/download/<SNP_req>')
 def download(SNP_req):
