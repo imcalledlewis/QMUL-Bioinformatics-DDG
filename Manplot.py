@@ -1,19 +1,15 @@
 ## Manhattan plot using Bokeh
 import pandas as pd
-from bokeh.io import push_notebook, show, output_notebook
-from bokeh.layouts import row 
-from bokeh.plotting import figure
+import numpy as np
 from bokeh.plotting import figure,show
-from bokeh.models import ColumnDataSource, FixedTicker, PrintfTickFormatter
+from bokeh.models import ColumnDataSource, FixedTicker, FuncTickFormatter
 from bokeh.transform import linear_cmap
 from bokeh.embed import components
-import numpy as np
 from flask import Flask, request, render_template, abort, Response
 
 
-
 app = Flask(__name__)
-
+# Create index page
 @app.route('/')
 def index():
     return "Hello Team DuckDuck Go"
@@ -34,15 +30,16 @@ def plot():
          )
 
     # Create Manhattan Plot
-    p.circle('cumulative_pos','-logp', # x,y
+    p.scatter('cumulative_pos','-logp', # x,y for scatter graph
           source=df, # Source of data from the tsv file
-          fill_alpha=0.6, # Size of plot
+          fill_alpha=0.6, # Thickness of plot border
           fill_color=index_cmap, # Colour of plot
-          size=10, legend='CHR_ID' # Added legend for now
+          size=6 # Size of plot '.'
+          #legend='CHR_ID' # Removed legend as it will be in the x-axis
         )
     p.xaxis.axis_label= 'Chromosome' # x-axis label 
     p.yaxis.axis_label= '-logp' # y-axis label
-    p.legend.location = "top_left" # legend will be removed once x-axis is fixed
+    #p.legend.location = "top_left" # legend will be removed once x-axis is fixed
     script, div = components(p)
  
     return render_template("Manplot.html", script=script, div=div,)
