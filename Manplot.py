@@ -21,7 +21,7 @@ def plot():
     # Format figure
     p=figure(plot_width=900, # graph size
          plot_height=400, # graph size
-         title = None, # Title added in html
+         title = "Hover over a plot to see the SNP ID and chomosomal position", # Title added in html
          toolbar_location=None, 
          tools="hover", # Allows mouse hover to bring up information
          tooltips="@SNPS: (@CHR_ID,@CHR_POS)" # Shows when mouse is hovered over plot
