@@ -20,7 +20,7 @@ def export_LD(SNP_list,LD_dataset_file = "data/TSVs/LD_T1DM_Chr6.tsv"):
         SNP_2_list.append(SNP_pair[1])
     # Load LD dataset and create empty dataframe for filtered results
     LD_df = pd.read_table(LD_dataset_file)
-    LD_results_df = pd.DataFrame(columns=['SNP_1', 'SNP_2', 'FIN_D\'', 'FIN_r2', 'TSI_D\'', 'TSI_r2 ', 'GBR_D\'', 'GBR_r2 ']) 
+    LD_results_df = pd.DataFrame(columns=['SNP_1', 'SNP_2', 'FIN_D\'', 'FIN_r2', 'TSI_D\'', 'TSI_r2', 'GBR_D\'', 'GBR_r2']) 
     # Loop indexing LD dataset using each pair of SNPs
     for SNP_1,SNP_2 in zip(SNP_1_list,SNP_2_list):
         LD_row = LD_df.loc[((LD_df['SNP_1'] == SNP_1) & (LD_df['SNP_2'] == SNP_2) | 
