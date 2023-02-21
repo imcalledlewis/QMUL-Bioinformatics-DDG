@@ -73,9 +73,9 @@ def LD_heatmap_matrix(SNP_list, LD_dataset_file = "data/TSVs/LD_T1DM_Chr6.tsv" ,
         LD_matrix_df = pd.concat([LD_matrix_df, row])
     return LD_matrix_df
 
-def ld_plot(ld, labels: list[str], title):
+def ld_plot(ld, labels, title):
     """
-    ld_plot(ld, labels: list[str])
+    ld_plot(ld, labels)
     Plot of a Linkage Disequilibrium (LD) matrix
     :param ld: A symmetric LD matrix
     :param labels: A list of position names
