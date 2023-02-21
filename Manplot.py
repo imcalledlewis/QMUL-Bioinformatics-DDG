@@ -10,9 +10,6 @@ from flask import Flask, request, render_template, abort, Response
 
 app = Flask(__name__)
 
-#df = pd.read_csv('.\data\TSVs\T1D_GWAS_add.tsv', sep='\t')
-#df.CHR_ID.unique()
-#index_cmap = linear_cmap('CHR_ID', palette = ['grey','black'],low=1,high=22)
 @app.route('/')
 def index():
     return "Hello Team DuckDuck Go"
@@ -41,8 +38,7 @@ def plot():
     p.legend.location = "top_left"
 
     script, div = components(p)
-   # cdn_js=CDN.js_files
-   # cdn_css=CDN.css_files
+ 
     return render_template("Manplot.html", script=script, div=div,)
 
 # Main Driver Function 
