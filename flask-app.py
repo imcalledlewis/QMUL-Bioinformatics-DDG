@@ -7,11 +7,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import InputRequired
 
-# Import custom library:
-from data.db_scripts import *
-
-# Imports for LD data and heatmap
-from data.LD_scripts import *
+# Import custom libraries:
+from data.db_scripts import *	# Database related stuff
+from data.LD_scripts import *	# LD data and heatmap
 
 debug=True	# Change this to False for deployment
 
