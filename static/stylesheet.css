@@ -21,6 +21,10 @@ form, body, p, table {
 	font-size: 1.2em;
 }
 
+input,select {
+	color: #000;
+}
+
 form, p, img, table,h2{
 	margin-left: 3%;
 	margin-right: 3%;
