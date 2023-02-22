@@ -1,6 +1,7 @@
 ## Manhattan plot using Bokeh
 import numpy as np
 import pandas as pd
+from math import pi
 from bokeh.io import output_notebook, show
 from bokeh.plotting import figure, output_file, show
 from bokeh.transform import linear_cmap
@@ -46,6 +47,7 @@ def plot():
     p.xaxis.major_label_overrides = {119895261:'1', 373943002:'2', 537393504: '3', 716119012:'4', 834845071:'5', 964538826.5:'6', 1147957441: '7', 1306654016: '8', 
     1396415411:'9', 1540730893:'10', 1674222993:'11', 1823778230:'12', 1930583064:'13', 2055942929:'14', 2088496163 :'14', 2141945578:'15',
     2202426536:'16', 2302961360:'17', 2388903150:'18', 2436333506.5:'19', 2482024730:'20', 2529377491:'21', 2584586808: '22'}
+    p.xaxis.major_label_orientation = pi/2 # Change x-axis label orientation to vertical
     script, div = components(p)
  
     return render_template("Manplot.html", script=script, div=div,)
