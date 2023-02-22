@@ -46,6 +46,12 @@ def DBreq(request, request_type):       # Makes SQL request
         res = cur.execute("SELECT rsid FROM gwas WHERE chr_id LIKE ? AND chr_pos BETWEEN ? AND ?",req)
         ret=res.fetchall()
         request=[i[0] for i in ret] # SQL request returns list of singleton tuples, this line converts them to flat list
+
+    elif request_type=='geneName':
+        req=(request,)
+        res = cur.execute("SELECT rsid FROM gwas WHERE mapped_gene LIKE ?",req)
+        ret=res.fetchall()
+        request=[i[0] for i in ret] # SQL request returns list of singleton tuples, this line converts them to flat list
         
     else:
         raise Exception("Unsupported type "+str(request_type))

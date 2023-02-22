@@ -44,7 +44,7 @@ def index():
 			print('\nUser input: '+SNP_req)		# Print what the user submitted (without checking for correctness)
 			print("Input type: "+req_type+'\n')	# Print the type of data submitted
 		return redirect(url_for('SNP', SNP_req = SNP_req,req_type=req_type))
-	return render_template('index_page.html', form=form, SNP_req=SNP_req, req_type=req_type)
+	return render_template('index_page.html', form=form, SNP_req=SNP_req, req_type=req_type,debug=debug)
 
 
 
@@ -67,7 +67,7 @@ def SNP(SNP_req):
 				name=str(list(reqRes.keys())[0])
 			else:
 				name=f'{l} SNPS	'
-			return render_template('view.html', reqRes=reqRes, name=name, req_type=req_type, len = len(SNP_list), SNP_req = SNP_req)
+			return render_template('view.html', reqRes=reqRes, name=name, req_type=req_type, len = len(SNP_list), SNP_req = SNP_req,debug=debug)
 	else:                 			# If SNP is not found:
 		return render_template('not_found.html', name=name)
 
