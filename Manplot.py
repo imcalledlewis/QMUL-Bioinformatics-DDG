@@ -1,6 +1,8 @@
 ## Manhattan plot using Bokeh
+import numpy as np
 import pandas as pd
-from bokeh.plotting import figure,show
+from bokeh.io import output_notebook, show
+from bokeh.plotting import figure, output_file, show
 from bokeh.transform import linear_cmap
 from bokeh.embed import components
 from flask import Flask, request, render_template, abort, Response
@@ -19,7 +21,7 @@ def plot():
     df.CHR_ID.unique()
     index_cmap = linear_cmap('CHR_ID', palette = ['grey','black']*11,low=1,high=22)
     # Format figure
-    p=figure(plot_width=900, # graph size
+    p=figure(min_width=1000, # graph size
          plot_height=400, # graph size
          title = "Hover over a plot to see the SNP ID and chomosomal position", # Title added in html
          toolbar_location=None, 
@@ -50,5 +52,5 @@ def plot():
 
 # Main Driver Function 
 if __name__ == '__main__':
-    # Run the application on the local development server 
+  #  Run the application on the local development server 
     app.run(debug=True)
