@@ -132,7 +132,7 @@ def download(SNP_req):
 		if debug:
 			print ("request response:",reqRes)
 		LD_data = export_LD(SNP_list) # create LD results dataframe using SNP list returned from query
-		return Response(LD_data.to_csv(),mimetype="text/csv", headers={"Content-disposition": "attachment; filename=LD_results.csv"})
+		return Response(LD_data.to_csv(sep='\t'),mimetype="text/csv", headers={"Content-disposition": "attachment; filename=LD_results.tsv"})
 	
 
 # Start the web server

@@ -79,7 +79,7 @@ def DBreq(request, request_type):       # Makes SQL request
         res=cur.execute("SELECT * FROM functional WHERE rsid LIKE ?", req)
         ret=res.fetchone()
         if not ret:
-            ret=["Data unavailable" for i in range(4)]
+            ret=(rsid,_unav,_unav,_unav)
         innerDict.update({"func":list(ret)})
 
 

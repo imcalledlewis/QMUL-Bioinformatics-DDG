@@ -68,8 +68,8 @@
         {% endfor %}
     </table>
 
-
     <h2>Ontology:</h2>
+    <p>Click each rsid to expand</p>
     {% for snp_rs in reqRes %}
     <details>
         <summary>{{snp_rs}}</summary>
@@ -83,7 +83,6 @@
             </tr>
             {% endfor %}
         </table>
+        <br>
     </details>
     {% endfor %}
-
-<!-- name=rsName, region=region, chr_pos=chrPos, pVal=pVal, req_type=req_type -->
