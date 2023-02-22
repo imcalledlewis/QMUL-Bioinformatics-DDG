@@ -53,8 +53,8 @@
 
 	<br>
 
-	<h2>Functional:</h1>
-	<!-- <br> -->
+	<h2>Functional:</h2>
+
 	<table>
         <tr>
 			<th>SNP</th><th>CADD PHRED</th> <th>CADD RAW</th> <th>Variant Allele</th>
@@ -69,20 +69,21 @@
     </table>
 
 
-    <h2>Ontology:</h1>
-        <!-- <br> -->
+    <h2>Ontology:</h2>
+    {% for snp_rs in reqRes %}
+    <details>
+        <summary>{{snp_rs}}</summary>
         <table>
             <tr>
-                <th>SNP</th><th>location</th> <th>symbol</th> <th>gene</th> <th>go</th>
+                <th>GO</th><th>Term</th>
             </tr>
-            {% for snp_rs in reqRes %}
+            {% for go,term in reqRes[snp_rs]['ont'] %}
             <tr>
-                {% for td in reqRes[snp_rs]['ont'] %}
-                 <td>{{td}}</td>
-                 {% endfor %}
+                <td>{{go}}</td><td>{{term}}</td>
             </tr>
             {% endfor %}
         </table>
-</body>
+    </details>
+    {% endfor %}
 
 <!-- name=rsName, region=region, chr_pos=chrPos, pVal=pVal, req_type=req_type -->

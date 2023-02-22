@@ -6,6 +6,8 @@ import requests
 import collections
 
 _database = "snps.db"
+_unav = "Data unavailable"
+
 # _supported={"rsid", }        # Set of supported types
 
 def getPath(file,tsv=None): # Returns the absolute path to a file that is in same folder as script
@@ -58,38 +60,34 @@ def DBreq(request, request_type):       # Makes SQL request
 
 
     returnDict={}
-    for req_item in request:
+    for rsid in request:
         innerDict={}
-        req=(req_item,)                  # Request must be in a tuple
+        req=(rsid,)                  # Request must be in a tuple
 
         res = cur.execute("SELECT * FROM gwas WHERE rsid LIKE ?",req)
         ret=res.fetchone()
-        assert ret, "error fetching rsid for "+(req_item)
+        assert ret, "error fetching rsid for "+(rsid)
         innerDict.update({"gwas":ret})
-        rsid = ret[0]
 
         res=cur.execute("SELECT * FROM population WHERE rsid LIKE ?", req)
         ret=res.fetchone()
         if not ret:
             ret=["Data unavailable" for i in range(3)]
-        # assert ret, "error fetching population data for "+(req_item)
         innerDict.update({"pop":list(ret)})
         innerDict['pop']=[round(i,3) for i in innerDict['pop'] if isinstance(i, float)]    # remove allele strings, round to 3 dp
 
         res=cur.execute("SELECT * FROM functional WHERE rsid LIKE ?", req)
         ret=res.fetchone()
-        # assert ret, "error fetching functional data for "+(req_item)
         if not ret:
             ret=["Data unavailable" for i in range(4)]
         innerDict.update({"func":list(ret)})
 
-        res=cur.execute("SELECT * FROM ontology WHERE rsid LIKE ?", req)
-        ret=res.fetchone()
-        # assert ret, "error fetching functional data for "+(req_item)
-        if not ret:
-            ret=["Data unavailable" for i in range(5)]
-        innerDict.update({"ont":list(ret)})
 
+        res=cur.execute("SELECT go,term FROM ontology WHERE rsid LIKE ?", req)
+        ret=res.fetchall()
+        if not ret:
+            ret=[(_unav, _unav)]
+        innerDict.update({"ont":list(ret)   })
         # innerDict['func']=[i.replace('_',' ') for i in innerDict['func']]         # replace underscore with space
         returnDict.update({rsid:innerDict})
 
@@ -134,7 +132,7 @@ def removeDupeGeneMap(GeneMap):
                 uniques+=(", ")     # Also add ' ,'
         return (uniques[:-2])       # Remove last ' ,'
     except:
-        return ("Data unavailable")     # Return this if geneMap is empty
+        return (_unav)     # Return this if geneMap is empty
 
 
 def removeSpecial(dataframe):     # Replaces special characters and whitespace with underscores

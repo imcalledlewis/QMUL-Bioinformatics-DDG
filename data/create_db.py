@@ -4,7 +4,9 @@ gwas = getPath("gwas_trimmed.tsv")
 # gwas = getPath("SNPS_filled_clean.tsv")
 pop  = getPath("population_variation_noSpecial.tsv")
 func = getPath('Func_trimmed.tsv')
-ont  = getPath("GO_trimmed_clean.tsv")
+# ont  = getPath("GO_trimmed_clean.tsv")
+ont  = getPath("GO_new.tsv")
+
 DB=DBpath()
 
 if os.path.exists(DB):      # If the file exists,
