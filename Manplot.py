@@ -36,7 +36,7 @@ def Manhattan_plot():
           fill_alpha=0.6, # Thickness of plot border
           fill_color=index_cmap, # Colour of plot
           size=6, # Size of plot .
-          selection_color="Green"
+          selection_color="red"
         )
     p.xaxis.axis_label= 'Chromosome' # x-axis label 
     p.yaxis.axis_label= '-logp' # y-axis label
