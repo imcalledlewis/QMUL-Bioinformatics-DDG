@@ -21,7 +21,7 @@ def plot():
     df.CHR_ID.unique()
     index_cmap = linear_cmap('CHR_ID', palette = ['grey','black']*11,low=1,high=22)
     # Format figure
-    p=figure(min_width=1000, # graph size
+    p=figure(frame_width= 800, # graph size
          plot_height=400, # graph size
          title = "Hover over a plot to see the SNP ID and chomosomal position", # Title added in html
          toolbar_location=None, 
