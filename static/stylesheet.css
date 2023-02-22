@@ -1,8 +1,22 @@
 :root{		/*		Edit the following values to change the colours of the page		*/
 	--textColour: #fff;
+
+	/* light
 	--light_bg: #77b;
 	--med_light_bg: #66a;
 	--dark_bg: #339;
+	*/
+
+	/* medium */
+	--light_bg: #66a;
+	--med_light_bg: #559;
+	--dark_bg: #228;
+
+	/* dark
+	--light_bg: #559;
+	--med_light_bg: #448;
+	--dark_bg: #228;
+	*/
 }
 
 *{
