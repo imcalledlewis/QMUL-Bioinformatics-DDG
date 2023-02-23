@@ -25,7 +25,7 @@ def Manhattan_plot():
          plot_height=500, # graph size
          title = "Hover over a plot to see the SNP ID and chomosomal position", # Title added in html
          toolbar_location="right", 
-         tools="hover,wheel_zoom,box_zoom,reset,box_select,tap,save", # Tool features added to make graph interactive
+         tools="hover,xwheel_zoom,box_zoom,reset,box_select,tap,save", # Tool features added to make graph interactive
          tooltips="@SNPS: (@CHR_ID,@CHR_POS)" # Shows when mouse is hovered over plot
          )
     
