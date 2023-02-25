@@ -45,14 +45,14 @@ def Manhattan_plot():
         df = df[df['cumulative_pos'].isin(positions)]
 
     # Seperate by chromosome ID, and colour them
-    df.CHR_ID.unique()
-    index_cmap = linear_cmap('CHR_ID', palette = ['grey','black']*11,low=1,high=22)
+    df.CHR_ID.unique() # Group all chromosome
+    index_cmap = linear_cmap('CHR_ID', palette = ['grey','black']*11,low=1,high=22) # colour map for seperate chromosomes
 
     ## Format figure
     p = figure(frame_width=800,# graph size
                plot_height=500, # graph size
                title="Hover over a plot to see the SNP ID and chomosomal position",# Title added in html
-               toolbar_location="right",
+               toolbar_location="right", # location of toolbar
                tools="pan,hover,xwheel_zoom,zoom_out,box_zoom,reset,box_select,tap,undo,save",# Tool features added to make graph interactive
                tooltips="@SNPS: (@CHR_ID,@CHR_POS)"# Shows when mouse is hovered over plot
                )
@@ -63,7 +63,7 @@ def Manhattan_plot():
              fill_alpha=0.6,# Thickness of plot border
              fill_color=index_cmap,# Colour of plot
              size=6,# Size of plot 
-             selection_color="red" 
+             selection_color="red" # Colour of plot when selected
              )
     
     #Set the x and y axis labels for the plot
