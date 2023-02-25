@@ -91,7 +91,9 @@ def DBreq(request, request_type):       # Makes SQL request
         # innerDict['func']=[i.replace('_',' ') for i in innerDict['func']]         # replace underscore with space
         returnDict.update({rsid:innerDict})
 
-    return(returnDict,request)
+
+    return(returnDict,list(returnDict.keys()))  # snp_list is keys
+    # return(returnDict,request)
 
 def removeDupeSNP(dataframe):                                   # Removes duplicates from a pandas dataframe, leaving only greatest p-value
     dataframe.reset_index(drop=True)                            # Resets index back to 0

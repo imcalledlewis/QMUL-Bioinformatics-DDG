@@ -5,6 +5,7 @@
 </head>
 <body>
 	<h1>{{SNP_req}}</h1>
+
     
 
     <div class="linkBox">
@@ -12,14 +13,17 @@
             {% if len > 1 %}
             <a href="/LD_results/{{SNP_req}}?req_type={{req_type}}">Linkage Disequilibrium calculations</a>
             <a href="/LD_heatmap/{{SNP_req}}?req_type={{req_type}}">Linkage Disequilibrium plot</a>
+            <a href="/manPlot/{{SNP_req}}?req_type={{req_type}}">Manhattan Plot</a>
             {% else %}
             <a href="/">Home</a>
             {% endif %}
         </div>
     </div>
 
+    <p>{{SNP_list}}</p>
 
 	<h2>Positional:</h2>
+
     <table>
         <tr>
 			<th>SNP</th> <th>Region</th> <th>Chromosome position</th> <th>Chromosome number</th> <th>P value</th> <th>Mapped gene</th>
@@ -86,3 +90,5 @@
     </details>
     <br>
     {% endfor %}
+
+    

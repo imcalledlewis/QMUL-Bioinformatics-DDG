@@ -5,6 +5,7 @@ from bokeh.plotting import figure, output_file, show
 from bokeh.transform import linear_cmap
 from bokeh.embed import components
 from flask import Flask, request, render_template, abort, Response, redirect, url_for
+from data.db_scripts import *
 
 # Create a Flask application object
 app = Flask(__name__)
@@ -38,7 +39,7 @@ def Manhattan_plot():
         positions = [int(pos) for pos in positions.split(',')]
 
     # Read in the GWAS data as a pandas dataframe
-    df = pd.read_csv('T1D_GWAS_add.tsv', sep='\t')
+    df = pd.read_csv(getPath('T1D_GWAS_add.tsv'), sep='\t')
 
     #Filter data by chromosome positions if positions are provided
     if positions:
@@ -48,6 +49,8 @@ def Manhattan_plot():
     df.CHR_ID.unique() # Group all chromosome
     index_cmap = linear_cmap('CHR_ID', palette = ['grey','black']*11,low=1,high=22) # colour map for seperate chromosomes
 
+
+    print('\n, df:',df)
     ## Format figure
     p = figure(frame_width=800,# graph size
                plot_height=500, # graph size
