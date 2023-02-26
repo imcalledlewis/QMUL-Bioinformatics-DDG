@@ -13,7 +13,9 @@
             {% if len > 1 %}
             <a href="/LD_results/{{SNP_req}}?req_type={{req_type}}">Linkage Disequilibrium calculations</a>
             <a href="/LD_heatmap/{{SNP_req}}?req_type={{req_type}}">Linkage Disequilibrium plot</a>
-            <a href="/manPlot/{{SNP_req}}?req_type={{req_type}}">Manhattan Plot</a>
+            {% if req_type == 'coords' %}
+            <a href="/manPlot/{{SNP_req}}">Manhattan Plot</a>
+            {% endif %}
             {% else %}
             <a href="/">Home</a>
             {% endif %}

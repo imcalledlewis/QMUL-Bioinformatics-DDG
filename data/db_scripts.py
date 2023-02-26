@@ -8,7 +8,9 @@ import collections
 _database = "snps.db"
 _unav = "Data unavailable"
 
-# _supported={"rsid", }        # Set of supported types
+def setDebug(debug):
+    global db_debug
+    db_debug=debug
 
 def getPath(file,tsv=None): # Returns the absolute path to a file that is in same folder as script
     filenames=('tsv', 'csv', 'txt')
@@ -70,14 +72,16 @@ def DBreq(request, request_type, manPlot=False):       # Makes SQL request
 
         ### Getting gwas data ###
         if manPlot:         # If it's a manhattan plot
-            res = cur.execute("SELECT rsid,cumulative_pos,-logp FROM gwas WHERE rsid LIKE ?",req)
+            res = cur.execute("SELECT cumulative_pos,logp FROM gwas WHERE rsid LIKE ?",req)
         else:
             res = cur.execute("SELECT rsid,region,chr_pos,chr_id,p_value,mapped_gene FROM gwas WHERE rsid LIKE ?",req)
         ret=res.fetchone()
         assert ret, "error fetching rsid for "+(rsid)
-        innerDict.update({"gwas":ret})
+        
 
-        if not manPlot:
+        if not manPlot: # Manhattan plot doesn't need any of the following
+
+            innerDict.update({"gwas":ret})
             ### Getting population data ###
             res=cur.execute("SELECT * FROM population WHERE rsid LIKE ?", req)
             ret=res.fetchone()
@@ -101,11 +105,14 @@ def DBreq(request, request_type, manPlot=False):       # Makes SQL request
             innerDict.update({"ont":list(ret)})
 
         ### Adding results to inner dictionary ###
-        returnDict.update({rsid:innerDict})
+        if manPlot:
+            returnDict.update({rsid:ret})
+        else:
+            returnDict.update({rsid:innerDict})
 
 
     return(returnDict,list(returnDict.keys()))  # snp_list is keys
-    # return(returnDict,request)
+    # return(returnDict,request)        # Nasim's code - revert if my change breaks his stuff
 
 def removeDupeSNP(dataframe):                                   # Removes duplicates from a pandas dataframe, leaving only greatest p-value
     dataframe.reset_index(drop=True)                            # Resets index back to 0
@@ -170,22 +177,6 @@ def pdDB(tsv_path,table_name,dtype):    # Adds tsv to SQL database
 
 def castRS(dataframe,rsCol):   # Receives a dataframe, returns df with "rs" removed from rs value
     raise Exception("castRS is deprecated")   # this function isn't being used any more
-
-
-def parseAuto(SNP_req):
-    if re.search(r'rs\d+',SNP_req):
-        req_type='rsid'
-    elif re.search(r'\d:\d+', SNP_req):
-        req_type='coords'
-    elif re.search(r'\w{1,10}', SNP_req):
-        req_type='geneName'
-    else:
-        # raise()
-        # pass
-        return None
-    
-    return(req_type)
-
 
 def clear():    # Clears screen, platform independent
     os.system('cls' if os.name=='nt' else 'clear')

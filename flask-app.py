@@ -12,6 +12,7 @@ from data.db_scripts import *	# Database related stuff
 from data.LD_scripts import *	# LD data and heatmap
 
 debug=True	# Change this to False for deployment
+setDebug(debug)
 
 # create a flask application object
 app = Flask(__name__)
@@ -64,7 +65,19 @@ def SNP(SNP_req):
 	assert req_type != "empty_req_type", "request type is empty"
 
 	if req_type == 'auto':
-		req_type=parseAuto(req_type)	# Automatically detect request type
+		if re.search(r'rs\d+',SNP_req):
+			req_type='rsid'
+		elif re.search(r'\d:\d+', SNP_req):
+			req_type='coords'
+		elif re.search(r'\w{1,10}', SNP_req):
+			req_type='geneName'
+		else:
+			# raise()
+			# pass
+			raise Exception("couldn't determine request type")
+			req_type= None
+		if debug:
+			print("detected type:", req_type)
 
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
 	name=SNP_req
@@ -149,45 +162,41 @@ def download(SNP_req):
 ######################################################################################################################################
 
 # @app.route('/plot', methods=['GET','POST'])
-@app.route('/<SNP_req>/manPlot/', methods=['GET','POST'])
+@app.route('/manPlot/<SNP_req>/', methods=['GET','POST'])
 def Manhattan_plot(SNP_req):
-	req_type=request.args.get('req_type',default="empty_req_type")	# Gets type of information inputted (the bit after "?")
-	assert req_type != "empty_req_type", "request type is empty"
+	# req_type=request.args.get('req_type',default="empty_req_type")	# Gets type of information inputted (the bit after "?")
+	# assert req_type != "empty_req_type", "request type is empty"
 
-	if req_type == 'auto':
-		req_type=parseAuto(req_type)	# Automatically detect request type
+
 
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
 	name=SNP_req
-	reqRes,SNP_list=DBreq(SNP_req, req_type,manPlot=True)	# Make SQL request
+	reqRes,SNP_list=DBreq(SNP_req, 'coords',manPlot=True)	# Make SQL request
 	if reqRes:						# If the response isn't None
 			assert isinstance(reqRes, dict),"invalid db request return value"
 			if debug:
-				print ("\nrequest response:",reqRes,"\n")
-			l=len(reqRes)
-			if l==1:
-				name=str(list(reqRes.keys())[0])
-			else:
-				name=f'{l} SNPS	'
-
-
-
+				# print ("\nrequest response:",reqRes,"\n")
+				pass
+			name='{} SNPS'.format(len(SNP_list))
 			# return render_template('view.html', reqRes=reqRes, name=name, req_type=req_type, len=len(SNP_list), SNP_req=SNP_req,debug=debug,SNP_list=SNP_list)
 	else:
 		return("manhattan plot parsing failed")                 			# If SNP is not found:
 		# return render_template('not_found.html', name=name)
 
+	df=pd.DataFrame(reqRes).T
+	df.rename_axis("rsid", axis="columns",inplace=True)
+	df.rename(columns={0:"cumulative_pos", 1:"-logp"},inplace=True)
+	print(df)
+	return("test")
 
-
-
-	# Get list of chromosome positions from user input
-	# positions = request.args.get('positions')
 	#If the 'positions' variable exists, split it by comma and convert to a list of integers
 	if positions:
 		positions = [int(pos) for pos in positions.split(',')]
 
 	# Read in the GWAS data as a pandas dataframe
-	df = pd.read_csv('T1D_GWAS_add.tsv', sep='\t')
+	# df = pd.read_csv('T1D_GWAS_add.tsv', sep='\t')
+
+
 
 	#Filter data by chromosome positions if positions are provided
 	if positions:
@@ -195,11 +204,11 @@ def Manhattan_plot(SNP_req):
 
 	# Separate by chromosome ID, and colour them
 	df.CHR_ID.unique()
-	index_cmap = linear_cmap('CHR_ID', palette = ['grey','black']*11,low=1,high=22)
+	index_cmap = linear_cmap('chr_id', palette = ['grey','black']*11,low=1,high=22)
 
 	## Format figure
-	p = figure(frame_width=800,# graph size+
-				plot_height=500, # graph size
+	p = figure(frame_width=800,		# graph size
+				plot_height=500, 	# graph size
 				title="Hover over a plot to see the SNP ID and chromosomal position",# Title added in html
 				toolbar_location="right",
 				tools="pan,hover,xwheel_zoom,zoom_out,box_zoom,reset,box_select,tap,undo,save",# Tool features added to make graph interactive
