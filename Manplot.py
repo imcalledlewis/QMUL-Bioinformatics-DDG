@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-from math import pi
 from bokeh.plotting import figure, output_file, show
 from bokeh.transform import linear_cmap
 from bokeh.embed import components
@@ -18,7 +17,7 @@ def index():
         #Get the value of the 'positions' from the input field 
         positions = request.form['positions']
         # If the 'positions' variable is not empty, redirect to the Manhattan plot page with the 'positions' variable as a query parameter
-        # the staryt of a query parameter is '?'
+        # the start of a query parameter is '?'
         #the 'url_for' function allows to generate a specific url for a function to redirect a user to a particular page
         if positions:
             return redirect(url_for('Manhattan_plot', positions=positions))
@@ -47,7 +46,7 @@ def Manhattan_plot():
             positions = [int(pos) for pos in positions.split(',')]
 
     # Read in the GWAS data as a pandas dataframe
-    df = pd.read_csv('./data/TSVs/T1D_GWAS_add.tsv', sep='\t')
+    df = pd.read_csv('.\data\TSVs\Manplot_data.tsv', sep='\t')
 
     #Filter data by chromosome positions if positions are provided
     if positions:
@@ -82,13 +81,12 @@ def Manhattan_plot():
     #Set the tick locations and labels for the x axis using the cumulative length of the chromosomes 
     p.xaxis.ticker = [119895261, 373943002, 537393504, 716119012, 834845071, 964538826.5, 1147957441, 1306654016,
                       1396415411, 1540730893, 1674222993, 1823778230, 1930583064, 2055942929, 2141945578, 2202426536,
-                      2302961360, 2388903150,
-                      2436333506.5, 2482024730, 2529377491, 2584586808]
+                      2302961360, 2388903150, 2436333506.5, 2482024730, 2529377491, 2584586808]
     #major_label_overrides used to specify custom axis lables as the chromosome no.
     p.xaxis.major_label_overrides = {119895261: '1', 373943002: '2', 537393504: '3', 716119012: '4', 834845071: '5',
                                      964538826.5: '6', 1147957441: '7', 1306654016: '8',
                                      1396415411: '9', 1540730893: '10', 1674222993: '11', 1823778230: '12',
-                                     1930583064: '13', 2055942929: '14', 2088496163: '14', 2141945578: '15',
+                                     1930583064: '13', 2055942929: '14', 2141945578: '15',
                                      2202426536: '16', 2302961360: '17', 2388903150: '18', 2436333506.5: '19',
                                      2482024730: '20', 2529377491: '21', 2584586808: '22'}
     #change the font colour of the title 
