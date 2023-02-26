@@ -10,6 +10,7 @@ from data.db_scripts import *
 # Create a Flask application object
 app = Flask(__name__)
 
+ 
 # Define the root route of the application and specify the methods it accepts
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -36,24 +37,29 @@ def Manhattan_plot():
     positions = request.args.get('positions')
     #If the 'positions' variable exists, split it by comma and convert to a list of integers
     if positions:
-        positions = [int(pos) for pos in positions.split(',')]
+        # If the input contains a range of positions, create a list of individual positions
+        if '-' in positions:
+            #If a range of positions is entered splits dash at the "-" and assigns the start and end positions to the variables pos_start and pos_end.
+            pos_start, pos_end = [int(pos) for pos in positions.split('-')]
+            #Use the range function to generate a list of all positions in the range 
+            positions = list(range(pos_start, pos_end + 1))#'+1' makes sure pos_end is included
+        #If the input is a comma-separated list, split the string into a list of individual positions
+        else:
+            positions = [int(pos) for pos in positions.split(',')]
 
     # Read in the GWAS data as a pandas dataframe
-    df = pd.read_csv(getPath('T1D_GWAS_add.tsv'), sep='\t')
+    df = pd.read_csv('./data/TSVs/T1D_GWAS_add.tsv', sep='\t')
 
     #Filter data by chromosome positions if positions are provided
     if positions:
         df = df[df['cumulative_pos'].isin(positions)]
 
     # Seperate by chromosome ID, and colour them
-    df.CHR_ID.unique() # Group all chromosome
-    index_cmap = linear_cmap('CHR_ID', palette = ['grey','black']*11,low=1,high=22) # colour map for seperate chromosomes
+    index_cmap = linear_cmap('CHR_ID', palette = ['grey','black']*11,low=1,high=22)
 
-
-    print('\n, df:',df)
     ## Format figure
     p = figure(frame_width=800,# graph size
-               height=500, # graph size - if issues, change to plot_height
+               plot_height=500, # graph size
                title="Hover over a plot to see the SNP ID and chomosomal position",# Title added in html
                toolbar_location="right", # location of toolbar
                tools="pan,hover,xwheel_zoom,zoom_out,box_zoom,reset,box_select,tap,undo,save",# Tool features added to make graph interactive
@@ -61,12 +67,13 @@ def Manhattan_plot():
                )
 
     #Add circles to the figure to represent the SNPs in the GWAS data
-    p.circle('cumulative_pos', '-logp',# Seperate by chromosome ID, and colour them
-             source=df,# Source of data from the tsv file
-             fill_alpha=0.6,# Thickness of plot border
-             fill_color=index_cmap,# Colour of plot
-             size=6,# Size of plot 
-             selection_color="red" # Colour of plot when selected
+    p.circle(x='cumulative_pos', y='-logp',# x and y-axis
+            source=df,
+            fill_alpha=0.8,# Transparency of plot
+            fill_color=index_cmap,# Colour of plot
+            size=7,# Size of plot 
+            selection_color="rebeccapurple", # Colour of plot when selected
+            hover_color="green"
              )
     
     #Set the x and y axis labels for the plot
@@ -96,3 +103,4 @@ def Manhattan_plot():
 if __name__ == '__main__':
   #  Run the application on the local development server 
     app.run(debug=True)
+        
