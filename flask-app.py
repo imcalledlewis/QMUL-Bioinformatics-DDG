@@ -1,6 +1,14 @@
 # General imports:
-from flask import Flask, render_template, url_for, redirect, request, Response
+from flask import Flask, render_template, url_for, redirect, request, Response,abort
 import pandas as pd
+
+import numpy as np
+import pandas as pd
+from math import pi
+from bokeh.plotting import figure, output_file, show
+from bokeh.transform import linear_cmap
+from bokeh.embed import components
+# from flask import Flask, request, render_template, abort, Response, redirect, url_for
 
 # Imports for creating and processing forms:
 from flask_wtf import FlaskForm
@@ -185,13 +193,13 @@ def Manhattan_plot(SNP_req):
 
 	df=pd.DataFrame(reqRes).T
 	df.rename_axis("rsid", axis="columns",inplace=True)
-	df.rename(columns={0:"cumulative_pos", 1:"-logp"},inplace=True)
-	print(df)
-	return("test")
+	df.rename(columns={0:"chr_id",1:"cumulative_pos", 2:"-logp"},inplace=True)
+	print(df)	
+	# return("test")
 
 	#If the 'positions' variable exists, split it by comma and convert to a list of integers
-	if positions:
-		positions = [int(pos) for pos in positions.split(',')]
+	# if positions:
+	# 	positions = [int(pos) for pos in positions.split(',')]
 
 	# Read in the GWAS data as a pandas dataframe
 	# df = pd.read_csv('T1D_GWAS_add.tsv', sep='\t')
@@ -199,11 +207,11 @@ def Manhattan_plot(SNP_req):
 
 
 	#Filter data by chromosome positions if positions are provided
-	if positions:
-		df = df[df['cumulative_pos'].isin(positions)]
+	# if positions:
+	# 	df = df[df['cumulative_pos'].isin(positions)]
 
 	# Separate by chromosome ID, and colour them
-	df.CHR_ID.unique()
+	df.chr_id.unique()
 	index_cmap = linear_cmap('chr_id', palette = ['grey','black']*11,low=1,high=22)
 
 	## Format figure
@@ -245,7 +253,7 @@ def Manhattan_plot(SNP_req):
 
 	script, div = components(p)
 
-	return render_template("Manplot.html", script=script, div=div)
+	return render_template("Manplot.html", script=script, div=div,name=name)
 
 
 
