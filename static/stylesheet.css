@@ -1,7 +1,23 @@
 :root{		/*		Edit the following values to change the colours of the page		*/
 	--textColour: #fff;
+
+	/* light
 	--light_bg: #77b;
+	--med_light_bg: #66a;
 	--dark_bg: #339;
+	*/
+
+	/* medium */
+	--light_bg: #66a;
+	--med_light_bg: #559;
+	--dark_bg: #227;
+	
+
+	/* dark 
+	--light_bg: #559;
+	--med_light_bg: #448;
+	--dark_bg: #227;
+	*/
 }
 
 *{
@@ -20,18 +36,21 @@ form, body, p, table {
 	font-size: 1.2em;
 }
 
-form, p, img, table{
+input,select {
+	color: #000;
+}
+
+form, p, img, table,h2,details{
 	margin-left: 3%;
 	margin-right: 3%;
 }
-
 
 h1, h2, h3, h4, h5, h6, li a{
 	font-family: Helvetica, Arial, sans-serif;
 }
 
-h1,h2 {
-	padding: 2% 0%;
+h1 {
+	padding: 1% 0%;
 	margin: auto;
 	text-align: center;
 	background-color: var(--dark_bg);
@@ -41,12 +60,56 @@ h1 {
 	font-size: 3em;
 }
 
+.linkBox{
 
-/*
-h2{
-	font-weight: normal;
+	padding: 1% 0%;
+	background-color: var(--med_light_bg);
+	/* font-size: 1.5em; */
+
+	/* padding: 0.9em 6.5em; */
+	text-decoration: none;
+
 }
 
-h3,p{
-	font-size: 1.2em;
-} */
+
+.topLinks{
+	display: flex;
+	justify-content: space-between;
+	max-width: 50%;
+
+	/* padding: 1% 5%; */
+	margin: auto;
+	text-align: center;
+	font-size: 1.5em;
+
+	/* padding: 0.9em 6.5em; */
+	text-decoration: none;
+}
+
+
+
+/* Table stuff */
+
+summary{
+	font-size: 1.5em;
+	background-color: var(--med_light_bg);
+	padding: 1%;
+	max-width: 15%;
+}
+
+table{
+	border-spacing: 0;
+}
+
+th{
+	border-bottom-style: solid;
+}
+
+tr:nth-child(even){
+	background-color: var(--med_light_bg);
+}
+
+td,th{
+	padding:8px;
+	text-align: center;
+}

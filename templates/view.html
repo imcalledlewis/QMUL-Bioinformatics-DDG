@@ -4,25 +4,85 @@
 	<title>QMUL SNP Portal - {{name}}</title>
 </head>
 <body>
-	<h1>{{name}}</h1>
+	<h1>{{SNP_req}}</h1>
+    
+
+    <div class="linkBox">
+        <div class="topLinks">
+            {% if len > 1 %}
+            <a href="/LD_results/{{SNP_req}}?req_type={{req_type}}">Linkage Disequilibrium calculations</a>
+            <a href="/LD_heatmap/{{SNP_req}}?req_type={{req_type}}">Linkage Disequilibrium plot</a>
+            {% else %}
+            <a href="/">Home</a>
+            {% endif %}
+        </div>
+    </div>
+
+
+	<h2>Positional:</h2>
+    <table>
+        <tr>
+			<th>SNP</th> <th>Region</th> <th>Chromosome position</th> <th>Chromosome number</th> <th>P value</th> <th>Mapped gene</th>
+        </tr>
+        {% for snp_rs in reqRes %}
+        <tr>
+            {% for td in reqRes[snp_rs]['gwas'] %}
+             <td>{{td}}</td>
+             {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+
 	<br>
-	<p>Region: {{region}}</p>
-	<p>Chromosome position: {{chr_pos}}</p>
-	<p>Mapped gene: {{mapGene}}</p>
-	<p>P value: {{pVal}}</p>
-	<br>
+
 	<h2>Allele Frequencies:</h2>
+	
+    <table>
+        <tr>
+			<th>SNP</th> <th>Finland</th> <th>Toscani</th> <th>British</th>
+        </tr>
+        {% for snp_rs in reqRes %}
+        <tr>
+            <td>{{snp_rs}}</td>
+            {% for td in reqRes[snp_rs]['pop'] %}
+             <td>{{td}}</td>
+             {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+
+	<br>
+
+	<h2>Functional:</h2>
+
 	<table>
-		<tr>
-			<th>Finland</th><th>Toscani</th>><th>British</th>
-		</tr>
-		<tr>
-			<td>{{finPop}}</td><td>{{toscPop}}</td><td>{{BritPop}}</td>
-		</tr>
-	</table>
+        <tr>
+			<th>SNP</th><th>CADD PHRED</th> <th>CADD RAW</th> <th>Variant Allele</th>
+        </tr>
+        {% for snp_rs in reqRes %}
+        <tr>
+            {% for td in reqRes[snp_rs]['func'] %}
+             <td>{{td}}</td>
+             {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
 
-
-	<!-- <br><p>Request type: {{req_type}}</p> -->
-</body>
-
-<!-- name=rsName, region=region, chr_pos=chrPos, pVal=pVal, req_type=req_type -->
+    <h2>Ontology:</h2>
+    <p>Click each rsid to expand</p>
+    {% for snp_rs in reqRes %}
+    <details>
+        <summary>{{snp_rs}}</summary>
+        <table>
+            <tr>
+                <th>GO ID</th><th>Description</th>
+            </tr>
+            {% for go,term in reqRes[snp_rs]['ont'] %}
+            <tr>
+                <td>{{go}}</td><td>{{term}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </details>
+    <br>
+    {% endfor %}
