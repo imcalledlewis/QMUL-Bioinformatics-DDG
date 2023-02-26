@@ -191,13 +191,20 @@ def Manhattan_plot(SNP_req):
 		return("manhattan plot parsing failed")                 			# If SNP is not found:
 		# return render_template('not_found.html', name=name)
 
+	# print(pd.DataFrame(reqRes))
 	df=pd.DataFrame(reqRes).T								# Convert sql request response to dataframe, then flip axes (ie vertical becomes horizontal and vice-versa)
-	df.rename_axis("rsid", axis="columns",inplace=True)		# Name the index "rsid"
-	df.rename(columns={0:'chr_pos', 1:"chr_id",2:"cumulative_pos", 3:"-logp"},inplace=True)	# rename each of the columns
-	df=df.astype({'chr_id':'int64', 'cumulative_pos':'int64','chr_pos':'int64'})			# cast some columns to int
+
+	# print(df)
+	# df.rename_axis("rsid", axis="columns",inplace=True)		# Name the index "rsid"
+	df.rename(columns={0:'index',1:'chr_pos', 2:"chr_id",3:"cumulative_pos", 4:"-logp"},inplace=True)	# rename each of the columns
+	df['rsid'] = df.index
+	df=df.astype({'chr_id':'int64', 'cumulative_pos':'int64','chr_pos':'int64','index':'int64'})			# cast some columns to int
+	df.set_index('index',inplace=True)
 	if debug:
 		print(df)
+		pass
 
+	# return("test")
 	#### End of Gabriel's code
 
 	#If the 'positions' variable exists, split it by comma and convert to a list of integers
@@ -227,13 +234,14 @@ def Manhattan_plot(SNP_req):
 				)
 
 	# Add circles to the figure to represent the SNPs in the GWAS data
-	p.circle('cumulative_pos', '-logp',# Seperate by chromosome ID, and colour them
-				source=df,# Source of data from the tsv file
-				fill_alpha=0.6,# Thickness of plot border
-				fill_color=index_cmap,# Colour of plot
-				size=6,# Size of plot 
-				selection_color="red" 
-				)
+	p.circle(x='cumulative_pos', y='-logp',# x and y-axis
+            source=df,
+            fill_alpha=0.8,# Transparency of plot
+            fill_color=index_cmap,# Colour of plot
+            size=7,# Size of plot 
+            selection_color="rebeccapurple", # Colour of plot when selected
+            hover_color="green"
+             )
 
 	# Set the x and y axis labels for the plot
 	p.xaxis.axis_label = 'Chromosome'# x-axis label 

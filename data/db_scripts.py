@@ -72,7 +72,8 @@ def DBreq(request, request_type, manPlot=False):       # Makes SQL request
 
         ### Getting gwas data ###
         if manPlot:         # If it's a manhattan plot
-            res = cur.execute("SELECT chr_pos,chr_id,cumulative_pos,logp FROM gwas WHERE rsid LIKE ?",req)
+            res = cur.execute("SELECT i,chr_pos,chr_id,cumulative_pos,logp FROM gwas WHERE rsid LIKE ?",req)
+            # res = cur.execute("SELECT i FROM gwas WHERE rsid LIKE ?",req)
         else:
             res = cur.execute("SELECT rsid,region,chr_pos,chr_id,p_value,mapped_gene FROM gwas WHERE rsid LIKE ?",req)
         ret=res.fetchone()
