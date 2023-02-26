@@ -24,20 +24,22 @@ def getPath(file,tsv=None): # Returns the absolute path to a file that is in sam
 def DBpath():   # Returns the absolute path to the database
     return(getPath(_database))
 
-def DBreq(request, request_type):       # Makes SQL request
+def DBreq(request, request_type, manPlot=False):       # Makes SQL request
 
+    ###### Setting up database connection ######
     filepath=DBpath()                   # Sets database path
     assert os.path.exists(filepath),"Database file not found"
     conn = sqlite3.connect(filepath)    # Opens db file
     cur = conn.cursor()                 # Sets cursor
 
+    ###### Getting rsids from request ######
     if request_type=="rsid":
         request=request.split(',')		    # Split request by comma separator
 
     elif request_type=="coords":            # co-ordinate (6:1234-6:5678) search
         if '-' not in request:              # If there's only one coord,
             request=(request+"-"+request)   # pretend it's a range and the start/ stop are the same
-        request=request.split('-')		# Split request by hyphen separator
+        request=request.split('-')		    # Split request by hyphen separator
         assert len(request)==2, "Too many coordinate inputs"
         coords_chr=[i.split(':')[0] for i in request]   # Gets the chromosome from each coord
         coords_loc=[i.split(':')[1] for i in request]   # Gets the location from each coord
@@ -47,48 +49,58 @@ def DBreq(request, request_type):       # Makes SQL request
         req=(coords_chr[0],coords_loc[0],coords_loc[1])
         res = cur.execute("SELECT rsid FROM gwas WHERE chr_id LIKE ? AND chr_pos BETWEEN ? AND ?",req)
         ret=res.fetchall()
-        request=[i[0] for i in ret] # SQL request returns list of singleton tuples, this line converts them to flat list
+        request=[i[0] for i in ret]         # SQL request returns list of singleton tuples, this line converts them to flat list
 
-    elif request_type=='geneName':
-        req=(request,)
+    elif request_type=='geneName':          # Gene symbol (eg IRF4) search
+        req=(request,)                      # Request must be in a tuple
         res = cur.execute("SELECT rsid FROM gwas WHERE mapped_gene LIKE ?",req)
         ret=res.fetchall()
-        request=[i[0] for i in ret] # SQL request returns list of singleton tuples, this line converts them to flat list
+        request=[i[0] for i in ret]         # SQL request returns list of singleton tuples, this line converts them to flat list
         
     else:
         raise Exception("Unsupported type "+str(request_type))
 
 
+
+    ###### Getting dictionary of results ######
     returnDict={}
     for rsid in request:
         innerDict={}
         req=(rsid,)                  # Request must be in a tuple
 
-        res = cur.execute("SELECT * FROM gwas WHERE rsid LIKE ?",req)
+        ### Getting gwas data ###
+        if manPlot:         # If it's a manhattan plot
+            res = cur.execute("SELECT rsid,cumulative_pos,-logp FROM gwas WHERE rsid LIKE ?",req)
+        else:
+            res = cur.execute("SELECT rsid,region,chr_pos,chr_id,p_value,mapped_gene FROM gwas WHERE rsid LIKE ?",req)
         ret=res.fetchone()
         assert ret, "error fetching rsid for "+(rsid)
         innerDict.update({"gwas":ret})
 
-        res=cur.execute("SELECT * FROM population WHERE rsid LIKE ?", req)
-        ret=res.fetchone()
-        if not ret:
-            ret=["Data unavailable" for i in range(3)]
-        innerDict.update({"pop":list(ret)})
-        innerDict['pop']=[round(i,3) for i in innerDict['pop'] if isinstance(i, float)]    # remove allele strings, round to 3 dp
+        if not manPlot:
+            ### Getting population data ###
+            res=cur.execute("SELECT * FROM population WHERE rsid LIKE ?", req)
+            ret=res.fetchone()
+            if not ret:
+                ret=[_unav for i in range(3)]   
+            innerDict.update({"pop":list(ret)})
+            innerDict['pop']=[round(i,3) for i in innerDict['pop'] if isinstance(i, float)]    # remove allele strings, round to 3 dp
 
-        res=cur.execute("SELECT * FROM functional WHERE rsid LIKE ?", req)
-        ret=res.fetchone()
-        if not ret:
-            ret=(rsid,_unav,_unav,_unav)
-        innerDict.update({"func":list(ret)})
+            ### Getting functional data ###
+            res=cur.execute("SELECT * FROM functional WHERE rsid LIKE ?", req)
+            ret=res.fetchone()
+            if not ret:
+                ret=(rsid,_unav,_unav,_unav)
+            innerDict.update({"func":list(ret)})
 
+            ### Getting ontology data ###
+            res=cur.execute("SELECT go,term FROM ontology WHERE rsid LIKE ?", req)
+            ret=res.fetchall()
+            if not ret:
+                ret=[(_unav, _unav)]
+            innerDict.update({"ont":list(ret)})
 
-        res=cur.execute("SELECT go,term FROM ontology WHERE rsid LIKE ?", req)
-        ret=res.fetchall()
-        if not ret:
-            ret=[(_unav, _unav)]
-        innerDict.update({"ont":list(ret)   })
-        # innerDict['func']=[i.replace('_',' ') for i in innerDict['func']]         # replace underscore with space
+        ### Adding results to inner dictionary ###
         returnDict.update({rsid:innerDict})
 
 
@@ -159,20 +171,21 @@ def pdDB(tsv_path,table_name,dtype):    # Adds tsv to SQL database
 def castRS(dataframe,rsCol):   # Receives a dataframe, returns df with "rs" removed from rs value
     raise Exception("castRS is deprecated")   # this function isn't being used any more
 
-    # df=dataframe
-    # newRS=[]
-    # for index,row in df.iterrows():
-    #     rsVal=row[rsCol]                           # SNP name (rs value)
-    #     rsVal=rsVal.lstrip("rs")
-    #     try:
-    #         rsVal=int(rsVal)
-    #     except:   
-    #         print("error casting ", rsVal)
-    #         return(None)
-    #     newRS.append(rsVal)
-    # df[rsCol]=newRS
-    # df.astype({rsCol: 'int64'})
-    # return(df)
+
+def parseAuto(SNP_req):
+    if re.search(r'rs\d+',SNP_req):
+        req_type='rsid'
+    elif re.search(r'\d:\d+', SNP_req):
+        req_type='coords'
+    elif re.search(r'\w{1,10}', SNP_req):
+        req_type='geneName'
+    else:
+        # raise()
+        # pass
+        return None
+    
+    return(req_type)
+
 
 def clear():    # Clears screen, platform independent
     os.system('cls' if os.name=='nt' else 'clear')

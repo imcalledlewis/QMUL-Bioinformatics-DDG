@@ -64,15 +64,7 @@ def SNP(SNP_req):
 	assert req_type != "empty_req_type", "request type is empty"
 
 	if req_type == 'auto':
-		if re.search(r'rs\d+',SNP_req):
-			req_type='rsid'
-		elif re.search(r'\d:\d+', SNP_req):
-			req_type='coords'
-		elif re.search(r'\w{1,10}', SNP_req):
-			req_type='geneName'
-		else:
-			# raise()
-			pass
+		req_type=parseAuto(req_type)	# Automatically detect request type
 
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
 	name=SNP_req
@@ -159,26 +151,15 @@ def download(SNP_req):
 # @app.route('/plot', methods=['GET','POST'])
 @app.route('/<SNP_req>/manPlot/', methods=['GET','POST'])
 def Manhattan_plot(SNP_req):
-	# req_type=request.args.get('rsids',default="empty_req_type")	# Gets type of information inputted (the bit after "?")
-	# assert req_type != "empty_req_type", "rsid is empty"
-
 	req_type=request.args.get('req_type',default="empty_req_type")	# Gets type of information inputted (the bit after "?")
 	assert req_type != "empty_req_type", "request type is empty"
 
 	if req_type == 'auto':
-		if re.search(r'rs\d+',SNP_req):
-			req_type='rsid'
-		elif re.search(r'\d:\d+', SNP_req):
-			req_type='coords'
-		elif re.search(r'\w{1,10}', SNP_req):
-			req_type='geneName'
-		else:
-			# raise()
-			pass
+		req_type=parseAuto(req_type)	# Automatically detect request type
 
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
 	name=SNP_req
-	reqRes,SNP_list=DBreq(SNP_req, req_type)	# Make SQL request
+	reqRes,SNP_list=DBreq(SNP_req, req_type,manPlot=True)	# Make SQL request
 	if reqRes:						# If the response isn't None
 			assert isinstance(reqRes, dict),"invalid db request return value"
 			if debug:

@@ -53,7 +53,7 @@ def Manhattan_plot():
     print('\n, df:',df)
     ## Format figure
     p = figure(frame_width=800,# graph size
-               plot_height=500, # graph size
+               height=500, # graph size - if issues, change to plot_height
                title="Hover over a plot to see the SNP ID and chomosomal position",# Title added in html
                toolbar_location="right", # location of toolbar
                tools="pan,hover,xwheel_zoom,zoom_out,box_zoom,reset,box_select,tap,undo,save",# Tool features added to make graph interactive
