@@ -191,12 +191,14 @@ def Manhattan_plot(SNP_req):
 		return("manhattan plot parsing failed")                 			# If SNP is not found:
 		# return render_template('not_found.html', name=name)
 
-	df=pd.DataFrame(reqRes).T
-	df.rename_axis("rsid", axis="columns",inplace=True)
-	df.rename(columns={0:'chr_pos', 1:"chr_id",2:"cumulative_pos", 3:"-logp"},inplace=True)
-	df=df.astype({'chr_id':'int64', 'cumulative_pos':'int64','chr_pos':'int64'})
+	df=pd.DataFrame(reqRes).T								# Convert sql request response to dataframe, then flip axes (ie vertical becomes horizontal and vice-versa)
+	df.rename_axis("rsid", axis="columns",inplace=True)		# Name the index "rsid"
+	df.rename(columns={0:'chr_pos', 1:"chr_id",2:"cumulative_pos", 3:"-logp"},inplace=True)	# rename each of the columns
+	df=df.astype({'chr_id':'int64', 'cumulative_pos':'int64','chr_pos':'int64'})			# cast some columns to int
 	if debug:
-		print(df)	
+		print(df)
+
+	#### End of Gabriel's code
 
 	#If the 'positions' variable exists, split it by comma and convert to a list of integers
 	# if positions:
