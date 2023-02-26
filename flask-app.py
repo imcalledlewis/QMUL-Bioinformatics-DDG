@@ -19,8 +19,8 @@ from wtforms.validators import InputRequired
 from data.db_scripts import *	# Database related stuff
 from data.LD_scripts import *	# LD data and heatmap
 
-debug=True	# Change this to False for deployment
-setDebug(debug)
+debug=True		# Change this to False for deployment
+setDebug(debug)	# Set db_scripts debug flag to the same as this file
 
 # create a flask application object
 app = Flask(__name__)
@@ -193,9 +193,10 @@ def Manhattan_plot(SNP_req):
 
 	df=pd.DataFrame(reqRes).T
 	df.rename_axis("rsid", axis="columns",inplace=True)
-	df.rename(columns={0:"chr_id",1:"cumulative_pos", 2:"-logp"},inplace=True)
-	print(df)	
-	# return("test")
+	df.rename(columns={0:'chr_pos', 1:"chr_id",2:"cumulative_pos", 3:"-logp"},inplace=True)
+	df=df.astype({'chr_id':'int64', 'cumulative_pos':'int64','chr_pos':'int64'})
+	if debug:
+		print(df)	
 
 	#If the 'positions' variable exists, split it by comma and convert to a list of integers
 	# if positions:
@@ -220,7 +221,7 @@ def Manhattan_plot(SNP_req):
 				title="Hover over a plot to see the SNP ID and chromosomal position",# Title added in html
 				toolbar_location="right",
 				tools="pan,hover,xwheel_zoom,zoom_out,box_zoom,reset,box_select,tap,undo,save",# Tool features added to make graph interactive
-				tooltips="@SNPS: (@CHR_ID,@CHR_POS)"# Shows when mouse is hovered over plot
+				tooltips="@rsid: (@chr_id,@chr_pos)"# Shows when mouse is hovered over plot
 				)
 
 	# Add circles to the figure to represent the SNPs in the GWAS data
