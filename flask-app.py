@@ -230,7 +230,12 @@ def Manhattan_plot(SNP_req):
 				title="Hover over a plot to see the SNP ID and chromosomal position",# Title added in html
 				toolbar_location="right",
 				tools="pan,hover,xwheel_zoom,zoom_out,box_zoom,reset,box_select,tap,undo,save",# Tool features added to make graph interactive
-				tooltips="@rsid: (@chr_id,@chr_pos)"# Shows when mouse is hovered over plot
+				tooltips="""
+				<div class="manPlot-tooltip">
+    				<span style="font-weight: bold">@rsid: </span>
+    				<span>@chr_id:@chr_pos</span>
+				</div>				
+				"""# Shows when mouse is hovered over plot
 				)
 
 	# Add circles to the figure to represent the SNPs in the GWAS data
