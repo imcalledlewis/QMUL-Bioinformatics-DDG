@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" href="https://cdn.bokeh.org/bokeh/release/bokeh-2.4.1.min.js" type="text/css"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }}">
 <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.4.1.min.js"></script>
 <head>
     <meta charset="UTF-8">
@@ -12,8 +13,11 @@
 </div>
 <h1>Manhattan Plot for SNPs in T1D</h1>
 </div>
-{{script | safe}}
-{{div | safe}}
+<div class="manPlot">
+    <p> Plot for {{name}}</p>
+    {{script | safe}}
+    {{div | safe}}
+</div>
 </body>
 </html>
 
