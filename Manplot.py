@@ -30,13 +30,21 @@ def index():
     
 #Create Manhattan plot page
 #Define the route for the Manhattan plot and specify the methods it accepts
-@app.route('/plot/')
+@app.route('/plot')
 def Manhattan_plot():
     # Get list of chromosome positions from user input
     positions = request.args.get('positions')
     #If the 'positions' variable exists, split it by comma and convert to a list of integers
     if positions:
-        positions = [int(pos) for pos in positions.split(',')]
+        # If the input contains a range of positions, create a list of individual positions
+        if '-' in positions:
+            #If a range of positions is entered splits dash at the "-" and assigns the start and end positions to the variables pos_start and pos_end.
+            pos_start, pos_end = [int(pos) for pos in positions.split('-')]
+            #Use the range function to generate a list of all positions in the range 
+            positions = list(range(pos_start, pos_end + 1))#'+1' makes sure pos_end is included
+        #If the input is a comma-separated list, split the string into a list of individual positions
+        else:
+            positions = [int(pos) for pos in positions.split(',')]
 
     # Read in the GWAS data as a pandas dataframe
     df = pd.read_csv('./data/TSVs/T1D_GWAS_add.tsv', sep='\t')
