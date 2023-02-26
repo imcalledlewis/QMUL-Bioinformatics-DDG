@@ -4,6 +4,7 @@ from bokeh.plotting import figure, output_file, show
 from bokeh.transform import linear_cmap
 from bokeh.embed import components
 from flask import Flask, request, render_template, abort, Response, redirect, url_for
+from data.db_scripts import *
 
 # Create a Flask application object
 app = Flask(__name__)
@@ -46,7 +47,7 @@ def Manhattan_plot():
             positions = [int(pos) for pos in positions.split(',')]
 
     # Read in the GWAS data as a pandas dataframe
-    df = pd.read_csv('.\data\TSVs\Manplot_data.tsv', sep='\t')
+    df = pd.read_csv('./data/TSVs/T1D_GWAS_add.tsv', sep='\t')
 
     #Filter data by chromosome positions if positions are provided
     if positions:
