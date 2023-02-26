@@ -221,7 +221,6 @@ def Manhattan_plot(SNP_req):
 	# 	df = df[df['cumulative_pos'].isin(positions)]
 
 	# Separate by chromosome ID, and colour them
-	df.chr_id.unique()
 	index_cmap = linear_cmap('chr_id', palette = ['grey','black']*11,low=1,high=22)
 
 	## Format figure
@@ -246,7 +245,7 @@ def Manhattan_plot(SNP_req):
             size=7,# Size of plot 
             selection_color="rebeccapurple", # Colour of plot when selected
             hover_color="green"
-             )
+            )
 
 	# Set the x and y axis labels for the plot
 	p.xaxis.axis_label = 'Chromosome'# x-axis label 
@@ -261,7 +260,7 @@ def Manhattan_plot(SNP_req):
 	p.xaxis.major_label_overrides = {119895261: '1', 373943002: '2', 537393504: '3', 716119012: '4', 834845071: '5',
 										964538826.5: '6', 1147957441: '7', 1306654016: '8',
 										1396415411: '9', 1540730893: '10', 1674222993: '11', 1823778230: '12',
-										1930583064: '13', 2055942929: '14', 2088496163: '14', 2141945578: '15',
+										1930583064: '13', 2055942929: '14', 2141945578: '15',
 										2202426536: '16', 2302961360: '17', 2388903150: '18', 2436333506.5: '19',
 										2482024730: '20', 2529377491: '21', 2584586808: '22'}
 	# change the font colour of the title 
