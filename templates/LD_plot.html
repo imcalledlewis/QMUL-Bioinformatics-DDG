@@ -6,21 +6,25 @@
 <body>
 	<h1>{{name}}</h1>
     <div class="linkBox">
-	<div class="topLinks">
-		<a href="#" onclick="history.back();return false;">Return to SNP results</a>
-		<a href="/">Home</a>
+		<div class="topLinks">
+			<a href="#" onclick="history.back();return false;">Return to SNP results</a>
+			<a href="/">Home</a>
+		</div>
 	</div>
-	</div>
-	<br>
-	<p>LD heatmap for SNPs
-		{% for snp in SNP_list[:-1] %}
-		{{snp}},
-	{% endfor %}
-	{{SNP_list[-1]}}:<p>
-    <img src='data:image/png;base64,{{FIN_D_data}}'/>
-	<img src='data:image/png;base64,{{FIN_r2_data}}'/>
-	<img src='data:image/png;base64,{{TSI_D_data}}'/>
-	<img src='data:image/png;base64,{{TSI_r2_data}}'/>
-	<img src='data:image/png;base64,{{GBR_D_data}}'/>
-	<img src='data:image/png;base64,{{GBR_r2_data}}'/>
+	<main>
+		<br>
+		<p>LD heatmap for SNPs
+			{% for snp in SNP_list[:-1] %}
+			{{snp}},
+			{% endfor %}
+			{{SNP_list[-1]}}:
+		</p>
+		<img src='data:image/png;base64,{{FIN_D_data}}'/>
+		<img src='data:image/png;base64,{{FIN_r2_data}}'/>
+		<img src='data:image/png;base64,{{TSI_D_data}}'/>
+		<img src='data:image/png;base64,{{TSI_r2_data}}'/>
+		<img src='data:image/png;base64,{{GBR_D_data}}'/>
+		<img src='data:image/png;base64,{{GBR_r2_data}}'/>
+	</main>
 </body>
+</html>

@@ -86,8 +86,8 @@ def SNP(SNP_req):
 			req_type= None
 		if debug:
 			print("detected type:", req_type)
-
-	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
+	if req_type!='geneName':
+		SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
 	name=SNP_req
 	reqRes,SNP_list=DBreq(SNP_req, req_type)	# Make SQL request
 	if reqRes:						# If the response isn't None
@@ -164,7 +164,7 @@ def download(SNP_req):
 		if debug:
 			print ("request response:",reqRes)
 		LD_data = export_LD(SNP_list) # create LD results dataframe using SNP list returned from query
-		return Response(LD_data.to_csv(sep='\t'),mimetype="text/csv", headers={"Content-disposition": "attachment; filename=LD_results.tsv"})
+		return Response(LD_data.to_csv(sep='\t', index=False),mimetype="text/csv", headers={"Content-disposition": "attachment; filename=LD_results.tsv"})
 	
 
 ######################################################################################################################################
@@ -231,8 +231,8 @@ def Manhattan_plot(SNP_req):
 				tools="pan,hover,xwheel_zoom,zoom_out,box_zoom,reset,box_select,tap,undo,save",# Tool features added to make graph interactive
 				tooltips="""
 				<div class="manPlot-tooltip">
-    				<span style="font-weight: bold">@rsid: </span>
-    				<span>@chr_id:@chr_pos</span>
+    				<span class=tooltip-rsid>@rsid </span>
+    				<span class=tooltip-chrPos>@chr_id:@chr_pos</span>
 				</div>				
 				"""# Shows when mouse is hovered over plot
 				)

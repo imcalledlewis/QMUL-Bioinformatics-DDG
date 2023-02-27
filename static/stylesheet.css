@@ -31,7 +31,14 @@ html, body {
   background-color: var(--light_bg);
 }
 
-form, body, p, table {
+/* form, body, p, table{
+	font-family: Garamond, serif;
+	font-size: 1.2em;
+} */
+
+main{				/*main content, to indent slightly */
+	margin-left: 3%;
+	margin-right: 3%;
 	font-family: Garamond, serif;
 	font-size: 1.2em;
 }
@@ -40,12 +47,13 @@ input,select {
 	color: #000;
 }
 
-form, p, img, table,h2,details{
+	
+/* form, p, img, table,h2,details{
 	margin-left: 3%;
 	margin-right: 3%;
-}
+} */
 
-h1, h2, h3, h4, h5, h6, li a{
+h1, h2, h3, h4, h5, h6{
 	font-family: Helvetica, Arial, sans-serif;
 }
 
@@ -99,6 +107,9 @@ h1 {
 	background-color: black;
 }
 
+.tooltip-rsid{
+	font-weight: bold;
+}
 
 
 /* Table stuff */
