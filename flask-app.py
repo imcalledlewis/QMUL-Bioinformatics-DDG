@@ -273,13 +273,13 @@ def Manhattan_plot(SNP_req):
 @app.route('/themes')
 def themePage():
 	# Add a theme like so:
-	addTheme(name="dark", textColour="white", contrast_bg="black", mild_bg= "#66a", med_bg= "#559", strong_bg= "#227")
+	addTheme(name="dark", text="white", contrast="black", mild= "#66a", med= "#559", strong= "#227")
 	# mild_bg: main content, least intense colour. strong_bg: header, most intense colour.
-	# contrast_bg should always be the opposite of textColour.
+	# contrast should always be the opposite of textColour.
 
 	# you can also create a theme like this:
-	addTheme("light", "black", "white", "#118", "#66a", "#99d")
-
+	addTheme("light", "black", "white", "#7e7ece", "#8f8fef", "#a3a3ff")
+	addTheme("sunset", "white","black","#aa8764", "#9b6655","#772222")
 
 	return render_template("themes.html", themeDict=themeDict)
 

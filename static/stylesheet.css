@@ -1,7 +1,7 @@
 :root{		/*		Edit the following values to change the colours of the page		*/
 	--textColour: white;
 	--contrast_bg: black;
-	--light_bg: #66a;
+	--mild_bg: #66a;
 	--med_bg: #559;
 	--strong_bg: #227;
 }
@@ -14,7 +14,7 @@
 html, body {
   height: 100%;
   margin: 0;
-  background-color: var(--light_bg);
+  background-color: var(--mild_bg);
 }
 
 /* form, body, p, table{
@@ -30,7 +30,7 @@ main{				/*main content, to indent slightly */
 }
 
 input,select {
-	color: #000;
+	color: var(--contrast_bg);
 }
 
 	
@@ -90,7 +90,7 @@ h1 {
 
 .manPlot-tooltip {
 	color: var(--textColour);
-	background-color: black;
+	background-color: var(--contrast_bg);
 }
 
 .tooltip-rsid{

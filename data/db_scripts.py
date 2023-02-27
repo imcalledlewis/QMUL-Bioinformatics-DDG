@@ -184,6 +184,6 @@ def clear():    # Clears screen, platform independent
     os.system('cls' if os.name=='nt' else 'clear') 
 
 
-def addTheme(name, textColour="white", contrast_bg="black", mild_bg= "#66a", med_bg= "#559", strong_bg= "#227"):
-    l=[textColour, contrast_bg, mild_bg, med_bg, strong_bg]
+def addTheme(name, text="white", contrast="black", mild= "#66a", med= "#559", strong= "#227"):
+    l=[text, contrast, mild, med, strong]
     themeDict.update({name:l})
