@@ -73,20 +73,15 @@ def LD_heatmap_matrix(SNP_list, LD_dataset_file = "data/TSVs/LD_T1DM_Chr6.tsv" ,
         LD_matrix_df = pd.concat([LD_matrix_df, row])
     return LD_matrix_df
 
-def ld_plot(ld, labels, title):
-    """
-    ld_plot(ld, labels)
-    Plot of a Linkage Disequilibrium (LD) matrix
-    :param ld: A symmetric LD matrix
-    :param labels: A list of position names
-    """
-    n = ld.shape[0]
+def LD_plot(LD, labels, title):
+
+    n = LD.shape[0]
 
     figure = plt.figure()
 
     # mask triangle matrix
     mask = np.tri(n, k=0)
-    ld_masked = np.ma.array(ld, mask=mask)
+    LD_masked = np.ma.array(LD, mask=mask)
 
     # create rotation/scaling matrix
     t = np.array([[1, 0.5], [-1, 0.5]])
@@ -102,7 +97,7 @@ def ld_plot(ld, labels, title):
     ax.get_yaxis().set_visible(False)
     plt.tick_params(axis='x', which='both', top=False)
     plt.pcolor(coordinate_matrix[:, 1].reshape(n + 1, n + 1),
-                   coordinate_matrix[:, 0].reshape(n + 1, n + 1), np.flipud(ld_masked), edgecolors = "white", linewidth = 1.5, cmap = 'OrRd')
+                   coordinate_matrix[:, 0].reshape(n + 1, n + 1), np.flipud(LD_masked), edgecolors = "white", linewidth = 1.5, cmap = 'OrRd')
     plt.xticks(ticks=np.arange(len(labels)) + 0.5, labels=labels, rotation='vertical', fontsize=8)
     plt.colorbar()
 
@@ -125,12 +120,12 @@ def multiple_LD_matrix(SNP_list):
 def multiple_LD_plot(SNP_list):
 # call LD_heatmap_matrix for all 6 plots and then create and return 6 LD plots
     FIN_D, FIN_r2, TSI_D, TSI_r2, GBR_D, GBR_r2 =  multiple_LD_matrix(SNP_list)
-    FIN_D_plot  = ld_plot(FIN_D,SNP_list,"Finnish $D\'$")
-    FIN_r2_plot = ld_plot(FIN_r2,SNP_list,"Finnish $r^2$")
-    TSI_D_plot  = ld_plot(TSI_D,SNP_list,"Toscani (Italian) $D\'$")
-    TSI_r2_plot = ld_plot(TSI_r2,SNP_list,"Toscani (Italian) $r^2$")
-    GBR_D_plot  = ld_plot(GBR_D,SNP_list,"British $D\'$")
-    GBR_r2_plot = ld_plot(GBR_r2,SNP_list,"British $r^2$")
+    FIN_D_plot  = LD_plot(FIN_D,SNP_list,"Finnish $D\'$")
+    FIN_r2_plot = LD_plot(FIN_r2,SNP_list,"Finnish $r^2$")
+    TSI_D_plot  = LD_plot(TSI_D,SNP_list,"Toscani (Italian) $D\'$")
+    TSI_r2_plot = LD_plot(TSI_r2,SNP_list,"Toscani (Italian) $r^2$")
+    GBR_D_plot  = LD_plot(GBR_D,SNP_list,"British $D\'$")
+    GBR_r2_plot = LD_plot(GBR_r2,SNP_list,"British $r^2$")
     
     return FIN_D_plot, FIN_r2_plot, TSI_D_plot, TSI_r2_plot, GBR_D_plot, GBR_r2_plot
 
