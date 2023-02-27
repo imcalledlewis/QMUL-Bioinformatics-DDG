@@ -1,0 +1,25 @@
+<html>
+<head>
+	<link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }}">
+    <script src="{{ url_for('static', filename='themes.js') }}"></script>
+	<title>QMUL SNP Portal - Themes</title>
+</head>
+<body>
+	<h1>Themes</h1>
+    <div class="linkBox">
+        <div class="topLinks">
+            <a href="/">Home </a>
+        </div>
+    </div>
+    <br>
+    <main>
+        {% for theme in themeDict %}
+            <a class="themeItem" href="#" onclick="setTheme({% for colour in themeDict[theme][:-1]%}'{{colour}}',{% endfor %}'{{themeDict[theme][-1]}}')">{{theme}}</a>
+            <br>
+            <br>
+        {% endfor %}
+    </main>
+</body>
+</html>
+
+<!-- {{themeDict}} -->

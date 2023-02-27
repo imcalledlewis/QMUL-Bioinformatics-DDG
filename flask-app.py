@@ -17,6 +17,7 @@ from wtforms.validators import InputRequired
 
 # Import custom libraries:
 from data.db_scripts import *	# Database related stuff
+from data.db_scripts import themeDict
 from data.LD_scripts import *	# LD data and heatmap
 
 debug=True		# Change this to False for deployment
@@ -271,13 +272,21 @@ def Manhattan_plot(SNP_req):
 	return render_template("Manplot.html", script=script, div=div,name=name)
 
 
+@app.route('/themes')
+def themePage():
+	# Add a theme like so:
+	addTheme(name="dark", textColour="white", contrast_bg="black", mild_bg= "#66a", med_bg= "#559", strong_bg= "#227")
+	# mild_bg: main content, least intense colour. strong_bg: header, most intense colour.
+	# contrast_bg should always be the opposite of textColour.
+
+	# you can also create a theme like this:
+	addTheme("light", "black", "white", "#118", "#66a", "#99d")
 
 
-
-
+	return render_template("themes.html", themeDict=themeDict)
 
 
 
 # Start the web server
-if __name__ == '__main__':
+if __name__ == '__main__':	
 	app.run(debug=debug)

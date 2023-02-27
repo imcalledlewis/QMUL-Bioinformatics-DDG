@@ -7,6 +7,7 @@ import collections
 
 _database = "snps.db"
 _unav = "Data unavailable"
+themeDict={}
 
 def setDebug(debug):
     global db_debug
@@ -180,4 +181,9 @@ def castRS(dataframe,rsCol):   # Receives a dataframe, returns df with "rs" remo
     raise Exception("castRS is deprecated")   # this function isn't being used any more
 
 def clear():    # Clears screen, platform independent
-    os.system('cls' if os.name=='nt' else 'clear')
+    os.system('cls' if os.name=='nt' else 'clear') 
+
+
+def addTheme(name, textColour="white", contrast_bg="black", mild_bg= "#66a", med_bg= "#559", strong_bg= "#227"):
+    l=[textColour, contrast_bg, mild_bg, med_bg, strong_bg]
+    themeDict.update({name:l})

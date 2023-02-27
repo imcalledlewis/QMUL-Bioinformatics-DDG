@@ -1,23 +1,9 @@
 :root{		/*		Edit the following values to change the colours of the page		*/
-	--textColour: #fff;
-
-	/* light
-	--light_bg: #77b;
-	--med_light_bg: #66a;
-	--dark_bg: #339;
-	*/
-
-	/* medium */
+	--textColour: white;
+	--contrast_bg: black;
 	--light_bg: #66a;
-	--med_light_bg: #559;
-	--dark_bg: #227;
-	
-
-	/* dark 
-	--light_bg: #559;
-	--med_light_bg: #448;
-	--dark_bg: #227;
-	*/
+	--med_bg: #559;
+	--strong_bg: #227;
 }
 
 *{
@@ -61,7 +47,7 @@ h1 {
 	padding: 1% 0%;
 	margin: auto;
 	text-align: center;
-	background-color: var(--dark_bg);
+	background-color: var(--strong_bg);
 }
 
 h1 {
@@ -71,7 +57,7 @@ h1 {
 .linkBox{
 
 	padding: 1% 0%;
-	background-color: var(--med_light_bg);
+	background-color: var(--med_bg);
 	/* font-size: 1.5em; */
 
 	/* padding: 0.9em 6.5em; */
@@ -98,7 +84,7 @@ h1 {
 	margin: auto;
 	width: 50%;	
 	text-align: center;
-	font-size: 1.5em;
+	/* font-size: 1.5em; */
 }
 
 
@@ -111,12 +97,15 @@ h1 {
 	font-weight: bold;
 }
 
+.themeItem{
+	font-size: larger;
+}
 
 /* Table stuff */
 
 summary{
 	font-size: 1.5em;
-	background-color: var(--med_light_bg);
+	background-color: var(--med_bg);
 	padding: 1%;
 	max-width: 15%;
 }
@@ -130,7 +119,7 @@ th{
 }
 
 tr:nth-child(even){
-	background-color: var(--med_light_bg);
+	background-color: var(--med_bg);
 }
 
 td,th{
