@@ -7,6 +7,7 @@ gwas_catalog_v1.0-associations_e108_r2023-01-14.tsv
 Documentation/*.aux
 Documentation/*.log
 Documentation/*.gz
+Documentation/*.toc
 _minted-Documentation/
 
 # vscode files
