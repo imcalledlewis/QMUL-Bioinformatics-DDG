@@ -6,9 +6,6 @@
 <body>
 	<h1>{{SNP_req}}</h1>
 
-
-    
-
     <div class="linkBox">
         <div class="topLinks">
             {% if len > 1 %}
@@ -22,11 +19,17 @@
             {% endif %}
         </div>
     </div>
-
-
+    <div style="border-top: solid;" class="linkBox">
+        <div class="topLinks">
+            <a href="#pos">Jump to Positional </a>
+            <a href="#freq">Jump to Frequencies </a>
+            <a href="#func">Jump to Functional </a>
+            <a href="#ont">Jump to Ontology </a>            
+        </div>
+    </div>
 
 <main>
-    <h2>Positional:</h2>
+    <h2 id="pos">Positional:</h2>
 
     <table>
         <tr>
@@ -43,7 +46,7 @@
 
 	<br>
 
-	<h2>Allele Frequencies:</h2>
+	<h2 id="freq">Allele Frequencies:</h2>
 	
     <table>
         <tr>
@@ -61,7 +64,7 @@
 
 	<br>
 
-	<h2>Functional:</h2>
+	<h2 id="func">Functional:</h2>
 
 	<table>
         <tr>
@@ -76,7 +79,7 @@
         {% endfor %}
     </table>
 
-    <h2>Ontology:</h2>
+    <h2 id="ont">Ontology:</h2>
     <p>Click each rsid to expand</p>
     {% for snp_rs in reqRes %}
     <details>
