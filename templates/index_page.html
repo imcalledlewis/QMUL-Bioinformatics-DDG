@@ -6,6 +6,7 @@
 <body>
 	<h1>QMUL SNP Portal</h1>
 	<br>
+	<main>
 	<form method="POST">
 		{{ form.csrf_token }}
 		{{ form.SNP_req.label }} {{ form.SNP_req() }}
@@ -13,6 +14,12 @@
 		{{ form.req_type.label }} {{form.req_type}}
 		{{ form.submit() }}
 	</form>
+	<h2>Formatting guidelines:</h2>
+	<ul>
+		<li>Item one</li>
+		<li>Item two</li>
+		<li>Item three</li>
+	</ul>
 	{% if debug %}
 	<br><br>
 	<p>rs1770 is a known working SNP</p>
@@ -21,4 +28,8 @@
 	<p>6:0000-6:29999000 gives 7 SNPs</p>
 	<p>IRF4 mapped gene</p>
 	{% endif %}
+	<br>
+	</main>
+
 </body>
+</html>

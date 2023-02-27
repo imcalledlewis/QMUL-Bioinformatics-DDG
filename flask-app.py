@@ -231,8 +231,8 @@ def Manhattan_plot(SNP_req):
 				tools="pan,hover,xwheel_zoom,zoom_out,box_zoom,reset,box_select,tap,undo,save",# Tool features added to make graph interactive
 				tooltips="""
 				<div class="manPlot-tooltip">
-    				<span style="font-weight: bold">@rsid: </span>
-    				<span>@chr_id:@chr_pos</span>
+    				<span class=tooltip-rsid>@rsid </span>
+    				<span class=tooltip-chrPos>@chr_id:@chr_pos</span>
 				</div>				
 				"""# Shows when mouse is hovered over plot
 				)
