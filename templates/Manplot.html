@@ -11,11 +11,17 @@
 </head>
 
 </div>
-<h1>Manhattan Plot for SNPs in T1D</h1>
+<h1>Manhattan Plot for {{name}} in T1D</h1>
+</div>
+<div class="linkBox">
+    <div class="topLinks">
+        <a href="#" onclick="history.back();return false;">Return to SNP results</a>
+        <a href="/">Home</a>
+    </div>
 </div>
 <main>
     <div class="manPlot">
-        <p> Plot for {{name}}</p>
+        <p>Hover over a plot to see the SNP ID and chromosomal position</p>
         {{script | safe}}
         {{div | safe}}
     </div>
