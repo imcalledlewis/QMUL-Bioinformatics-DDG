@@ -253,6 +253,7 @@ def themePage():
 	addTheme(name="dark", text="white", contrast="black", mild= "#66a", med= "#559", strong= "#227")
 	# mild: main content, least intense colour. strong: header, most intense colour.
 	# contrast should always be the opposite of text.
+	# I recommend using https://www.w3schools.com/colors/colors_picker.asp to choose colours
 
 	# you can also create a theme like this:
 	addTheme("light", "black", "white", "#7e7ece", "#8f8fef", "#a3a3ff")
