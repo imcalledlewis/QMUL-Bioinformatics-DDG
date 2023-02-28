@@ -141,7 +141,7 @@ def LD_plot(SNP_req):
 			if debug:
 				print ("request response:",reqRes)
 			SNP_list = remove_invalid_SNPs(SNP_list)
-			FIN_D_data, FIN_r2_data, TSI_D_data, TSI_r2_data, GBR_D_data, GBR_r2_data = embed_LD_plots(SNP_list) # create LD heatmap dataframe using SNP list returned from query
+			FIN_D_data, FIN_r2_data, TSI_D_data, TSI_r2_data, GBR_D_data, GBR_r2_data = embed_LD_plots(SNP_list, title = SNP_req) # create LD heatmap dataframe using SNP list returned from query
 			return render_template('LD_plot.html', 
 									FIN_D_data=FIN_D_data, FIN_r2_data=FIN_r2_data, 
 									TSI_D_data=TSI_D_data, TSI_r2_data=TSI_r2_data,
@@ -204,7 +204,7 @@ def Manhattan_plot(SNP_req):
 	## Format figure
 	p = figure(frame_width=800,		# graph size
 				plot_height=500, 	# graph size
-				title=None,# Title added in html
+				title=f"SNPs in {SNP_req} for T1D",# Title added in html
 				toolbar_location="right",
 				tools="pan,hover,xwheel_zoom,zoom_out,box_zoom,reset,box_select,tap,undo,save",# Tool features added to make graph interactive
 				tooltips="""
@@ -228,6 +228,7 @@ def Manhattan_plot(SNP_req):
 	# Set the x and y axis labels for the plot
 	p.xaxis.axis_label = 'Chromosome'# x-axis label 
 	p.yaxis.axis_label = '-logp'# y-axis label
+	p.title.text_color = "teal" #colour of title
 
 	# Set the tick locations and labels for the x axis using the cumulative length of the chromosomes 
 	p.xaxis.ticker = [119895261, 373943002, 537393504, 716119012, 834845071, 964538826.5, 1147957441, 1306654016,
@@ -258,7 +259,7 @@ def themePage():
 	# you can also create a theme like this:
 	addTheme("light", "black", "white", "#7e7ece", "#8f8fef", "#a3a3ff")
 	addTheme("sunset", "#fff","#000000","#aa8764", "#9b6655","#772222")
-	addTheme("Ye old Theme", "saddlebrown","cornsilk","antiquewhite", "tan","darkgoldenrod")
+	addTheme("Ye Olde Theme", "saddlebrown","cornsilk","antiquewhite", "tan","darkgoldenrod")
 
 
 

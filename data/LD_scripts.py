@@ -117,21 +117,21 @@ def multiple_LD_matrix(SNP_list):
 
     return FIN_D, FIN_r2, TSI_D, TSI_r2, GBR_D, GBR_r2
 
-def multiple_LD_plot(SNP_list):
+def multiple_LD_plot(SNP_list, title):
 # call LD_heatmap_matrix for all 6 plots and then create and return 6 LD plots
     FIN_D, FIN_r2, TSI_D, TSI_r2, GBR_D, GBR_r2 =  multiple_LD_matrix(SNP_list)
-    FIN_D_plot  = LD_plot(FIN_D,SNP_list,"Finnish $D\'$")
-    FIN_r2_plot = LD_plot(FIN_r2,SNP_list,"Finnish $r^2$")
-    TSI_D_plot  = LD_plot(TSI_D,SNP_list,"Toscani (Italian) $D\'$")
-    TSI_r2_plot = LD_plot(TSI_r2,SNP_list,"Toscani (Italian) $r^2$")
-    GBR_D_plot  = LD_plot(GBR_D,SNP_list,"British $D\'$")
-    GBR_r2_plot = LD_plot(GBR_r2,SNP_list,"British $r^2$")
+    FIN_D_plot  = LD_plot(FIN_D,SNP_list,f"{title} - Finnish $D\'$")
+    FIN_r2_plot = LD_plot(FIN_r2,SNP_list,f"{title} - Finnish $r^2$")
+    TSI_D_plot  = LD_plot(TSI_D,SNP_list,f"{title} - Toscani (Italian) $D\'$")
+    TSI_r2_plot = LD_plot(TSI_r2,SNP_list,f"{title} - Toscani (Italian) $r^2$")
+    GBR_D_plot  = LD_plot(GBR_D,SNP_list,f"{title} - British $D\'$")
+    GBR_r2_plot = LD_plot(GBR_r2,SNP_list,f"{title} - British $r^2$")
     
     return FIN_D_plot, FIN_r2_plot, TSI_D_plot, TSI_r2_plot, GBR_D_plot, GBR_r2_plot
 
-def embed_LD_plots(SNP_list):
+def embed_LD_plots(SNP_list, title):
 # prepares all 6 LD plots for embedding into html 
-    FIN_D_plot,FIN_r2_plot,TSI_D_plot,TSI_r2_plot,GBR_D_plot,GBR_r2_plot = multiple_LD_plot(SNP_list)
+    FIN_D_plot,FIN_r2_plot,TSI_D_plot,TSI_r2_plot,GBR_D_plot,GBR_r2_plot = multiple_LD_plot(SNP_list, title)
     # Finnish D prime plot
     buf = BytesIO() # create temporary buffer
     FIN_D_plot.savefig(buf, format="png") # save figure in temporary buffer
