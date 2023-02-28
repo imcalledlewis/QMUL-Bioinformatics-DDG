@@ -29,10 +29,6 @@ main{				/*main content, to indent slightly */
 	font-size: 1.2em;
 }
 
-input,select {
-	color: var(--contrast_bg);
-}
-
 	
 /* form, p, img, table,h2,details{
 	margin-left: 3%;
@@ -54,6 +50,13 @@ h1 {
 	font-size: 3em;
 }
 
+input,select{
+	color: var(--textColour);
+	background-color: var(--contrast_bg);
+}
+
+
+
 .linkBox{
 
 	padding: 1% 0%;
@@ -62,7 +65,6 @@ h1 {
 
 	/* padding: 0.9em 6.5em; */
 	text-decoration: none;
-
 }
 
 

@@ -1,7 +1,6 @@
 # General imports:
 from flask import Flask, render_template, url_for, redirect, request, Response,abort
 import pandas as pd
-
 import numpy as np
 import pandas as pd
 from math import pi
@@ -168,15 +167,10 @@ def download(SNP_req):
 		return Response(LD_data.to_csv(sep='\t', index=False),mimetype="text/csv", headers={"Content-disposition": "attachment; filename=LD_results.tsv"})
 	
 
-######################################################################################################################################
 
-# @app.route('/plot', methods=['GET','POST'])
+
 @app.route('/manPlot/<SNP_req>/', methods=['GET','POST'])
 def Manhattan_plot(SNP_req):
-	# req_type=request.args.get('req_type',default="empty_req_type")	# Gets type of information inputted (the bit after "?")
-	# assert req_type != "empty_req_type", "request type is empty"
-
-
 
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
 	name=SNP_req
@@ -192,11 +186,8 @@ def Manhattan_plot(SNP_req):
 		return("manhattan plot parsing failed")                 			# If SNP is not found:
 		# return render_template('not_found.html', name=name)
 
-	# print(pd.DataFrame(reqRes))
 	df=pd.DataFrame(reqRes).T								# Convert sql request response to dataframe, then flip axes (ie vertical becomes horizontal and vice-versa)
 
-	# print(df)
-	# df.rename_axis("rsid", axis="columns",inplace=True)		# Name the index "rsid"
 	df.rename(columns={0:'index',1:'chr_pos', 2:"chr_id",3:"cumulative_pos", 4:"-logp"},inplace=True)	# rename each of the columns
 	df['rsid'] = df.index
 	df=df.astype({'chr_id':'int64', 'cumulative_pos':'int64','chr_pos':'int64','index':'int64'})			# cast some columns to int
@@ -205,21 +196,7 @@ def Manhattan_plot(SNP_req):
 		print(df)
 		pass
 
-	# return("test")
-	#### End of Gabriel's code
-
-	#If the 'positions' variable exists, split it by comma and convert to a list of integers
-	# if positions:
-	# 	positions = [int(pos) for pos in positions.split(',')]
-
-	# Read in the GWAS data as a pandas dataframe
-	# df = pd.read_csv('T1D_GWAS_add.tsv', sep='\t')
-
-
-
-	#Filter data by chromosome positions if positions are provided
-	# if positions:
-	# 	df = df[df['cumulative_pos'].isin(positions)]
+	#### End of Gabriel's code ####
 
 	# Separate by chromosome ID, and colour them
 	index_cmap = linear_cmap('chr_id', palette = ['grey','black']*11,low=1,high=22)
@@ -274,8 +251,8 @@ def Manhattan_plot(SNP_req):
 def themePage():
 	# Add a theme like so:
 	addTheme(name="dark", text="white", contrast="black", mild= "#66a", med= "#559", strong= "#227")
-	# mild_bg: main content, least intense colour. strong_bg: header, most intense colour.
-	# contrast should always be the opposite of textColour.
+	# mild: main content, least intense colour. strong: header, most intense colour.
+	# contrast should always be the opposite of text.
 
 	# you can also create a theme like this:
 	addTheme("light", "black", "white", "#7e7ece", "#8f8fef", "#a3a3ff")
