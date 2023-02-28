@@ -257,7 +257,7 @@ def themePage():
 	# you can also create a theme like this:
 	addTheme("light", "black", "white", "#7e7ece", "#8f8fef", "#a3a3ff")
 	addTheme("sunset", "#fff","#000000","#aa8764", "#9b6655","#772222")
-
+	addTheme("Ye old Theme", "saddlebrown","cornsilk","antiquewhite", "tan","darkgoldenrod")
 
 
 
