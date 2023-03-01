@@ -184,7 +184,7 @@ def Manhattan_plot(SNP_req):
 		else:
 			return("manhattan plot parsing failed")                 			# If SNP is not found:
 
-	df=pd.DataFrame(reqRes).T								# Convert sql request response to dataframe, then flip axes (ie vertical becomes horizontal and vice-versa)
+	df=pd.DataFrame(reqRes).T # Convert sql request response to dataframe, then flip axes (ie vertical becomes horizontal and vice-versa)
 
 	df.rename(columns={0:'index',1:'chr_pos', 2:"chr_id",3:"cumulative_pos", 4:"-logp"},inplace=True)	# rename each of the columns
 	df['rsid'] = df.index
@@ -249,22 +249,22 @@ def Manhattan_plot(SNP_req):
 @app.route('/themes')
 def themePage():
 	# Add a theme like so:
-	addTheme(name="dark", text="white", contrast="black", mild= "#66a", med= "#559", strong= "#227")
+	addTheme(name="Dark", text="white", contrast="black", mild= "#66a", med= "#559", strong= "#227")
 	# mild: main content, least intense colour. strong: header, most intense colour.
 	# contrast should always be the opposite of text.
 	# I recommend using https://www.w3schools.com/colors/colors_picker.asp to choose colours
 
 	# you can also create a theme like this:
-	addTheme("light", "black", "white", "#7e7ece", "#8f8fef", "#a3a3ff")
+	addTheme("Light", "black", "white", "#7e7ece", "#8f8fef", "#a3a3ff")
 	addTheme("Black and White", "white", "black", "black", "#1f2833", "black")
-	addTheme("sunset", "#fff","#000000","#aa8764", "#9b6655","#772222")
+	addTheme("Sunset", "#fff","#000000","#aa8764", "#9b6655","#772222")
 	addTheme("Ye Olde Theme", "saddlebrown","cornsilk","antiquewhite", "tan","darkgoldenrod")
-	addTheme("Teal", "white", "black", "#3AAFA9", "#2B7A78","17252a")
-	addTheme("Nadia", "white", "59253a", "#895061", "#78244c","59253a")
-	addTheme("Candy Floss", "white", "f498c2", "#83d9dc", "e3c3ff","f498c2")
-	addTheme("Accessibility Green", "Black", "A8F29A", "A8F29A", "A8F29A","A8F29A")
-	addTheme("Accessibility Yellow", "Black", "F8FD89", "F8FD89", "F8FD89","F8FD89")
-	addTheme("Accessibility Blue", "Black", "96ADFC", "96ADFC", "96ADFC","96ADFC")
+	addTheme("Teal", "white", "black", "#3AAFA9", "#2B7A78","#17252a")
+	addTheme("Nadia", "white", "#59253a", "#895061", "#78244c","#59253a")
+	addTheme("Candy Floss", "white", "#f498c2", "#83d9dc", "#e3c3ff","#f498c2")
+	addTheme("Accessibility Green", "Black", "#A8F29A", "#A8F29A", "#A8F29A","#A8F29A")
+	addTheme("Accessibility Yellow", "Black", "#F8FD89", "#F8FD89", "#F8FD89","#F8FD89")
+	addTheme("Accessibility Blue", "Black", "#96ADFC", "#96ADFC", "#96ADFC","#96ADFC")
 
 	
 
