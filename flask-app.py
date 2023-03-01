@@ -256,15 +256,16 @@ def themePage():
 
 	# you can also create a theme like this:
 	addTheme("Light", "black", "white", "#7e7ece", "#8f8fef", "#a3a3ff")
+	addTheme("Accessibility Green", "Black", "#A8F29A", "#A8F29A", "#A8F29A","#A8F29A")
+	addTheme("Accessibility Yellow", "Black", "#F8FD89", "#F8FD89", "#F8FD89","#F8FD89")
+	addTheme("Accessibility Blue", "Black", "#96ADFC", "#96ADFC", "#96ADFC","#96ADFC")
 	addTheme("Black and White", "white", "black", "black", "#1f2833", "black")
 	addTheme("Sunset", "#fff","#000000","#aa8764", "#9b6655","#772222")
 	addTheme("Ye Olde Theme", "saddlebrown","cornsilk","antiquewhite", "tan","darkgoldenrod")
 	addTheme("Teal", "white", "black", "#3AAFA9", "#2B7A78","#17252a")
 	addTheme("Nadia", "white", "#59253a", "#895061", "#78244c","#59253a")
 	addTheme("Candy Floss", "white", "#f498c2", "#83d9dc", "#e3c3ff","#f498c2")
-	addTheme("Accessibility Green", "Black", "#A8F29A", "#A8F29A", "#A8F29A","#A8F29A")
-	addTheme("Accessibility Yellow", "Black", "#F8FD89", "#F8FD89", "#F8FD89","#F8FD89")
-	addTheme("Accessibility Blue", "Black", "#96ADFC", "#96ADFC", "#96ADFC","#96ADFC")
+
 
 	
 
