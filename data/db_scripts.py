@@ -52,6 +52,14 @@ def DBreq(request, request_type, manPlot=False):       # Makes SQL request
         res = cur.execute("SELECT rsid FROM gwas WHERE mapped_gene LIKE ?",req)
         ret=res.fetchall()
         request=[i[0] for i in ret]         # SQL request returns list of singleton tuples, this line converts them to flat list
+
+    elif request_type=='all':
+        res = cur.execute("SELECT rsid FROM gwas")
+        ret=res.fetchall()
+        request=[i[0] for i in ret]         # SQL request returns list of singleton tuples, this line converts them to flat list
+
+
+
         
     else:
         raise Exception("Unsupported type "+str(request_type))
@@ -76,12 +84,16 @@ def DBreq(request, request_type, manPlot=False):       # Makes SQL request
 
         if not manPlot: # Manhattan plot doesn't need any of the following
 
-            innerDict.update({"gwas":ret})
+            g_rsid,g_region,g_chr_pos,g_chr_id,g_p_value,g_mapped_gene=ret
+            gwasRet=(g_rsid,g_region,f'{g_chr_id}:{g_chr_pos}',g_p_value,removeDupeGeneMap(g_mapped_gene))
+            gwasRet=(_unav if i == None else i for i in gwasRet) # Turn empty values into 'data unavailable'
+            # innerDict.update({"gwas":ret})
+            innerDict.update({"gwas":gwasRet})
             ### Getting population data ###
             res=cur.execute("SELECT * FROM population WHERE rsid LIKE ?", req)
             ret=res.fetchone()
             if not ret:
-                ret=[_unav for i in range(3)]   
+                ret=[_unav for i in range(3)]
             innerDict.update({"pop":list(ret)})
             innerDict['pop']=[round(i,3) for i in innerDict['pop'] if isinstance(i, float)]    # remove allele strings, round to 3 dp
 

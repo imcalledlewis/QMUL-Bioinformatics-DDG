@@ -185,8 +185,8 @@ def Manhattan_plot(SNP_req):
 
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
 	name=SNP_req
-	if SNP_req=='all6': # all of chromosome 6
-			reqRes,SNP_list=DBreq('6:0-9999999999999', 'coords',manPlot=True)	# Make SQL request
+	if SNP_req=='all': # all of chromosome 6
+			reqRes,SNP_list=DBreq(' ', 'all',manPlot=True)	# Make SQL request
 			name ='Chromosome 6'
 	else:
 		reqRes,SNP_list=DBreq(SNP_req, 'coords',manPlot=True)	# Make SQL request
