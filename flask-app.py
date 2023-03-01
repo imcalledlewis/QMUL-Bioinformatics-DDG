@@ -273,7 +273,7 @@ def themePage():
 	addTheme("Sunset", "#fff","#000000","#aa8764", "#9b6655","#772222")
 	addTheme("Ye Olde Theme", "saddlebrown","cornsilk","antiquewhite", "tan","darkgoldenrod")
 	addTheme("Teal", "white", "black", "#3AAFA9", "#2B7A78","#17252a")
-	addTheme("Nadia", "white", "#59253a", "#895061", "#78244c","#59253a")
+	addTheme("Plum", "white", "#59253a", "#895061", "#78244c","#59253a")
 	addTheme("Candy Floss", "black", "#f498c2", "#83d9dc", "#e3c3ff","#f498c2")
 	addTheme("Pastels", "black","white","#AEC6CF","#ffc4c4","#ae7f9a")
 
