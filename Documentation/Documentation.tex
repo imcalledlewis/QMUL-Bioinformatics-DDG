@@ -180,7 +180,7 @@ Chromosome position or a Gene name. The site also allows the user to calculate L
 of SNPs selected for each population producing a text file containing the LD values and plot these values as
 a LD heatmap. The user is also able to enter multiple SNPs and return a Manhattan plot of p-values.
 
-\subsect{Prerequisites:}
+\subsect{Prerequisites}
 
 %\begin{center}
 \begin{tabular}{l r}
@@ -197,7 +197,7 @@ numpy&1.24.2 \\
 \end{tabular}
 %\end{center}
 
-\subsubsect{Functions used throughout:}
+\subsubsect{Functions used throughout}
 
 A number of functions were used throughout the code such as\ldots{}
 
@@ -212,7 +212,8 @@ This information was downloaded from the GWAS catalogue where a TSV file was dow
 
 \mintfile{code_snippets/placeholder.py}
 
-This code uses pandas to open the TSV file, creates a dataframe called data, and removes any special characters from the column names, as SQL does not interact with special characters very well.
+This code uses pandas to open the TSV file, creates a dataframe called data, and removes any special characters from the column names,
+as SQL does not interact with special characters very well.
 
 \mintfile{code_snippets/placeholder.py}
 The data frame is then filtered further so that it only has data that references T1D in the “disease\_trait” column so that only T1D data remains in the dataframe. Next all SNPs that don't have rsIDs are removed, as some cells had incompatible data in this column.
@@ -236,19 +237,39 @@ Ensembl REST returns a list of dictionaries containing data for each study popul
 
 \subsect{Functional information and Gene Ontology}
 
-We have used Ensembl's Variant Effect Predictor web tool to gather the Functional and Ontology data by
-submitting a job with the rsIDs as input from the above GWAS TSV file.
-After running the job, we get an output of text file with columns like:
+There are several different measures of the functional impact of a SNP CADD (Combined Annotation Dependent Depletion), a tool used for predicting the potential harm caused by genetic variants or its deleteriousness, was chosen. A CADD score indicates the likelihood of a variant being deleterious.
+One advantage of CADD over other measures of functional impact such as SIFT or PolyPhen is that CADD integrates a larger and more diverse set of functional annotations. It also considers the effects of variants on non-coding regions of the genome, which can be important for understanding the functional consequences of variants that are not in protein-coding regions.
 
+\subsubsect{Collecting data}
+The Ensembl's Variant Effect Predictor (VEP) web tool was used to gather the Functional and Ontology data by submitting a job with the rsIDs from the \texttt{T1D\_GWAS\_add.tsv} file separated by commas.
+
+
+From the Additional identifiers tab the following options were selected: Gene Symbol, Protein and the Gene Ontology. This allowed for us to associate the ontology terms with Genes and Protein names.
+\pic{VEP_search}{Search interface of Ensembl's Variant Effect Predictor web tool}
+
+
+CADD was selected in the Prediction column to add a column containing the Raw CADD score and the CADD Phred score which then both are associated with the rsID and the Genes and Protein names.
+
+\pic{VEP_pred}{Screenshot of the Job submitting Ensembl webpage}
 
 
 The VEP file provides detailed information about the functional and ontological consequences of genetic variants, including their impact on genes, proteins, and pathways.
 
-We have converted the text file to a tsv file and trimmed down the file to include only the rsID, Alleles, CADD\_PHRED and CADD\_RAW scores columns for the functional data and the rsID, location, gene, symbol, GO terms columns for the Ontology data. We have further used these TSV files in our database.
+\subsubsect{Trimming data}
+\begin{itemize}
+\item After running the job, we get an output text file with several columns however we are only interested in the following:
+\item Uploaded\_Variation: the reference SNP identifier for the variant.
+\item Allele: the alternative allele observed at the variant site.
+\item Location: the location of the variant within the affected gene
+\item Gene: the Ensembl gene ID of the affected gene.
+\item Symbol: the gene symbol or name.
+\item CADD\_PHRED: Phred-scaled CADD score (Combined Annotation-Dependent Depletion), which predicts the deleteriousness of variants.
+\item CADD\_RAW: the raw CADD score, which is a measure of the deleteriousness of variants.
+\item GO Terms: Gene Ontology (GO) terms associated with the affected gene.
+\end{itemize}
+The Functional information was extracted using the following script utilising pandas dataframe function to select the required columns and then converted back in to a new csv file using pandas \verb|to_csv()| function.
 
-CADD (Combined Annotation Dependent Depletion) is a tool used for predicting the potential harm caused by genetic variants. The tool generates a score that indicates the likelihood of a variant being deleterious.
 
-One advantage of CADD over SIFT and PolyPhen is that CADD integrates a larger and more diverse set of functional annotations. It also considers the effects of variants on non-coding regions of the genome, which can be important for understanding the functional consequences of variants that are not in protein-coding regions.
 
 \sect {Linkage Disequilibrium}
 
@@ -378,13 +399,18 @@ Screenshot how site works how to navigate\ldots
 In response to user feedback, a page was added to allow for the selection of themes.
 These are provided for both aesthetic and accessibility reasons,
 and as such includes colours found by \textcite{AccessColours} to help with readability,
-as well as custom themes created by the project team members, for \hl{fun and profit}.
+as well as custom themes based on each of the team members individual aesthetic preferences.
+
+\begin{tcolorbox}[colback=gray!5!white,grow to left by=20mm,grow to right by=20mm,sharp corners]
+{{    \small \inputminted[breaklines]{javascript}{code_snippets/themes/themes.js}		}}
+\end{tcolorbox}
 
 
 
 
 \sect{User Feedback}
-10 biologists, ages 25-60, were given the opportunity to use the software to search for either a SNP, region or gene. They were then asked to either retrieve GO data, Linkage disequilibrium plot, or the Manhattan plot.
+10 biologists, ages 25-60, were given the opportunity to use the software to search for either a SNP, region or gene.
+They were then asked to either retrieve GO data, Linkage disequilibrium plot, or the Manhattan plot.
 
 Items that were improved after user feedback:
 
@@ -393,14 +419,12 @@ Items that were improved after user feedback:
 \item Font size/style: users found the font easy to read and see, including users with visual impairments.
 \item Quick links: users did not like scrolling through to find the data they were looking for; adding the quick links makes it quicker to get to the terms.
 \item Return home button: this feature was added to all pages to allow users to return to the main page.
-\item Overall users found the genome browser very user friendly and easy to use and enjoyed all the interactive features. They said they liked how easy it is to search and retrieve information, and enlightened them on the vast amount of genome data we now have access to through GWAS.
 \end{itemize}
 
 Overall users found the genome browser very user friendly and easy to use and enjoyed all the interactive features. They said they liked how easy it is to search and retrieve information, and enlightened them on the vast amount of genome data we now have access to through GWAS.
 
 \sect{References}
-
-
+\printbibliography[heading=none]
 
 
 \end{document}
