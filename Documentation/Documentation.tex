@@ -10,16 +10,41 @@
 \author{Team Duck Duck Go}
 \date{} 					% no date if empty, current date if commented out
 
-
 \widowpenalty=10000	% prevents breaking before last line of a paragraph
 \clubpenalty=10000	% prevents breaking after first line of a paragraph
-\raggedbottom		% allows bottom of page to be natural, not flush
+\raggedbottom			% allows bottom of page to be natural, not flush
+
+\usepackage{placeins} % allows for \FloatBarrier
+\usepackage{tcolorbox}
+\newtcolorbox{code}{colback=gray!5!white,% boxrule=0mm,
+     grow to left by=20mm,
+     grow to right by=20mm,
+     sharp corners}
 
 \usepackage{graphicx}
 \graphicspath{{./images}}	% path where images are found
 \usepackage{minted}
 
+\newcommand{\mintfile}[1]{
+\begin{tcolorbox}[colback=gray!5!white,% boxrule=0mm,
+	grow to left by=20mm,
+    grow to right by=20mm,
+    sharp corners]{{    \small \inputminted[breaklines]{python}{#1}		}}
+\end{tcolorbox}}
+
+
+\newcommand{\mintfileTitle}[2]{
+\begin{tcolorbox}[colback=gray!5!white,% boxrule=0mm,
+	grow to left by=20mm,
+    grow to right by=20mm,
+    sharp corners,
+    title=#2    ]{{    \small \inputminted[breaklines]{python}{#1}		}}
+\end{tcolorbox}}
+
+
+
 \newcommand{\sect}[1]{
+\FloatBarrier % Prevents figures from previous sections entering this section
 \hypertarget{#1}{
 \section{#1}\label{#1}}
 }
@@ -53,15 +78,10 @@
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
 \usepackage{iftex}
-\ifPDFTeX
-  \usepackage[T1]{fontenc}
-  \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provide euro and other symbols
-\else % if luatex or xetex
-  \usepackage{unicode-math}
-  \defaultfontfeatures{Scale=MatchLowercase}
-  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
-\fi
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp} % provide euro and other symbols
+
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \IfFileExists{microtype.sty}{% use microtype if available
@@ -127,7 +147,7 @@
 \tableofcontents
 \clearpage
 
-\sect{Introduction} % do \section*{} to remove numbering
+\sect{Introduction}
 
 
 This web application prototype is designed to retrieve information on
@@ -150,7 +170,7 @@ return a Manhattan plot of the p-values.
 
 A number of functions were used throughout the code such as\ldots{}
 
-\inputminted{python}{code_snippets/placeholder.py}
+\mintfile{code_snippets/placeholder.py}
 
 \sect{Structure}
 \pic{structure}{Structure of the data flow}
@@ -159,19 +179,19 @@ A number of functions were used throughout the code such as\ldots{}
 
 This information was downloaded from the GWAS catalogue where a TSV file was downloaded and then trimmed:
 
-\inputminted{python}{code_snippets/placeholder.py}
+\mintfile{code_snippets/placeholder.py}
 This code uses pandas to open the TSV file, creates a dataframe called data, and removes any special characters from the column names, as SQL does not interact with special characters very well.
 
-\inputminted{python}{code_snippets/placeholder.py}
+\mintfile{code_snippets/placeholder.py}
 The data frame is then filtered further so that it only has data that references T1D in the “disease\_trait” column so that only T1D data remains in the dataframe. Next all SNPs that don't have rsIDs are removed, as some cells had incompatible data in this column.
 
-\inputminted{python}{code_snippets/placeholder.py}
+\mintfile{code_snippets/placeholder.py}
 The dataframe is then trimmed again so that it contains only the columns of interest   "snps", "region", "chr\_pos", "chr\_id", "p\_value", "mapped\_gene".
 
-\inputminted{python}{code_snippets/placeholder.py}
+\mintfile{code_snippets/placeholder.py}
 Duplicate mapped\_gene information is then removed.
 
-\inputminted{python}{code_snippets/placeholder.py}
+\mintfile{code_snippets/placeholder.py}
 Next the column 'snps' was renamed to 'rsid' and made the change directly to the dataframe by setting inplace=True.
 
 
@@ -255,13 +275,13 @@ $r^2$  is the correlation coefficient between two loci:
 Linkage disequilibrium data was obtained from LDlink using the LDmatrix tool. $D’$ and $r^2$ values for SNPs were calculated using 1000 Genomes Project data for all three populations. LD data was obtained by inputting a list of SNPs from the same chromosome and selecting the population which would be used for allele frequency data for LD calculations. LDmatrix would produce two text files containing a matrix of results for $D’$ and $r^2$ values calculated between all SNPs pair combinations in the input list. This was performed separately for each population. Some SNPs did not have any LD data due to a lack of allele frequency data for those SNPs in the 1000 Genomes Project.
 
 LD datasets containing $D’$ and $r^2$  values for Finnish, Toscani and British populations are loaded in with pandas as separate dataframes. Each dataframe has their index set to the first column which contains SNP rsIDs.
-\inputminted{python}{code_snippets/placeholder.py}
+\mintfile{code_snippets/placeholder.py}
 
 This function uses the itertools combination function to create a list of tuples containing all unique pairs of SNPs possible from a list of SNPs. The list is then separated into two lists containing the first and second element of each tuple.
-\inputminted{python}{code_snippets/placeholder.py}
+\mintfile{code_snippets/placeholder.py}
 
 An empty dataframe is created to be filled with rows containing data from all six dataframes. This loop uses the two lists created from the SNP list to index each dataframe and extract the respective LD value. These are used to create a list which is converted into a single row pandas dataframe which is added to the empty dataframe using pandas concat until data for all relevant pairwise LD calculations have been added. The completed dataframe is then outputted as a TSV file.
-\inputminted{python}{code_snippets/placeholder.py}
+\mintfile{code_snippets/placeholder.py}
 
 
 \subsect{Outputting LD results}
@@ -269,35 +289,104 @@ When a user searches by gene name or chromosomal coordinates, if multiple SNPs a
 
 
 Before filtering, the list is checked for any SNPs which are not in the LD dataset due to lack of LD data and any offending SNPs are removed from the list.
-\inputminted{python}{code_snippets/placeholder.py}
+\mintfile{code_snippets/placeholder.py}
 
 The SNP list is then used to create two lists containing the first and second element of each tuple using the SNP\_pair\_lists() function defined earlier.
-\inputminted{python}{code_snippets/placeholder.py}
+\mintfile{code_snippets/placeholder.py}
 
 
 The LD dataset containing all available data for pairwise LD calculations is loaded in with pandas and an empty dataframe is created for the filtered data. The pair of SNP lists are then used to index the LD dataset dataframe for all rows with pairs of SNPs relevant to the user’s search query which are added to the LD results dataframe using pandas concat.
-\inputminted{python}{code_snippets/placeholder.py}
+\mintfile{code_snippets/placeholder.py}
 
 \subsect{LD heatmap plots}
 
 When a user searches by gene name or chromosomal coordinates, if multiple SNPs are returned, a list of SNPs is also used to extract LD values for all relevant pairwise SNP calculations to create a dataframe used to create a heatmap plot of LD values.
 
 The LD dataset is loaded in with pandas and SNPs not present in the dataset are removed from the list of SNPs passed from the user query. The SNP list is then used to create two lists containing the first and second element of each tuple using the SNP\_pair\_lists() function defined earlier.
-\inputminted{python}{code_snippets/placeholder.py}
+\mintfile{code_snippets/placeholder.py}
 
 An empty dataframe is created to be filled with LD values used to create the LD plot. The pair of SNP lists are then used to index the LD dataset dataframe and extract the LD value for all possible pairwise LD calculations from the SNP list. A row of LD values is created for each SNP where each column corresponds with the pairwise LD calculation with one of the SNPs from the list. Each row is added to the empty dataframe using pandas concat.
-\inputminted{python}{code_snippets/placeholder.py}
+\mintfile{code_snippets/placeholder.py}
 
 The LD matrix dataframe is passed to the ld\_plot function. The number of rows (n) is used to create a mask which will hide half of the heatmap to create a triangular plot. A coordinate matrix is also created to rotate the heatmap plot. The SNP list is used to create the axis labels located at the bottom of the plot. The function’s title parameter passes a string which is used to determine the plot title.
-\inputminted{python}{code_snippets/placeholder.py}
+\mintfile{code_snippets/placeholder.py}
 
 \sect{Manhattan Plot}
 
-\sect{Flask}
+A Manhattan plot is a type of scatter graph which displays P values of the entire Genome-wide association study (GWAS) on genomic scale. The P-values are shown in genomic order by chromosomal position on the $x$-axis. The $y$-axis shows the $-log10$ value of the P-value for each polymorphism.
+
+A TSV file containing all SNPs in type 1 diabetes was produced. The Manhattan plot needs the P-value of a SNP and the chromosomal position. Using pandas, the $-logp$ and cumulative positions were generated.
+
+\mintfile{code_snippets/manPlot/createTSV.py}
+The original file `GWAS\_T1D.tsv’ is used to create an additional column for -logp values and creating a column for cumulative positions by using the chromosome and chromosomal position values.
+The cumulative position is needed to show the position of the SNP in the entire genome, rather than its position in the chromosome.
+
+\mintfile{code_snippets/manPlot/createManPlot.py}
+Bokeh tools was used to make the graph user friendly. Circle plots were chosen for easy visibility and selecting of each SNP position. Hover feature was added to allow the user to hover mouse over each plot, which turns it green, and shows the rs ID value next to the chromosomal position. The select feature allows users to select 1 or more plots by either clicking one plot, or holding shift and clicking plots for multiple plots, or using the box select tool to select plots in an entire section, and turns the plots purple. The zoom features allow the user to zoom into the graph and view plots that are close to each other or seem to be overlapping for more visual clarity. The reset and undo buttons allows the user to either go back to the original plot, or undo the previous action they had committed. The save tool will save the graph as a png file with the title included. The plots were made slightly transparent to make overlapping SNPs more visible.
+
+\pic{manplot1}{All GWAS SNPs found in Type 1 Diabetes shown in a Manhattan Plot.
+Users can view all SNPs for T1D, and plot the SNPs that they have searched for.
+This feature is available when multiple SNPs are retrieved for the region searched.}
+
+\pic{manplot2}{All GWAS SNPs for Type 1 Diabetes for only Chromosome 6}
+
+\sect{Website}
+
+\subsect{Flask}
+
+The main page was created
+
+\mintfile{code_snippets/flask/snp.py}
+
+\subsect{SQLite}
+
+To create the database, the \texttt{.to\_SQL()} method from Pandas was used, which receives a dataframe of a TSV file,
+as well as an SQLite3 connection, and produces an SQLite compatible \texttt{.db} file
+
+\mintfile{code_snippets/SQL/create_db.py}
+The above code makes use of various functions from the \texttt{db\_scripts.py} custom library:
+
+\mintfile{code_snippets/SQL/pdDB.py}
+
+After connecting to the database file, rsIDs are extracted from the user's request,
+if necessary via cross-referencing with with GWAS dataset.
+
+\mintfile{code_snippets/SQL/DBreq1.py}
+
+The resultant list of SNPs is then iterated over to fetch each corresponding entry from the
+GWAS, Population, Functional, and Ontology tables.
+Each entry is then stored in a dictionary to be passed to the main flask code:
+
+\mintfile{code_snippets/SQL/DBreq2.py}
 
 \sect{Navigation}
+Screenshot how site works how to navigate\ldots
+
+
+
+
+
+
+
+
+\sect{User Feedback}
+10 biologists, ages 25-60, were given the opportunity to use the software to search for either a SNP, region or gene. They were then asked to either retrieve GO data, Linkage disequilibrium plot, or the Manhattan plot.
+
+Things that were improved after user feedback:
+
+\begin{itemize}
+\item Colours/Themes: users found it easier to read with a darker theme; background was made darker, themes added.
+\item Font size/style: users found the font easy to read and see, including users with visual impairments.
+\item Quick links: users did not like scrolling through to find the data they were looking for; adding the quick links makes it quicker to get to the terms.
+\item Return home button: this feature was added to all pages to allow users to return to the main page.
+\item Overall users found the genome browser very user friendly and easy to use and enjoyed all the interactive features. They said they liked how easy it is to search and retrieve information, and enlightened them on the vast amount of genome data we now have access to through GWAS.
+\end{itemize}
+
+Overall users found the genome browser very user friendly and easy to use and enjoyed all the interactive features. They said they liked how easy it is to search and retrieve information, and enlightened them on the vast amount of genome data we now have access to through GWAS.
 
 \sect{References}
+
+
 
 
 \end{document}

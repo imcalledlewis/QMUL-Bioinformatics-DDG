@@ -116,14 +116,14 @@ def DBreq(request, request_type, manPlot=False):       # Makes SQL request
     return(returnDict,list(returnDict.keys()))  # snp_list is keys
     # return(returnDict,request)        # Nasim's code - revert if my change breaks his stuff
 
-def removeDupeSNP(dataframe):                                   # Removes duplicates from a pandas dataframe, leaving only greatest p-value
+def removeDupeSNP(dataframe,col='rsid'):                                   # Removes duplicates from a pandas dataframe, leaving only greatest p-value
     dataframe.reset_index(drop=True)                            # Resets index back to 0
-    dupeList = dataframe.duplicated(subset='snps',keep=False)   # Get list of duplicate values
+    dupeList = dataframe.duplicated(subset=col,keep=False)   # Get list of duplicate values
     dupes=dataframe[dupeList]                                   # Select dataframe using above list
 
     dupesDict={}
     for index,row in dupes.iterrows():              # Iterate through df of duplicates, one row at a time
-        rsVal=row["snps"]                           # SNP name (rs value)
+        rsVal=row[col]                           # SNP name (rs value)
         snpTuple=(index,row["p_value"])             # Tuple containing index and p-val 
         if rsVal in dupesDict:                      # If it's seen the snp before,
             dictList=dupesDict[rsVal]               # go to the value for the snp,
