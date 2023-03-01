@@ -254,7 +254,6 @@ def themePage():
 	# contrast should always be the opposite of text.
 	# I recommend using https://www.w3schools.com/colors/colors_picker.asp to choose colours
 
-	# you can also create a theme like this:
 	addTheme("Light", "black", "white", "#7e7ece", "#8f8fef", "#a3a3ff")
 	addTheme("Accessibility Green", "Black", "#A8F29A", "#A8F29A", "#A8F29A","#A8F29A")
 	addTheme("Accessibility Yellow", "Black", "#F8FD89", "#F8FD89", "#F8FD89","#F8FD89")
@@ -264,7 +263,8 @@ def themePage():
 	addTheme("Ye Olde Theme", "saddlebrown","cornsilk","antiquewhite", "tan","darkgoldenrod")
 	addTheme("Teal", "white", "black", "#3AAFA9", "#2B7A78","#17252a")
 	addTheme("Nadia", "white", "#59253a", "#895061", "#78244c","#59253a")
-	addTheme("Candy Floss", "white", "#f498c2", "#83d9dc", "#e3c3ff","#f498c2")
+	addTheme("Candy Floss", "black", "#f498c2", "#83d9dc", "#e3c3ff","#f498c2")
+	addTheme("Pastels", "black","white","#AEC6CF","#ffc4c4","#ae7f9a")
 
 
 	
