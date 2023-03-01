@@ -174,17 +174,15 @@ def Manhattan_plot(SNP_req):
 
 	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
 	name=SNP_req
-	reqRes,SNP_list=DBreq(SNP_req, 'coords',manPlot=True)	# Make SQL request
-	if reqRes:						# If the response isn't None
-			assert isinstance(reqRes, dict),"invalid db request return value"
-			if debug:
-				# print ("\nrequest response:",reqRes,"\n")
-				pass
-			name='{} SNPS'.format(len(SNP_list))
-			# return render_template('view.html', reqRes=reqRes, name=name, req_type=req_type, len=len(SNP_list), SNP_req=SNP_req,debug=debug,SNP_list=SNP_list)
+	if SNP_req=='all6': # all of chromosome 6
+			reqRes,SNP_list=DBreq('6:0-9999999999999', 'coords',manPlot=True)	# Make SQL request
+			name ='Chromosome 6'
 	else:
-		return("manhattan plot parsing failed")                 			# If SNP is not found:
-		# return render_template('not_found.html', name=name)
+		reqRes,SNP_list=DBreq(SNP_req, 'coords',manPlot=True)	# Make SQL request
+		if reqRes:						# If the response isn't None
+				name='{} SNPS'.format(len(SNP_list))
+		else:
+			return("manhattan plot parsing failed")                 			# If SNP is not found:
 
 	df=pd.DataFrame(reqRes).T								# Convert sql request response to dataframe, then flip axes (ie vertical becomes horizontal and vice-versa)
 
