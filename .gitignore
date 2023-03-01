@@ -10,6 +10,12 @@ Documentation/*.gz
 Documentation/*.toc
 _minted-Documentation/
 
+# bibtex gumpf
+Documentation/*.bbl
+Documentation/*.bcf
+Documentation/*.blg
+Documentation/*.run.xml
+
 # vscode files
 /.vscode
 
