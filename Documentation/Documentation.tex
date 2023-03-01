@@ -44,12 +44,13 @@
 
 
 \newcommand{\sect}[1]{
-\FloatBarrier % Prevents figures from previous sections entering this section
+\clearpage
 \hypertarget{#1}{
 \section{#1}\label{#1}}
 }
 
 \newcommand{\subsect}[1]{
+\FloatBarrier % Prevents figures from previous sections entering this section
 \hypertarget{#1}{
 \subsection{#1}\label{#1}}
 }
@@ -328,13 +329,26 @@ Bokeh tools was used to make the graph user friendly. Circle plots were chosen f
 Users can view all SNPs for T1D, and plot the SNPs that they have searched for.
 This feature is available when multiple SNPs are retrieved for the region searched.}
 
-\pic{manplot2}{All GWAS SNPs for Type 1 Diabetes for only Chromosome 6}
+\pic{manplot2}{All GWAS SNPs for Type 1 Diabetes, Chromosome 6 only}
 
 \sect{Website}
 
 \subsect{Flask}
 
-The main page was created
+The main page was created using the following function. By adding the \verb|@app.route()| decorator,
+the flask module can run the function whenever the root page is accessed.
+The function creates an instance of class \texttt{QueryForm}, which it uses to receive user input.
+The input is then formatted to better be understood by future functions,
+before the parsed request and the request type are passed to the next page as the subpage and URL parameters, respectively.
+
+\mintfile{code_snippets/flask/root.py}
+
+The following function first receives the \texttt{SNP\_req} by reading the subpage name,
+and the \texttt{req\_type} by making a \texttt{HTTP GET} request to retrieve the relevant argument.
+If the request type is set to automatically detect, the request is tested against a series of
+regex searches to determine the intended request type.
+
+The \texttt{DBreq()} function is then called to retrieve the required information via SQL commands. This function will be elaborated upon in the following section.
 
 \mintfile{code_snippets/flask/snp.py}
 
@@ -357,7 +371,11 @@ The resultant list of SNPs is then iterated over to fetch each corresponding ent
 GWAS, Population, Functional, and Ontology tables.
 Each entry is then stored in a dictionary to be passed to the main flask code:
 
+\FloatBarrier
+
 \mintfile{code_snippets/SQL/DBreq2.py}
+%\thispagestyle{empty} % remove page number
+\FloatBarrier
 
 \sect{Navigation}
 Screenshot how site works how to navigate\ldots
@@ -372,7 +390,7 @@ Screenshot how site works how to navigate\ldots
 \sect{User Feedback}
 10 biologists, ages 25-60, were given the opportunity to use the software to search for either a SNP, region or gene. They were then asked to either retrieve GO data, Linkage disequilibrium plot, or the Manhattan plot.
 
-Things that were improved after user feedback:
+Items that were improved after user feedback:
 
 \begin{itemize}
 \item Colours/Themes: users found it easier to read with a darker theme; background was made darker, themes added.
