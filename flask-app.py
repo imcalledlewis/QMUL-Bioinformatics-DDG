@@ -269,15 +269,14 @@ def themePage():
 	addTheme("Accessibility Green", "Black", "#A8F29A", "#A8F29A", "#A8F29A","#A8F29A")
 	addTheme("Accessibility Yellow", "Black", "#F8FD89", "#F8FD89", "#F8FD89","#F8FD89")
 	addTheme("Accessibility Blue", "Black", "#96ADFC", "#96ADFC", "#96ADFC","#96ADFC")
-	addTheme("Black and White", "white", "black", "black", "#1f2833", "black")
+	addTheme("Black and White", "white", "black", "black", "#282828", "black")
 	addTheme("Sunset", "#fff","#000000","#aa8764", "#9b6655","#772222")
 	addTheme("Ye Olde Theme", "saddlebrown","cornsilk","antiquewhite", "tan","darkgoldenrod")
 	addTheme("Teal", "white", "black", "#3AAFA9", "#2B7A78","#17252a")
 	addTheme("Nadia", "white", "#59253a", "#895061", "#78244c","#59253a")
 	addTheme("Candy Floss", "black", "#f498c2", "#83d9dc", "#e3c3ff","#f498c2")
 	addTheme("Pastels", "black","white","#AEC6CF","#ffc4c4","#ae7f9a")
-
-
+	addTheme("Gray", "#f2f2f2", "#333333", "#999999", "#666666", "#444444")
 	
 
 	return render_template("themes.html", themeDict=themeDict)
