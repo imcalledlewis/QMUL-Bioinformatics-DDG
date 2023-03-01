@@ -1,0 +1,474 @@
+﻿READ ME
+What is it?:        2
+Prerequisites:        2
+Structure:        2
+Functions used throughout:        3
+GWAS:        5
+Variant frequency data by population:        6
+Functional information and Gene Ontology:        7
+Collecting data        7
+Trimming data        9
+Outputting Functional information and Gene Ontology        10
+Linkage Disequilibrium:        11
+Collecting data        11
+Outputting LD results:        13
+LD heatmap plots:        14
+Manhattan Plot:        17
+User Feedback:        20
+Flask:        20
+Navigation:        20
+Citation:        20
+________________
+What is it?:
+This web application prototype is designed to retrieve information on Single Nucleotide Polymorphisms (SNPs) seen in Type 1 Diabetes patients identified by Genome wide association studies (GWAS). The database will use information from the GWAS catalogue, along with population data from Ensembl and the 1000 Genomes Project and functional information and Gene Ontology information obtained through Ensembl’s VEP tool which is all is retrievable through a user friendly interface through the input of an rsID, Chromosome position or a Gene name. The site also allows the user to calculate Linkage Disequilibrium (LD) of SNPs selected for each population producing a text file containing the LD values and plot these values as a LD heatmap. The user is also able to enter multiple SNPs and return a Manhattan plot of p-values.
+
+
+Prerequisites:
+Python 3.10.10
+Flask              2.2.3
+Flask-WTF          1.1.1
+bokeh              3.0.3
+Jinja2             3.1.2
+pandas             1.5.3
+matplotlib         3.7.0
+numpy              1.24.2
+Structure:
+  
+
+Functions used throughout:
+A number of functions were used throughout the code such as removeDupeSNP(): (seen below) this function removes duplicate SNPs from a pandas dataframe leaving only the SNP with the greatest P-value. This was done to provide a less cluttered output and overall more aesthetically pleasing table that is more “human friendly", with the exception of the Manhattan plot which uses the different P-values of the duplicate SNPs.
+The code first identifies the duplicate rows, and creates a dictionary to store the index and p-value of each duplicate row. 
+
+
+def removeDupeSNP(dataframe):     
+# Removes duplicates from a pandas dataframe, leaving only greatest p-value
+  dataframe.reset_index(drop=True)                            
+# Resets index back to 0
+  dupeList = dataframe.duplicated(subset='snps',keep=False)   
+# Get list of duplicate values
+  dupes=dataframe[dupeList]                                   
+# Select dataframe using above list
+   dupesDict={}
+  for index,row in dupes.iterrows():              
+# Iterate through df of duplicates, one row at a time
+      rsVal=row["snps"]                           
+# SNP name (rs value)
+      snpTuple=(index,row["p_value"])             
+# Tuple containing index and p-val
+      if rsVal in dupesDict:                      
+# If it's seen the snp before,
+          dictList=dupesDict[rsVal]               
+# go to the value for the snp,
+          dictList.append(snpTuple)               
+# and add the index/ p-val tuple.
+      else:                                       
+# If it hasn't seen the snp before,
+          dupesDict.update({rsVal:[snpTuple]})    
+# create a listing for it.
+   naughtyList=[]                                  # List of lists of (index, p-val) we want to drop
+	
+
+The duplicate rows are then sorted by p-value, keeping only the row with the greatest p-value, and creates a list of the indices of the rows to be dropped. 
+
+
+   for i in dupesDict:
+      snp = dupesDict[i]                          # Get list of (index, pVal)
+      sortByP=sorted(snp,key=lambda x: 0-x[1])    # Sort by p-value
+      sortByP=sortByP[1:]                         # Select all but greatest p value
+      naughtyList.append(sortByP)
+
+
+  dropList=[]                         # List of indices for rows we want to drop
+  for i in naughtyList:               # Enter first list
+      for j in i:                     # Enter second list
+          dropList.append(j[0])       # Add the index from each tuple
+
+	
+
+Finally, the function returns the input DataFrame with the identified duplicate rows removed.
+
+   return(dataframe.drop(dropList))    # Return dataframe without duplicate values
+	
+
+Another function made and used throughout was removeDupeGeneMap(GeneMap): this f
+
+def removeDupeGeneMap(GeneMap):
+  try:
+      GeneMap=GeneMap.split(', ')
+      uniques=""
+      for item in GeneMap:
+          if item not in uniques: # If the item hasn't been seen before,
+              uniques+=(item)     # add it to the list.
+              uniques+=(", ")     # Also add ' ,'
+      return (uniques[:-2])       # Remove last ' ,'
+  except:
+      return ("Data unavailable")     # Return this if geneMap is empty
+	________________
+GWAS:
+This information was downloaded from the GWAS catalogue where a TSV file was downloaded and then trimmed using the following code;
+fileIn = getPath('gwas_catalog_v1.0-associations_e108_r2023-01-14.tsv') # https://www.ebi.ac.uk/gwas/docs/file-downloads
+fileOut = getPath('gwas_trimmed.tsv')
+
+data = pd.read_csv(fileIn, sep='\t', low_memory=False)    # Reads gwas tsv
+data=removeSpecial(data)    # removes special characters in column names
+	This code uses pandas to open the TSV file, creates a dataframe called data, and removes any special characters from the column names, as SQL does not interact with special characters very well.
+data=data.query("disease_trait=='Type 1 diabetes' or study.str.contains('type 1 diabetes')")
+data = data.loc[data.snps.str.contains(r'rs[0-9]+')]        # get only snps with rsids
+#data = data.loc[data['CHR_ID']=='6']                        # Select only rows for chromosome 6
+	The data frame is then filtered further so that it only has data that references T1D in the “disease_trait” column so that only T1D data remains in the dataframe. Next all SNPs that don't have rsIDs are removed, as some cells had incompatible data in this column.
+data = data[["snps","region","chr_pos","chr_id","p_value","mapped_gene"]]
+	The dataframe is then trimmed again so that it contains only the columns of interest   "snps", "region", "chr_pos", "chr_id", "p_value", "mapped_gene". 
+
+
+data=removeDupeSNP(data)    # Remove duplicates (leaving the entry with largest p value)
+newCol=[removeDupeGeneMap(r["mapped_gene"]) for i, r in data.iterrows()]
+data["mapped_gene"]=newCol
+	Duplicate mapped_gene information is then removed.
+
+
+data.rename(columns = {'snps':'rsid'}, inplace = True)
+
+# if os.path.exists(fileOut): # If the file exists,
+#     os.remove(fileOut)     # delete it.
+data.to_csv(fileOut, sep='\t', index=False)
+	Next the column 'snps' was renamed to 'rsid' and made the change directly to the dataframe by setting inplace=True.
+________________
+Variant frequency data by population:
+SNP variant frequency data used in the database was obtained from the 1000 Genomes Project via Ensembl. Variant frequencies were obtained for the Finnish, Toscani Italian and British 1000 Genomes Project populations for each T1DM SNP in the EBI GWAS dataset. Finnish data was chosen as the greatest global incidence of T1D occurs in Finland due to  Colloidal amorphous silica (ASi) present in the Finnish environment. The Toscani Italian population was chosen due to evidence of high rates of T1D in Northern Italy due to genetic risk. The British (in England and Wales) population was chosen due to increasing variance of T1D incidence in these regions. 
+
+
+Ensembl REST returns a list of dictionaries containing data for each study population. This function was used to request allele frequency data for 1000 Genomes Populations by SNP using a list of SNPs extracted from the GWAS dataset.
+def variant_frequency_API(rsID):
+   import requests, sys
+
+   server = "https://rest.ensembl.org"
+   ext = f"/variation/human/{rsID}?pops=1"
+
+   r = requests.get(server+ext, headers={ "Content-Type" : "application/json"})
+
+   if not r.ok:
+     r.raise_for_status()
+     sys.exit()
+
+   decoded = r.json()
+   return decoded
+	
+
+Variant frequency data for chosen populations were retrieved and used to create a TSV file containing the alternate allele and its frequency for all three populations for each SNP in the database. Due to some SNPs in the GWAS dataset not having an rsID, allele frequency data was excluded for SNPs at positions chr2:136066296, chr6:27349237, chr6:28594470, chr6:32978829 and chr19:42174477.
+________________
+Functional information and Gene Ontology:
+There are several different measures of the functional impact of a SNP CADD (Combined Annotation Dependent Depletion), a tool used for predicting the potential harm caused by genetic variants or its deleteriousness, was chosen. A CADD score indicates the likelihood of a variant being deleterious.
+One advantage of CADD over other measures of functional impact such as SIFT or PolyPhen is that CADD integrates a larger and more diverse set of functional annotations. It also considers the effects of variants on non-coding regions of the genome, which can be important for understanding the functional consequences of variants that are not in protein-coding regions.
+Collecting data
+The Ensembl's Variant Effect Predictor (VEP) web tool was used to gather the Functional and Ontology data by submitting a job with the rsIDs from the T1D_GWAS_add.tsv file separated by commas.
+  
+
+  
+
+From the Additional identifiers tab the following options were selected: Gene Symbol, Protein and the Gene Ontology. This allowed for us to associate the ontology terms with Genes and Protein names.
+  
+
+  
+
+CADD was selected in the Prediction column to add a column containing the Raw CADD score and the CADD Phred score which then both are associated with the rsID and the Genes and Protein names.
+  
+
+Figure 1: Screenshot of the Job submitting Ensembl webpage (https://www.ensembl.org/Homo_sapiens/Tools/VEP)
+  
+
+
+
+The VEP file provides detailed information about the functional and ontological consequences of genetic variants, including their impact on genes, proteins, and pathways.
+Trimming data
+After running the job, we get an output text file with several columns however we are only interested in the following:
+Uploaded_Variation: the reference SNP identifier for the variant.
+Allele: the alternative allele observed at the variant site.
+location: the location of the variant within the affected gene
+Gene: the Ensembl gene ID of the affected gene.
+Symbol: the gene symbol or name.
+CADD_PHRED: Phred-scaled CADD score (Combined Annotation-Dependent Depletion), which predicts the deleteriousness of variants.
+CADD_RAW: the raw CADD score, which is a measure of the deleteriousness of variants.
+GO Terms: Gene Ontology (GO) terms associated with the affected gene.
+
+
+The Functional information was extracted using the following script utilising pandas dataframe function to select the required columns and then converted back in to a new csv file using pandas “to_csv()” function.
+import pandas as pd
+Association_table_filename = 'Functional_and_Ontology_data.tsv'
+df = pd.read_csv(Association_table_filename, sep='\t')
+columns_to_keep = ['Uploaded_variation','Allele','CADD_PHRED', 'CADD_RAW', 'PolyPhen', 'SIFT']
+df = df[columns_to_keep]
+print(df)
+
+df.to_csv("Func_trimmed.csv", index=False)
+	
+
+The Gene ontology data was filtered in a similar way using the following script.
+import pandas as pd
+Association_table_filename = 'Functional_and_Ontology_data.tsv'
+df = pd.read_csv(Association_table_filename, sep='\t')
+columns_to_keep = ['Uploaded_variation','Location','SYMBOL', 'Gene', 'GO']
+df = df[columns_to_keep]
+print(df)
+
+df.to_csv("GO_trimmed.csv", index=False)
+	 
+We have converted the text file to a tsv file and trimmed down the file to include only the rsID, Alleles, CADD_PHRED and CADD_RAW scores columns for the functional data and the rsID, location, gene, symbol, GO terms columns for the Ontology data. We have further used these TSV files in our database.
+Outputting Functional information and Gene Ontology
+We have further coded using flask to give the functional data and the GO terms as output when searched by rsID, Gene name and Chromosome position. The following code was used for it:
+
+
+TALK ABOUT DBreq() implementing code in to flask…
+________________
+Linkage Disequilibrium:
+Linkage disequilibrium (LD) is the degree of non-random association of the allele of one SNP with the allele of another SNP within a population. LD is typically measured by two metrics: D’ and r2. 
+D’ is the normalised values of D, the coefficient of linkage disequilibrium, where A and B are alleles of two SNPs in different loci:
+ 
+  is the correlation coefficient between two loci:
+
+Collecting data
+Linkage disequilibrium data was obtained from LDlink using the LDmatrix tool. D’ and r2 values for SNPs were calculated using 1000 Genomes Project data for all three populations. LD data was obtained by inputting a list of SNPs from the same chromosome and selecting the population which would be used for allele frequency data for LD calculations. LDmatrix would produce two text files containing a matrix of results for D’ and r2 values calculated between all SNPs pair combinations in the input list. This was performed separately for each population. Some SNPs did not have any LD data due to a lack of allele frequency data for those SNPs in the 1000 Genomes Project.
+LD datasets containing D’ and r2 values for Finnish, Toscani and British populations are loaded in with pandas as separate dataframes. Each dataframe has their index set to the first column which contains SNP rsIDs.
+import pandas as pd
+# Finland (FIN)
+LD_D_FIN = pd.read_table('FIN_D.txt')
+LD_D_FIN = LD_D_FIN.set_index('RS_number')
+LD_r2_FIN = pd.read_table('FIN_r2.txt')
+LD_r2_FIN = LD_r2_FIN.set_index('RS_number')
+# Italy - Tuscany (TSI)
+LD_D_TSI = pd.read_table('TSI_D.txt')
+LD_D_TSI = LD_D_TSI.set_index('RS_number')
+LD_r2_TSI = pd.read_table('TSI_r2.txt')
+LD_r2_TSI = LD_r2_TSI.set_index('RS_number')
+# British (GBR)
+LD_D_GBR = pd.read_table('GBR_D.txt')
+LD_D_GBR = LD_D_GBR.set_index('RS_number')
+LD_r2_GBR = pd.read_table('GBR_r2.txt')
+LD_r2_GBR = LD_r2_GBR.set_index('RS_number')
+	
+
+This function uses the itertools combination function to create a list of tuples containing all unique pairs of SNPs possible from a list of SNPs. The list is then separated into two lists containing the first and second element of each tuple.
+# Take list of SNPs and creates a pair of lists containing the 1st and 2nd SNP of each combination  
+def SNP_pair_lists(SNP_list):
+   SNP_combinations = list(itertools.combinations(SNP_list,2))
+   SNP_1_list = []
+   SNP_2_list = []
+   for SNP_pair in SNP_combinations:
+       SNP_1_list.append(SNP_pair[0])
+       SNP_2_list.append(SNP_pair[1])
+   return SNP_1_list, SNP_2_list
+
+SNP_1_list, SNP_2_list = SNP_pair_lists(SNP_list)
+	
+
+An empty dataframe is created to be filled with rows containing data from all six dataframes. This loop uses the two lists created from the SNP list to index each dataframe and extract the respective LD value. These are used to create a list which is converted into a single row pandas dataframe which is added to the empty dataframe using pandas concat until data for all relevant pairwise LD calculations have been added. The completed dataframe is then outputted as a TSV file.
+# Create Empty dataframe 
+LD_dataset = pd.DataFrame(columns=['SNP_1', 'SNP_2', 'FIN_D\'', 'FIN_r2', 'TSI_D\'', 'TSI_r2', 'GBR_D\'', 'GBR_r2'])
+# Indexes the respective LD calculation for each pair and adds it to the data
+for SNP_1,SNP_2 in zip(SNP_1_list,SNP_2_list):
+   # Finland
+   FIN_D = LD_D_FIN[SNP_1].loc[SNP_2]
+   FIN_r2 = LD_r2_FIN[SNP_1].loc[SNP_2]
+   # Italy - Tuscany
+   TSI_D = LD_D_TSI[SNP_1].loc[SNP_2]
+   TSI_r2 = LD_r2_TSI[SNP_1].loc[SNP_2]
+   # British
+   GBR_D = LD_D_GBR[SNP_1].loc[SNP_2]
+   GBR_r2 = LD_r2_GBR[SNP_1].loc[SNP_2]
+   # Create row of data and combine with LD dataset dataframe
+   row_list = [SNP_1, SNP_2, FIN_D, FIN_r2, TSI_D, TSI_r2, GBR_D, GBR_r2]
+   row = pd.DataFrame(row_list).T
+
+   row.columns = LD_dataset.columns
+   LD_dataset = pd.concat([LD_dataset, row])
+# Write out LD dataset as a TSV
+LD_dataset.to_csv('LD_T1DM_Chr6.tsv', sep="\t", index=False)
+	
+
+
+
+________________
+Outputting LD results:
+When a user searches by gene name or chromosomal coordinates, if multiple SNPs are returned, a list of SNPs is used to filter the LD dataset for all rows with entries for all pairwise LD calculations of SNPs in the list and output a results dataframe.
+
+
+Before filtering, the list is checked for any SNPs which are not in the LD dataset due to lack of LD data and any offending SNPs are removed from the list. 
+def remove_invalid_SNPs(SNP_list, LD_dataset_file = "data/TSVs/LD_T1DM_Chr6.tsv"):
+# remove SNPs returned from query which have no LD values in LD dataset
+   # Load LD dataset as pandas dataframe
+   LD_df = pd.read_table(LD_dataset_file)
+   # checks for SNPs in subset which are not in LD dataset
+   invalid_list = []
+   for SNP in SNP_list:
+       if SNP not in LD_df['SNP_1'].tolist(): # check if SNP is in LD dataset
+           invalid_list.append(SNP) # add to list of invalid SNPs
+   print(invalid_list)
+   # remove invalid SNPs from SNP list passed to LD plot
+   for SNP in invalid_list:
+       SNP_list.remove(SNP)
+   return SNP_list
+
+SNP_list = remove_invalid_SNPs(SNP_list)
+	
+
+The SNP list is then used to create two lists containing the first and second element of each tuple using the SNP_pair_lists() function defined earlier.
+# create a pair of lists containing the 1st and 2nd SNP of each combination
+SNP_1_list, SNP_2_list = SNP_pair_lists(SNP_list)
+	
+
+The LD dataset containing all available data for pairwise LD calculations is loaded in with pandas and an empty dataframe is created for the filtered data. The pair of SNP lists are then used to index the LD dataset dataframe for all rows with pairs of SNPs relevant to the user’s search query which are added to the LD results dataframe using pandas concat.
+# Load LD dataset and create empty dataframe for filtered results
+LD_df = pd.read_table(LD_dataset_file)
+LD_results_df = pd.DataFrame(columns=['SNP_1', 'SNP_2', 'FIN_D\'', 'FIN_r2', 'TSI_D\'', 'TSI_r2', 'GBR_D\'', 'GBR_r2']) 
+# Loop indexing LD dataset using each pair of SNPs
+for SNP_1,SNP_2 in zip(SNP_1_list,SNP_2_list):
+   LD_row = LD_df.loc[((LD_df['SNP_1'] == SNP_1) & (LD_df['SNP_2'] == SNP_2) | 
+                       (LD_df['SNP_1'] == SNP_2) & (LD_df['SNP_2'] == SNP_1))] 
+   LD_results_df = pd.concat([LD_results_df, LD_row])
+	
+
+________________
+LD heatmap plots:
+When a user searches by gene name or chromosomal coordinates, if multiple SNPs are returned, a list of SNPs is also used to extract LD values for all relevant pairwise SNP calculations to create a dataframe used to create a heatmap plot of LD values.
+The LD dataset is loaded in with pandas and SNPs not present in the dataset are removed from the list of SNPs passed from the user query. The SNP list is then used to create two lists containing the first and second element of each tuple using the SNP_pair_lists() function defined earlier.
+# load LD dataset
+LD_df = pd.read_table('LD_T1DM_Chr6.tsv')
+# checks for SNPs in subset which are not in LD dataset
+SNP_list = remove_invalid_SNPs(SNP_list)
+# create a pair of lists containing the 1st and 2nd SNP of each combination
+SNP_1_list, SNP_2_list = SNP_pair_lists(SNP_list)
+	
+
+An empty dataframe is created to be filled with LD values used to create a matrix of values used for the LD plot. The pair of SNP lists are used to index the LD dataset dataframe and extract the LD value for all possible pairwise LD calculations from the SNP list. A row of LD values is created for each SNP where each column corresponds with the pairwise LD calculation with one of the SNPs from the list. Each row is added to the empty dataframe using pandas concat.
+LD_matrix_df = pd.DataFrame(columns=[SNP_list]) # One column per SNP in list (Since a list object is passed, could just pass the SNP list
+for SNP_1 in SNP_list:
+   # Create empty list
+   LD_value_list = []
+   # Sub-loop - Loops to create list of datapoints
+   for SNP_2 in SNP_list:
+       if SNP_1 == SNP_2:
+           SNP_Datapoint = 1
+           LD_value_list.append(SNP_Datapoint)
+       else:
+           #try:
+           # Search for specific row containing value
+           LD_row = LD_df.loc[((LD_df['SNP_1'] == SNP_1) & (LD_df['SNP_2'] == SNP_2) | 
+                               (LD_df['SNP_1'] == SNP_2) & (LD_df['SNP_2'] == SNP_1))] 
+           # Extract value and add to list
+           SNP_Datapoint = LD_row['GBR_r2'].tolist()[0] # currently using Finnish data
+           LD_value_list.append(SNP_Datapoint)
+           #except:
+               #invalid_list.append((SNP_main,SNP_second))
+   # Convert into dataframe row and transpose
+   row = pd.DataFrame(LD_value_list).T
+   row.columns = LD_matrix_df.columns
+   LD_matrix_df = pd.concat([LD_matrix_df, row])
+	
+
+________________
+
+
+The LD matrix dataframe is passed to the ld_plot function. The number of rows (n) is used to create a mask which will hide half of the heatmap to create a triangular plot. A coordinate matrix is also created to rotate the heatmap plot. The SNP list is used to create the axis labels located at the bottom of the plot. The function’s title parameter passes a string which is used to determine the plot title.
+def LD_plot(LD, labels, title):
+
+   n = LD.shape[0]
+
+   figure = plt.figure()
+
+   # mask triangle matrix
+   mask = np.tri(n, k=0)
+   LD_masked = np.ma.array(LD, mask=mask)
+
+   # create rotation/scaling matrix
+   t = np.array([[1, 0.5], [-1, 0.5]])
+   # create coordinate matrix and transform it
+   coordinate_matrix = np.dot(np.array([(i[1], i[0])
+                                        for i in itertools.product(range(n, -1, -1), range(0, n + 1, 1))]), t)
+   # plot
+   ax = figure.add_subplot(1, 1, 1)
+   ax.spines['bottom'].set_position('center')
+   ax.spines['top'].set_visible(False)
+   ax.spines['right'].set_visible(False)
+   ax.spines['left'].set_visible(False)
+   ax.get_yaxis().set_visible(False)
+   plt.tick_params(axis='x', which='both', top=False)
+   plt.pcolor(coordinate_matrix[:, 1].reshape(n + 1, n + 1),
+                  coordinate_matrix[:, 0].reshape(n + 1, n + 1), np.flipud(LD_masked), edgecolors = "white", linewidth = 1.5, cmap = 'OrRd')
+   plt.xticks(ticks=np.arange(len(labels)) + 0.5, labels=labels, rotation='vertical', fontsize=8)
+   plt.colorbar()
+
+   # add title
+   plt.title(f"{title}", loc = "center")
+  
+   return figure
+
+LD_heatmap_plot = ld_plot(LD_matrix_df, SNP_list, "LD plot title")
+	
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+________________
+Manhattan Plot:
+Manhattan plot is a type of scatter graph which displays P values of the entire Genome-wide association study (GWAS) on genomic scale. The P-values are shown in genomic order by chromosomal position on the x-axis. The y-axis shows the -log10 value of the P-value for each polymorphism. 
+
+
+A TSV file containing all SNPs in type 1 diabetes was produced. The Manhattan plot needs the P-value of a SNP and the chromosomal position. Using pandas, the -logp and cumulative positions were generated.
+
+
+  
+
+Figure 1: Shows the original file ‘GWAS_T1D.tsv’ being used to create an additional column for -logp values and creating a column for cumulative positions by using the chromosome and chromosomal position values. The cumulative position is needed to show the position of the SNP in the entire genome, rather than its position in the chromosome.
+  
+
+Figure 2: Creating the Manhattan plot using Bokeh. Plotting cumulative position (x) against -logp (y) and separating each chromosome by colour (grey and black). 
+
+
+Used Bokeh tools to make the graph user friendly. Circle plots were chosen for easy visibility and selecting of each SNP position. Hover feature was added to allow the user to hover mouse over each plot, which turns it green, and shows the rs ID value next to the chromosomal position. The select feature allows users to select 1 or more plots by either clicking one plot, or holding shift and clicking plots for multiple plots, or using the box select tool to select plots in an entire section, and turns the plots purple. The zoom features allow the user to zoom into the graph and view plots that are close to each other or seem to be overlapping for more visual clarity. The reset and undo buttons allows the user to either go back to the original plot, or undo the previous action they had committed. The save tool will save the graph as a png file with the title included. The plots were made slightly transparent to make overlapping SNPs more visible.
+  
+
+Figure 3: All GWAS SNPs found in Type 1 Diabetes shown in a Manhattan Plot
+Users can view all SNPs for T1D, and plot the SNPs that they have searched for. This feature is available when multiple SNPs are retrieved for the region searched.
+
+
+  
+
+Figure 4: All GWAS SNPs for Type 1 Diabetes for only Chromosome 6
+
+
+
+
+User Feedback:
+10 biologists, ages 25-60, were given the opportunity to use the software to search for either a SNP, region or gene. They were then asked to either retrieve GO data, Linkage disequilibrium plot, or the Manhattan plot.
+Things that were improved after user feedback:
+* Colours/Themes: users found it easier to read with a darker theme; background was made darker, themes added.
+* Font size/style: users found the font easy to read and see, including users with visual impairments.
+* Quick links: users did not like scrolling through to find the data they were looking for; adding the quick links makes it quicker to get to the terms.
+* Return home button: this feature was added to all pages to allow users to return to the main page.
+Overall users found the genome browser very user friendly and easy to use and enjoyed all the interactive features. They said they liked how easy it is to search and retrieve information, and enlightened them on the vast amount of genome data we now have access to through GWAS. 
+Flask:
+
+
+Navigation:
+Screenshot how site works how to navigate….
+Citation:
