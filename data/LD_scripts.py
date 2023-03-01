@@ -97,7 +97,7 @@ def LD_plot(LD, labels, title):
     ax.get_yaxis().set_visible(False)
     plt.tick_params(axis='x', which='both', top=False)
     plt.pcolor(coordinate_matrix[:, 1].reshape(n + 1, n + 1),
-                   coordinate_matrix[:, 0].reshape(n + 1, n + 1), np.flipud(LD_masked), edgecolors = "white", linewidth = 1.5, cmap = 'OrRd')
+                   coordinate_matrix[:, 0].reshape(n + 1, n + 1), np.flipud(LD_masked), edgecolors = "white", linewidth = 1.5, cmap = 'OrRd', vmin=0, vmax=1)
     plt.xticks(ticks=np.arange(len(labels)) + 0.5, labels=labels, rotation='vertical', fontsize=8)
     plt.colorbar()
 
