@@ -11,6 +11,7 @@
         <div class="topLinks">
             {% if len > 1 %}
             <a href="/LD_results/{{SNP_req}}?req_type={{req_type}}">Linkage Disequilibrium calculations</a>
+            <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
             <a href="/LD_heatmap/{{SNP_req}}?req_type={{req_type}}">Linkage Disequilibrium plot</a>
             {% if req_type == 'coords' %}
             <a href="/manPlot/{{SNP_req}}">Manhattan Plot</a>
