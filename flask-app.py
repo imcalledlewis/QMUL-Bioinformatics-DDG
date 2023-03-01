@@ -88,6 +88,8 @@ def SNP(SNP_req):
 			print("detected type:", req_type)
 	if req_type!='geneName':
 		SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
+	else:
+		SNP_req = SNP_req.upper()		# Capitalise gene names
 	name=SNP_req
 	reqRes,SNP_list=DBreq(SNP_req, req_type)	# Make SQL request
 	if reqRes:						# If the response isn't None
@@ -112,7 +114,10 @@ def LD_results(SNP_req):
 	req_type=request.args.get('req_type',default="empty_req_type")	# Gets type of information inputted (the bit after "?")
 	assert req_type != "empty_req_type", "request type is empty"
 
-	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
+	if req_type!='geneName':
+		SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
+	else:
+		SNP_req = SNP_req.upper()		# Capitalise gene names
 
 	reqRes,SNP_list=DBreq(SNP_req, req_type)	# Make SQL request
 	if reqRes:						# If the response isn't None
@@ -133,7 +138,10 @@ def LD_plot(SNP_req):
 	req_type=request.args.get('req_type',default="empty_req_type")	# Gets type of information inputted (the bit after "?")
 	assert req_type != "empty_req_type", "request type is empty"
 
-	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
+	if req_type!='geneName':
+		SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
+	else:
+		SNP_req = SNP_req.upper()		# Capitalise gene names
 
 	reqRes,SNP_list=DBreq(SNP_req, req_type)	# Make SQL request
 	if reqRes:						# If the response isn't None
@@ -157,14 +165,17 @@ def LD_plot(SNP_req):
 def download(SNP_req):
 	req_type=request.args.get('req_type',default="empty_req_type")	# Gets type of information inputted (the bit after "?")
 	assert req_type != "empty_req_type", "request type is empty"
-	SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
+	if req_type!='geneName':
+		SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
+	else:
+		SNP_req = SNP_req.upper()		# Capitalise gene names
 	reqRes,SNP_list=DBreq(SNP_req, req_type)	# Make SQL request
 	if reqRes:						# If the response isn't None
 		assert isinstance(reqRes, dict),"invalid db request return value"
 		if debug:
 			print ("request response:",reqRes)
 		LD_data = export_LD(SNP_list) # create LD results dataframe using SNP list returned from query
-		return Response(LD_data.to_csv(sep='\t', index=False),mimetype="text/csv", headers={"Content-disposition": "attachment; filename=LD_results.tsv"})
+		return Response(LD_data.to_csv(sep='\t', index=False),mimetype="text/csv", headers={"Content-disposition": "attachment; filename=LD_results_"+SNP_req+".tsv"})
 	
 
 
