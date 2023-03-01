@@ -260,8 +260,8 @@ def themePage():
 	addTheme("light", "black", "white", "#7e7ece", "#8f8fef", "#a3a3ff")
 	addTheme("sunset", "#fff","#000000","#aa8764", "#9b6655","#772222")
 	addTheme("Ye Olde Theme", "saddlebrown","cornsilk","antiquewhite", "tan","darkgoldenrod")
-
-
+	addTheme("Teal", "white", "black", "#3AAFA9", "#2B7A78","17252a")
+	addTheme("Pinky", "white", "black", "#895061", "#78244c","59253a")
 
 	
 
