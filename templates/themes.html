@@ -14,11 +14,13 @@
     <br>
     <main>
         {% for theme in themeDict %}
-            <a class="themeItem" href="#" onclick="setTheme({% for colour in themeDict[theme][:-1]%}'{{colour}}',{% endfor %}'{{themeDict[theme][-1]}}')">{{theme}}</a>
-            <div class="boxWrapper">{% for colour in themeDict[theme]%}
-                <div style="background-color:{{colour}};" class="box"></div>
-                {% endfor %}
-              </div>
+            <div class="themeItem">
+                <a class="themeItem" href="#" onclick="setTheme({% for colour in themeDict[theme][:-1]%}'{{colour}}',{% endfor %}'{{themeDict[theme][-1]}}')">{{theme}}</a>
+                <div class="boxWrapper">{% for colour in themeDict[theme]%}
+                    <div style="background-color:{{colour}};" class="box"></div>
+                    {% endfor %}
+                </div>
+            </div>
             <br>
         {% endfor %}
     </main>

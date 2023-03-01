@@ -17,10 +17,6 @@ html, body {
   background-color: var(--mild_bg);
 }
 
-/* form, body, p, table{
-	font-family: Garamond, serif;
-	font-size: 1.2em;
-} */
 
 main{				/*main content, to indent slightly */
 	margin-left: 3%;
@@ -29,11 +25,7 @@ main{				/*main content, to indent slightly */
 	font-size: 1.2em;
 }
 
-	
-/* form, p, img, table,h2,details{
-	margin-left: 3%;
-	margin-right: 3%;
-} */
+
 
 h1, h2, h3, h4, h5, h6{
 	font-family: Helvetica, Arial, sans-serif;
@@ -71,22 +63,17 @@ input,select{
 .topLinks{
 	display: flex;
 	justify-content: space-between;
-	max-width: 50%;
-
-	/* padding: 1% 5%; */
+	width: fit-content;
+	gap: 2em;
 	margin: auto;
 	text-align: center;
 	font-size: 1.5em;
-
-	/* padding: 0.9em 6.5em; */
-	text-decoration: none;
 }
 
 .manPlot{
 	margin: auto;
 	width: 50%;	
 	text-align: center;
-	/* font-size: 1.5em; */
 }
 
 
@@ -103,20 +90,25 @@ input,select{
 .boxWrapper {
 	display: flex;
 	padding: 0.5em 0;
+	margin: auto;
+	align-content: center;
+	align-items: center;
+	width: fit-content;
   }
   
 .box {
-width: 20px;
-height: 20px;
+width: 1.5em;
+height: 1.5em;
 border: 2px solid black;
 }
 
 .themeItem{
-	font-size: larger;
+	font-size: 1.2em;
+	margin: auto;
+	text-align: center;
 }
 
 /* Table stuff */
-
 summary{
 	font-size: 1.5em;
 	background-color: var(--med_bg);
