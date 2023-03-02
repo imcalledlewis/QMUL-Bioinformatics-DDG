@@ -19,7 +19,7 @@ from data.db_scripts import *	# Database related stuff
 from data.db_scripts import themeDict
 from data.LD_scripts import *	# LD data and heatmap
 
-debug=True		# Change this to False for deployment
+debug=False		# Change this to False for deployment
 setDebug(debug)	# Set db_scripts debug flag to the same as this file
 
 # create a flask application object
