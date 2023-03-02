@@ -16,4 +16,4 @@ plot these values as a LD heatmap. If the user inputs a region containing multip
 will return a Manhattan plot of p-values, which is interactive and can be saved as a png file.
 
 
-[Documentation here](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/g-b-f/QMUL-Bioinformatics-DDG/main/Documentation.pdf)
+[Documentation here](https://g-b-f.github.io/hosted/Documentation.pdf)
