@@ -4,32 +4,16 @@
 
 ----
 
-## **Requirements:**
+This web application prototype is designed to retrieve information on Single Nucleotide
+Polymorphisms (SNPs) seen in Type 1 Diabetes Mellitus patients identified by Genome wide
+association studies (GWAS). The database will use information from the GWAS catalogue,
+along with population data from Ensembl, and the 1000 Genomes Project. Functional
+information and Gene Ontology information are obtained through Ensembl’s VEP tool which
+is all retrievable through a user-friendly interface through the input of an rsID, chromosome
+position or a Gene name. The site also allows the user to calculate Linkage Disequilibrium
+(LD) of SNPs selected for each population producing a text file containing the LD values and
+plot these values as a LD heatmap. If the user inputs a region containing multiple SNPs, it
+will return a Manhattan plot of p-values, which is interactive and can be saved as a png file.
 
-### 1. Input:
 
--    SNP name(s) (rs value)
--    genomic coordinates (chromosome, start and end)
--    gene name
-
-### 2. Output:
-
--   ~~SNP name(s) (rs value)~~
--   genomic position(s) (its location)
--   ~~p-value(s) from the association test~~
--   ~~mapped gene(s)~~
--   ~~variant (allele) frequency in at least two different human populations of interest~~
--   at least one measure of functional impact and/or clinical relevance for each variant
--   at least one functional or ontology term associated with each mapped gene
-
-### 3. For multiple SNPS:
-
-If multiple SNPs are returned, the user should be able to select the SNPs of interest, calculate
-measurements of linkage disequilibrium (LD) for each pair of SNPs, separately for each population,
-and plot their values. The user will also be able to download a text file with the LD values.
-Remember that results should be presented in a manner that will help answer biological questions.
-
-### 4. Manhattan plot:
-
-If genomic coordinates are provided in input and multiple SNPs are returned, a Manhattan plot of
-p-values should be provided.
+[Documentation here](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/g-b-f/QMUL-Bioinformatics-DDG/main/Documentation.pdf)
