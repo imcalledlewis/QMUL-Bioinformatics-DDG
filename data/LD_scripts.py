@@ -13,19 +13,19 @@ from io import BytesIO
 def export_LD(SNP_list,LD_dataset_file = "data/TSVs/LD_T1DM_Chr6.tsv"):
     # Take list of SNPs (SNP_list) returned from user and creates a pair of lists containing the 1st and 2nd SNP of each combination
     SNP_combinations = list(itertools.combinations(SNP_list,2))
-    SNP_1_list = []
-    SNP_2_list = []
+    SNP_1_list = [] 
+    SNP_2_list = [] 
     for SNP_pair in SNP_combinations:
-        SNP_1_list.append(SNP_pair[0])
-        SNP_2_list.append(SNP_pair[1])
+        SNP_1_list.append(SNP_pair[0]) # 1st SNP of pairwise calculation
+        SNP_2_list.append(SNP_pair[1]) # 2nd SNP of pairwise calculation
     # Load LD dataset and create empty dataframe for filtered results
     LD_df = pd.read_table(LD_dataset_file)
     LD_results_df = pd.DataFrame(columns=['SNP_1', 'SNP_2', 'FIN_D\'', 'FIN_r2', 'TSI_D\'', 'TSI_r2', 'GBR_D\'', 'GBR_r2']) 
     # Loop indexing LD dataset using each pair of SNPs
     for SNP_1,SNP_2 in zip(SNP_1_list,SNP_2_list):
-        LD_row = LD_df.loc[((LD_df['SNP_1'] == SNP_1) & (LD_df['SNP_2'] == SNP_2) | 
+        LD_row = LD_df.loc[((LD_df['SNP_1'] == SNP_1) & (LD_df['SNP_2'] == SNP_2) | # Find row with pairwise calculation
                             (LD_df['SNP_1'] == SNP_2) & (LD_df['SNP_2'] == SNP_1))] 
-        LD_results_df = pd.concat([LD_results_df, LD_row])
+        LD_results_df = pd.concat([LD_results_df, LD_row]) # Concat row with results dataframe
     return LD_results_df
 
 def remove_invalid_SNPs(SNP_list, LD_dataset_file = "data/TSVs/LD_T1DM_Chr6.tsv"):
@@ -49,33 +49,30 @@ def LD_heatmap_matrix(SNP_list, LD_dataset_file = "data/TSVs/LD_T1DM_Chr6.tsv" ,
     LD_df = pd.read_table(LD_dataset_file)
     # Create empty dataframe
     LD_matrix_df = pd.DataFrame(columns=[SNP_list]) # One column per SNP in list (SInce a list object is passed, could just pass the SNP list
-    for SNP_main in SNP_list:
+    for SNP_1 in SNP_list:
         # Create empty list
         LD_value_list = []
-        # Sub-loop - Loops to create list of datapoints
-        for SNP_second in SNP_list:
-            if SNP_main == SNP_second:
-                SNP_Datapoint = 1
-                LD_value_list.append(SNP_Datapoint)
+        # Nested loop to create list of datapoints
+        for SNP_2 in SNP_list:
+            if SNP_1 == SNP_2:
+                SNP_Datapoint = 1 # If pairwise calculation between same SNP, set value to 1
+                LD_value_list.append(SNP_Datapoint) # Add value to list of LD values 
             else:
-                #try:
                 # Search for specific row containing value
-                LD_row = LD_df.loc[((LD_df['SNP_1'] == SNP_main) & (LD_df['SNP_2'] == SNP_second) | 
-                            (LD_df['SNP_1'] == SNP_second) & (LD_df['SNP_2'] == SNP_main))] 
+                LD_row = LD_df.loc[((LD_df['SNP_1'] == SNP_1) & (LD_df['SNP_2'] == SNP_2) | 
+                            (LD_df['SNP_1'] == SNP_2) & (LD_df['SNP_2'] == SNP_1))] 
                 # Extract value and add to list
                 SNP_Datapoint = LD_row[f'{pop}_{plot_type}'].tolist()[0] # defaults using Finnish data for Dprime values
-                LD_value_list.append(SNP_Datapoint)
-                #except:
-                    #invalid_list.append((SNP_main,SNP_second))
+                LD_value_list.append(SNP_Datapoint) # Add value to list of LD values 
         # Convert into dataframe row and transpose
         row = pd.DataFrame(LD_value_list).T
         row.columns = LD_matrix_df.columns
-        LD_matrix_df = pd.concat([LD_matrix_df, row])
+        LD_matrix_df = pd.concat([LD_matrix_df, row]) # Concat row with matrix dataframe
     return LD_matrix_df
 
 def LD_plot(LD, labels, title):
 
-    n = LD.shape[0]
+    n = LD.shape[0] # number of rows/columns of matrix
 
     figure = plt.figure()
 
@@ -98,6 +95,7 @@ def LD_plot(LD, labels, title):
     plt.tick_params(axis='x', which='both', top=False)
     plt.pcolor(coordinate_matrix[:, 1].reshape(n + 1, n + 1),
                    coordinate_matrix[:, 0].reshape(n + 1, n + 1), np.flipud(LD_masked), edgecolors = "white", linewidth = 1.5, cmap = 'OrRd', vmin=0, vmax=1)
+    # add SNPs as labels to x-axis 
     plt.xticks(ticks=np.arange(len(labels)) + 0.5, labels=labels, rotation='vertical', fontsize=8)
     plt.colorbar()
 
