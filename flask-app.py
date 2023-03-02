@@ -7,7 +7,6 @@ from math import pi
 from bokeh.plotting import figure, output_file, show
 from bokeh.transform import linear_cmap
 from bokeh.embed import components
-# from flask import Flask, request, render_template, abort, Response, redirect, url_for
 
 # Imports for creating and processing forms:
 from flask_wtf import FlaskForm
@@ -25,7 +24,7 @@ setDebug(debug)	# Set db_scripts debug flag to the same as this file
 # create a flask application object
 app = Flask(__name__)
 # we need to set a secret key attribute for secure forms
-app.config['SECRET_KEY'] = 'change this unsecure key'   # TODO: read about this and change
+app.config['SECRET_KEY'] = 'change this unsecure key'
 
 
 
@@ -186,7 +185,7 @@ def Manhattan_plot(SNP_req):
 	try:
 		SNP_req = SNP_req.lower()		# Ensure snp name is in lowercase letters
 		name=SNP_req
-		if SNP_req=='all': # all of chromosome 6
+		if SNP_req=='all': # all snps
 				reqRes,SNP_list=DBreq(' ', 'all',manPlot=True)	# Make SQL request
 				name ='Chromosome 6'
 		else:
@@ -204,7 +203,6 @@ def Manhattan_plot(SNP_req):
 		df.set_index('index',inplace=True)
 		if debug:
 			print(df)
-			pass
 
 		#### End of Gabriel's code ####
 
