@@ -278,7 +278,6 @@ def themePage():
 	addTheme("Pastels", "black","white","#AEC6CF","#ffc4c4","#ae7f9a")
 	addTheme("Gray", "#f2f2f2", "#333333", "#999999", "#666666", "#444444")
 	
-
 	return render_template("themes.html", themeDict=themeDict)
 
 # Start the web server

@@ -176,11 +176,9 @@ def pdDB(tsv_path,table_name,dtype):    # Adds tsv to SQL database
     conn = sqlite3.connect(DBpath())    # Opens (or creates) a db file
     cur = conn.cursor()                 # Sets cursor
 
-    df = pd.read_csv(tsv_path, sep='\t')
+    df = tsv_path
     df.to_sql(name=table_name, con=conn, index=False, dtype=dtype)
 
-    # res = cur.execute("SELECT * FROM SNP")
-    # assert res.fetchone(), "error in database creation"
 
 def castRS(dataframe,rsCol):   # Receives a dataframe, returns df with "rs" removed from rs value
     raise Exception("castRS is deprecated")   # this function isn't being used any more
