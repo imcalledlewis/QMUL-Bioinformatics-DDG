@@ -2,6 +2,8 @@
 <html>
 <head>
 	<link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <script src="{{ url_for('static', filename='themes.js') }}"></script>
   <title>QMUL SNP Portal - {{name}} - Linkage Disequilibrium Results</title>
 
 </head>
@@ -16,7 +18,7 @@
       <a href="/">Home</a>
     </div>
   </div>
-
+<main>
   <table>
     <thead>
       <tr>
@@ -35,5 +37,6 @@
       {% endfor %}
     </tbody>
   </table>
+</main>
 </body>
 </html>

@@ -1,23 +1,9 @@
 :root{		/*		Edit the following values to change the colours of the page		*/
-	--textColour: #fff;
-
-	/* light
-	--light_bg: #77b;
-	--med_light_bg: #66a;
-	--dark_bg: #339;
-	*/
-
-	/* medium */
-	--light_bg: #66a;
-	--med_light_bg: #559;
-	--dark_bg: #227;
-	
-
-	/* dark 
-	--light_bg: #559;
-	--med_light_bg: #448;
-	--dark_bg: #227;
-	*/
+	--textColour: white;
+	--contrast_bg: black;
+	--mild_bg: #66a;
+	--med_bg: #559;
+	--strong_bg: #227;
 }
 
 *{
@@ -28,24 +14,20 @@
 html, body {
   height: 100%;
   margin: 0;
-  background-color: var(--light_bg);
+  background-color: var(--mild_bg);
 }
 
-form, body, p, table {
+
+main{				/*main content, to indent slightly */
+	margin-left: 3%;
+	margin-right: 3%;
 	font-family: Garamond, serif;
 	font-size: 1.2em;
 }
 
-input,select {
-	color: #000;
-}
 
-form, p, img, table,h2,details{
-	margin-left: 3%;
-	margin-right: 3%;
-}
 
-h1, h2, h3, h4, h5, h6, li a{
+h1, h2, h3, h4, h5, h6{
 	font-family: Helvetica, Arial, sans-serif;
 }
 
@@ -53,46 +35,83 @@ h1 {
 	padding: 1% 0%;
 	margin: auto;
 	text-align: center;
-	background-color: var(--dark_bg);
+	background-color: var(--strong_bg);
 }
 
 h1 {
 	font-size: 3em;
 }
 
+input,select{
+	color: var(--textColour);
+	background-color: var(--contrast_bg);
+}
+
+
+
 .linkBox{
 
 	padding: 1% 0%;
-	background-color: var(--med_light_bg);
+	background-color: var(--med_bg);
 	/* font-size: 1.5em; */
 
 	/* padding: 0.9em 6.5em; */
 	text-decoration: none;
-
 }
 
 
 .topLinks{
 	display: flex;
 	justify-content: space-between;
-	max-width: 50%;
-
-	/* padding: 1% 5%; */
+	width: fit-content;
+	gap: 2em;
 	margin: auto;
 	text-align: center;
 	font-size: 1.5em;
+}
 
-	/* padding: 0.9em 6.5em; */
-	text-decoration: none;
+.manPlot{
+	margin: auto;
+	width: 50%;	
+	text-align: center;
 }
 
 
+.manPlot-tooltip {
+	color: var(--textColour);
+	background-color: var(--contrast_bg);
+}
+
+.tooltip-rsid{
+	font-weight: bold;
+}
+
+/* Theme stuff */
+.boxWrapper {
+	display: flex;
+	padding: 0.5em 0;
+	margin: auto;
+	align-content: center;
+	align-items: center;
+	width: fit-content;
+  }
+  
+.box {
+width: 1.5em;
+height: 1.5em;
+border: 2px solid black;
+}
+
+.themeItem{
+	font-size: 1.2em;
+	margin: auto;
+	text-align: center;
+}
 
 /* Table stuff */
-
 summary{
 	font-size: 1.5em;
-	background-color: var(--med_light_bg);
+	background-color: var(--med_bg);
 	padding: 1%;
 	max-width: 15%;
 }
@@ -106,7 +125,7 @@ th{
 }
 
 tr:nth-child(even){
-	background-color: var(--med_light_bg);
+	background-color: var(--med_bg);
 }
 
 td,th{

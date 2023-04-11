@@ -3,12 +3,13 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }}">
 	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 	<script src="{{ url_for('static', filename='themes.js') }}"></script>
-	<title>QMUL SNP Portal - not found</title>
+	<title>QMUL SNP Portal - error</title>
 </head>
 <body>
-	<h1>{{name}} not found</h1>
+	<h1>Database error</h1>
 	<main>
 		<br>
-		<p>We can't find any information about {{name}} :(</p>
+		<p>There was an error processing the request.</p>
+        <a href="/">Click here to return to the home page</a>
 	</main>
 </body>
